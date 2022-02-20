@@ -13,27 +13,24 @@ class Footer extends StatefulWidget {
 
 class _FooterState extends State<Footer> {
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       unselectedItemColor: Colors.grey,
       fixedColor: Colors.blue.shade700,
       backgroundColor: Colors.grey.shade100,
-      selectedFontSize: 16,
+      selectedFontSize: 18,
       unselectedFontSize: 12,
       showUnselectedLabels: true,
-      iconSize: 35,
+      iconSize: 30,
       currentIndex: index,
       onTap: (int selectedIndex) => setState(() {
         index = selectedIndex;
+
         // print(index);
       }),
       items: [
-        // BottomNavigationBarItem(
-        //     icon: SvgPicture.asset(
-        //       'assets/my_rooms.svg',
-        //     ),
-        //     label: 'MyRooms'),
         BottomNavigationBarItem(icon: Icon(Icons.group_sharp), label: 'Rooms'),
         BottomNavigationBarItem(icon: Icon(Icons.help), label: 'Questions'),
         BottomNavigationBarItem(icon: Icon(Icons.chair), label: 'Challenges'),

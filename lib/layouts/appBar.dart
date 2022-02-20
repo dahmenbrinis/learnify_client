@@ -1,17 +1,16 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/components/avatar_image.dart';
-
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   static double preferHeight = AppBar().preferredSize.height;
   final String title;
   final double height;
-  const CustomAppBar({required this.title, double this.height = 0});
+
+  final Widget? logo;
+  const CustomAppBar({required this.title, this.height = 0, this.logo});
 
   @override
   AppBar build(BuildContext context) {
@@ -19,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       title: Text(
         title,
-        style: TextStyle(fontSize: 20, color: Colors.black),
+        style: const TextStyle(fontSize: 20, color: Colors.black),
       ),
       leadingWidth: 100,
       leading: GestureDetector(
@@ -27,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           children: [
             SizedBox(width: 10),
-            SvgPicture.asset('assets/logo.svg', fit: BoxFit.contain),
+            logo ?? SvgPicture.asset('assets/logo.svg'),
           ],
         ),
       ),

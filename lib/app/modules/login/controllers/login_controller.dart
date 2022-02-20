@@ -12,7 +12,7 @@ class LoginController extends GetxController {
   Future<void> onInit() async {
     emailController.text = 'dahmen@gmail.com';
     passwordController.text = 'password';
-
+    // login();
     super.onInit();
   }
 
@@ -29,7 +29,6 @@ class LoginController extends GetxController {
 
   @override
   void onReady() {
-    login();
     super.onReady();
   }
 

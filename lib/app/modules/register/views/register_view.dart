@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:learnify_client/app/User/user_model.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/components/input_filed.dart';
-import 'package:learnify_client/components/select_field.dart';
 import 'package:learnify_client/layouts/background_widget.dart';
 
 import '../controllers/register_controller.dart';
@@ -24,49 +22,72 @@ class RegisterView extends GetView<RegisterController> {
               Expanded(
                   child: Column(
                 children: [
-                  SizedBox(height: 20),
-                  Spacer(flex: 2),
+                  const SizedBox(height: 20),
+                  const Spacer(flex: 2),
+                  const SizedBox(height: 20),
+
                   Text("Learnify",
                       style: TextStyle(
                           color: Colors.greenAccent.shade200, fontSize: 50)),
-                  const Text("Register",
-                      style: TextStyle(color: Colors.white70, fontSize: 30)),
+                  const SizedBox(height: 10),
                   InputField(
-                    inputText: 'Full Name',
+                    inputText: const Text(
+                      'Full Name',
+                      style: TextStyle(fontSize: 20, color: Colors.white70),
+                    ),
                     inputController: controller.nameController,
                   ),
                   InputField(
-                    inputText: 'Email',
+                    inputText: const Text(
+                      'Email',
+                      style: TextStyle(fontSize: 20, color: Colors.white70),
+                    ),
                     inputController: controller.emailController,
                   ),
                   InputField(
-                    inputText: 'Password',
+                    inputText: const Text(
+                      'Password',
+                      style: TextStyle(fontSize: 20, color: Colors.white70),
+                    ),
                     inputController: controller.passwordController,
                   ),
                   // InputField(inputText: 'Register As'),
                   const SizedBox(height: 10),
 
-                  Container(
-                    color: Colors.white,
-                    // decoration:BoxDecoration(shape: BorderRadius.circular(0)),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 1, horizontal: 8.0),
-                    child: DropdownButtonFormField<String>(
-                      value: controller.typeController.text,
-                      onChanged: (value) =>
-                          controller.typeController.text = value ?? '0',
-                      items: const [
-                        DropdownMenuItem(
-                          value: '1',
-                          child: Text('Student'),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        child: Text(
+                          "Register As",
+                          style: TextStyle(fontSize: 20, color: Colors.white70),
                         ),
-                        DropdownMenuItem(
-                          value: '0',
-                          child: Text('Teacher'),
-                        )
-                      ],
-                      // decoration: InputDecoration(fillColor: Colors.red),
-                    ),
+                      ),
+                      Container(
+                        color: Colors.white,
+                        // decoration:BoxDecoration(shape: BorderRadius.circular(0)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 8.0),
+                        child: DropdownButtonFormField<String>(
+                          value: controller.typeController.text,
+                          onChanged: (value) =>
+                              controller.typeController.text = value ?? '0',
+                          items: const [
+                            DropdownMenuItem(
+                              value: '1',
+                              child: Text('Student'),
+                            ),
+                            DropdownMenuItem(
+                              value: '0',
+                              child: Text('Teacher'),
+                            )
+                          ],
+                          // decoration: InputDecoration(fillColor: Colors.red),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Padding(
@@ -76,7 +97,7 @@ class RegisterView extends GetView<RegisterController> {
                       style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Colors.greenAccent.shade200,
-                        textStyle: TextStyle(fontSize: 20),
+                        textStyle: const TextStyle(fontSize: 20),
                         minimumSize:
                             Size(MediaQuery.of(context).size.width / 3, 0),
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -86,13 +107,13 @@ class RegisterView extends GetView<RegisterController> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      Text('Already registred ?',
+                      const Text('Already registred ?',
                           style: TextStyle(fontSize: 20)),
                       TextButton(
-                        onPressed: () => Get.toNamed('/login'),
+                        onPressed: () => Get.offNamed(Routes.LOGIN),
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -102,7 +123,7 @@ class RegisterView extends GetView<RegisterController> {
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                  Spacer(flex: 3),
+                  const Spacer(flex: 3),
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ))

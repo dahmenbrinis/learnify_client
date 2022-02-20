@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:learnify_client/app/modules/room/providers/room_provider.dart';
-import 'package:learnify_client/app/modules/room/room_model.dart';
+import 'package:learnify_client/app/modules/room/views/create_view.dart';
 import 'package:learnify_client/components/footer.dart';
 import 'package:learnify_client/components/room_card.dart';
 import 'package:learnify_client/layouts/appBar.dart';
@@ -13,7 +12,7 @@ class RoomsView extends GetView<RoomController> {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(title: 'Rooms'),
+      appBar: CustomAppBar(title: 'Rooms'),
       body: Column(
         children: [
           Expanded(
@@ -23,8 +22,9 @@ class RoomsView extends GetView<RoomController> {
                 return Future.delayed(Duration.zero);
               },
               child: Obx(() {
-                if (controller.list.isEmpty && controller.isLoading.isTrue)
-                  return Center(child: RefreshProgressIndicator());
+                if (controller.list.isEmpty && controller.isLoading.isTrue) {
+                  return const Center(child: RefreshProgressIndicator());
+                }
                 return ListView.builder(
                   controller: controller.scrollController,
                   itemCount: controller.list.length,
@@ -47,49 +47,20 @@ class RoomsView extends GetView<RoomController> {
               }),
             ),
           ),
-
-          // TextButton(
-          //     onPressed: () => controller.fetch(), child: Text('click me')),
-          // const SizedBox(height: 10),
-          // Expanded(
-          //   child: FutureBuilder(
-          //     future: controller.fetch(),
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         var items = snapshot.data as List<Room>;
-          //         return RefreshIndicator(
-          //           onRefresh: () {
-          //             return controller.fetch();
-          //           },
-          //           child: ListView.builder(
-          //               itemCount: items.length,
-          //               itemBuilder: (context, index) {
-          //                 return Column(children: [
-          //                   RoomCard(
-          //                     items[index],
-          //                     image: Image.asset('assets/math.png'),
-          //                   ),
-          //                 ]);
-          //         return const Center(child: CircularProgressIndicator());
-          //       }
-          // ),  //               }),
-          //         );
-          //       } else {
-          //     },
-          //   ),
         ],
       ),
       bottomNavigationBar: const Footer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blue,
         tooltip: 'create new Room',
-        onPressed: () {},
-        child: const CircleAvatar(
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          child: Icon(Icons.add),
-        ),
+        onPressed: () async {
+          await Get.to(() => CreateView())?.then((value) {
+            if (value != null) controller.list.insert(0, value);
+            print(controller.list.length);
+          });
+        },
+        child: const Icon(Icons.add, size: 30),
       ),
     );
   }

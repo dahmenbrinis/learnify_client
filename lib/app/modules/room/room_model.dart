@@ -67,6 +67,7 @@ class Room {
     data['questionsCount'] = questionsCount;
     data['answersCount'] = answersCount;
     data['visibilityName'] = visibilityName;
+    data['XDEBUG_SESSION'] = '1';
     return data;
   }
 }

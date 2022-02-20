@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/room/bindings/rooms_binding.dart';
+import 'package:learnify_client/app/modules/room/views/create_view.dart';
 import 'package:learnify_client/app/modules/room/views/rooms_view.dart';
 import '../User/authMiddleware.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -38,5 +39,8 @@ class AppPages {
         page: () => RoomsView(),
         binding: RoomsBinding(),
         middlewares: [AuthMiddleware()]),
+    // GetPage(name: _Paths.CREATEROOM, page: () => CreateView(),
+    //     // binding: CreateRoomBinding(),
+    //     middlewares: [AuthMiddleware()]),
   ];
 }

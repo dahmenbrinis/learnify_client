@@ -7,13 +7,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
+import 'package:learnify_client/app/modules/room/views/create_view.dart';
+import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/utils.dart';
 
 class RoomCard extends StatelessWidget {
-  final Room room;
+  Room room;
   final Image image;
 
   final _isOpen = false.obs;
+  final refresh = false.obs;
   bool get isOpen => _isOpen.value;
   set isOpen(value) => _isOpen.value = value;
 
@@ -22,6 +25,7 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      print(refresh);
       return RawMaterialButton(
         // padding: EdgeInsets.all(0),
         // onPressed: () => Get.toNamed('question', parameters: {"id": "0"}),
@@ -104,19 +108,29 @@ class RoomCard extends StatelessWidget {
                           ],
                         ),
                       if (room.permissions!.canUpdate)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/edit__list.svg',
-                              width: 30,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Edit Room',
-                              style: TextStyle(color: Colors.blue.shade700),
-                            )
-                          ],
+                        MaterialButton(
+                          onPressed: () async {
+                            await Get.to(() => UpdateView(room: room))
+                                ?.then((value) {
+                              if (value != null) room = value;
+                              refresh.value = !refresh.value;
+                              // print(controller.list.length);
+                            });
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/edit__list.svg',
+                                width: 30,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Edit Room',
+                                style: TextStyle(color: Colors.blue.shade700),
+                              )
+                            ],
+                          ),
                         ),
                       if (room.permissions!.canDelete)
                         Column(

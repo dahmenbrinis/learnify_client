@@ -12,7 +12,7 @@ class CustomAvatarImage extends StatelessWidget {
     return Padding(
       padding: padding,
       child: CircleAvatar(
-          backgroundColor: Color(0xff2191FB),
+          backgroundColor: Color(0xff95acba),
           child: Padding(
             padding: EdgeInsets.all(2),
             child: CircleAvatar(
