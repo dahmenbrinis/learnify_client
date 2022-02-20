@@ -1,8 +1,11 @@
-class Room {
+import 'package:learnify_client/core/model.dart';
+
+class Room extends Model {
   int? id;
   String? name;
   String? description;
   String? imageName;
+  String? code;
   int? visibility;
   int? levelId;
   int? creatorId;
@@ -19,6 +22,7 @@ class Room {
       this.name,
       this.description,
       this.imageName,
+      this.code,
       this.visibility,
       this.levelId,
       this.creatorId,
@@ -35,6 +39,7 @@ class Room {
     name = json['name'];
     description = json['description'];
     imageName = json['image_name'];
+    code = json['code'];
     visibility = json['visibility'];
     levelId = json['level_id'];
     creatorId = json['creator_id'];
@@ -55,6 +60,7 @@ class Room {
     data['name'] = name;
     data['description'] = description;
     data['image_name'] = imageName;
+    data['code'] = code;
     data['visibility'] = visibility;
     data['level_id'] = levelId;
     data['creator_id'] = creatorId;

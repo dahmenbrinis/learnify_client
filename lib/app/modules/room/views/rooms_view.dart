@@ -32,7 +32,7 @@ class RoomsView extends GetView<RoomController> {
                     return Column(
                       children: [
                         RoomCard(
-                          controller.list[index],
+                          controller.list[index].obs,
                           image: Image.asset('assets/math.png'),
                         ),
                         if (index + 1 == controller.list.length &&
@@ -49,19 +49,22 @@ class RoomsView extends GetView<RoomController> {
           ),
         ],
       ),
-      bottomNavigationBar: const Footer(),
+      bottomNavigationBar: Footer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        tooltip: 'create new Room',
-        onPressed: () async {
-          await Get.to(() => CreateView())?.then((value) {
-            if (value != null) controller.list.insert(0, value);
-            print(controller.list.length);
-          });
-        },
-        child: const Icon(Icons.add, size: 30),
-      ),
+      floatingActionButton: controller.user.type == 1
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.blue,
+              tooltip: 'create new Room',
+              onPressed: () async {
+                controller.user;
+                await Get.to(() => CreateView())?.then((value) {
+                  if (value != null) controller.list.insert(0, value);
+                  print(controller.list.length);
+                });
+              },
+              child: Icon(Icons.add, size: 30),
+            ),
     );
   }
 }

@@ -73,7 +73,7 @@ class RegisterView extends GetView<RegisterController> {
                         child: DropdownButtonFormField<String>(
                           value: controller.typeController.text,
                           onChanged: (value) =>
-                              controller.typeController.text = value ?? '0',
+                              controller.typeController.text = value!,
                           items: const [
                             DropdownMenuItem(
                               value: '1',

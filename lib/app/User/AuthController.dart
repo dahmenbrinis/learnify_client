@@ -43,8 +43,7 @@ class AuthController extends GetxController {
     }
   }
 
-  register(String name, String email, String password,
-      {String type = '0'}) async {
+  register(String name, String email, String password, String type) async {
     user = User(
         name: name, email: email, password: password, type: int.parse(type));
     var response = await userProvider.post('/api/register', user.toJson(),

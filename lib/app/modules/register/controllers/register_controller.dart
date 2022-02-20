@@ -11,8 +11,8 @@ class RegisterController extends GetxController {
   final typeController = TextEditingController();
   @override
   void onInit() {
-    nameController.text = 'dahmen brinis';
-    emailController.text = 'sdfsdfasdf@gmail.com';
+    nameController.text = 'Teacher username';
+    emailController.text = 'teacher@gmail.com';
     passwordController.text = 'password';
     typeController.text = '0';
     super.onInit();
@@ -27,8 +27,7 @@ class RegisterController extends GetxController {
   void onClose() {}
 
   void register() {
-    authController.register(
-        nameController.text, emailController.text, passwordController.text,
-        type: typeController.text);
+    authController.register(nameController.text, emailController.text,
+        passwordController.text, typeController.text);
   }
 }

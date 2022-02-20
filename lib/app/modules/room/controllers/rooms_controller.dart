@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/modules/room/providers/room_provider.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
+import '../../../User/user_model.dart';
 
 class RoomController extends GetxController {
+  var provider = Get.find<RoomProvider>();
   final list = RxList.of(<Room>[]);
+  User user = Get.find<AuthController>().user;
   var nextPage = 1.obs;
   var isLoading = true.obs;
   // set list(value) => list.value = value;
@@ -32,7 +36,7 @@ class RoomController extends GetxController {
 
   Future fetch() async {
     isLoading.value = true;
-    var x = await Get.find<RoomProvider>().getRooms(page: nextPage.value);
+    var x = await provider.index('/api/room', page: nextPage.value);
     isLoading.value = false;
     return x;
   }
@@ -49,5 +53,9 @@ class RoomController extends GetxController {
     list.clear();
     nextPage.value = 1;
     addToList();
+  }
+
+  Future<Room?> join(Room room) async {
+    return await provider.join(room.id!, room.id.toString());
   }
 }

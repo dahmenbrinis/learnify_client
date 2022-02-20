@@ -11,21 +11,28 @@ import 'package:learnify_client/app/modules/room/views/create_view.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/utils.dart';
 
+import '../app/modules/room/controllers/rooms_controller.dart';
+
 class RoomCard extends StatelessWidget {
-  Room room;
+  final Rx<Room> _room;
+
+  Room get room => _room.value;
+  set room(Room value) => _room.value = value;
   final Image image;
 
   final _isOpen = false.obs;
   final refresh = false.obs;
+
   bool get isOpen => _isOpen.value;
+
   set isOpen(value) => _isOpen.value = value;
 
-  RoomCard(this.room, {required this.image});
+  RoomCard(this._room, {required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      print(refresh);
+      Container(height: refresh.value ? 0 : 1);
       return RawMaterialButton(
         // padding: EdgeInsets.all(0),
         // onPressed: () => Get.toNamed('question', parameters: {"id": "0"}),
@@ -85,118 +92,136 @@ class RoomCard extends StatelessWidget {
 
               if (isOpen) Divider(color: Colors.black),
               if (isOpen)
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: StaggeredGrid.count(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 10,
-                    children: [
-                      if (room.permissions!.canAsk)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/question_svgrepo_com.svg',
-                              width: 30,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Ask Question',
-                              style: TextStyle(color: Color(0xff00d1ff)),
-                            )
-                          ],
-                        ),
-                      if (room.permissions!.canUpdate)
-                        MaterialButton(
-                          onPressed: () async {
-                            await Get.to(() => UpdateView(room: room))
-                                ?.then((value) {
-                              if (value != null) room = value;
-                              refresh.value = !refresh.value;
-                              // print(controller.list.length);
-                            });
-                          },
-                          child: Column(
+                Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: StaggeredGrid.count(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 10,
+                      children: [
+                        if (room.permissions!.canAsk)
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
-                                'assets/edit__list.svg',
+                                'assets/question_svgrepo_com.svg',
                                 width: 30,
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'Edit Room',
-                                style: TextStyle(color: Colors.blue.shade700),
+                                'Ask Question',
+                                style: TextStyle(color: Color(0xff00d1ff)),
                               )
                             ],
                           ),
-                        ),
-                      if (room.permissions!.canDelete)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/file_remove.svg',
-                              width: 30,
+                        if (room.permissions!.canUpdate)
+                          MaterialButton(
+                            onPressed: () async {
+                              await Get.to(() => UpdateView(room: room))
+                                  ?.then((value) {
+                                if (value != null) {
+                                  room = value;
+                                }
+                                refresh.value = !refresh.value;
+                                // print(controller.list.length);
+                              });
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/edit__list.svg',
+                                  width: 30,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Edit Room',
+                                  style: TextStyle(color: Colors.blue.shade700),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Remove Room',
-                              style: TextStyle(color: Color(0xffE86575)),
-                            )
-                          ],
-                        ),
-                      if (room.permissions!.canView)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/leaderboard.svg',
-                              width: 30,
+                          ),
+                        if (room.permissions!.canDelete)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/file_remove.svg',
+                                width: 30,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Remove Room',
+                                style: TextStyle(color: Color(0xffE86575)),
+                              )
+                            ],
+                          ),
+                        if (room.permissions!.canView)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/leaderboard.svg',
+                                width: 30,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Leaderboard',
+                                style: TextStyle(color: Color(0xffF3B412)),
+                              )
+                            ],
+                          ),
+                        if (!room.permissions!.canView)
+                          MaterialButton(
+                            onPressed: () async {
+                              await Get.find<RoomController>()
+                                  .join(room)
+                                  .then((value) {
+                                if (value != null) {
+                                  room = value;
+                                }
+                                _room.refresh();
+                                refresh.value = !refresh.value;
+                              });
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_box_outlined,
+                                  size: 30,
+                                  color: Colors.greenAccent.shade700,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Join Room',
+                                  style: TextStyle(
+                                      color: Colors.greenAccent.shade700),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Leaderboard',
-                              style: TextStyle(color: Color(0xffF3B412)),
-                            )
-                          ],
-                        ),
-                      if (!room.permissions!.canView)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_box_outlined,
-                              size: 30,
-                              color: Colors.greenAccent.shade700,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Join Room',
-                              style:
-                                  TextStyle(color: Colors.greenAccent.shade700),
-                            )
-                          ],
-                        ),
-                      if (room.creatorId == Get.find<AuthController>().user.id)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/managestudents.svg',
-                              width: 30,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Manage Student',
-                              style: TextStyle(color: Colors.indigoAccent),
-                            )
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
+                          ),
+                        if (room.creatorId ==
+                            Get.find<AuthController>().user.id)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/managestudents.svg',
+                                width: 30,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Manage Student',
+                                style: TextStyle(color: Colors.indigoAccent),
+                              )
+                            ],
+                          ),
+                      ],
+                    ),
+                  );
+                }),
 
               ///------- footer ---------
               Divider(color: Colors.black),
