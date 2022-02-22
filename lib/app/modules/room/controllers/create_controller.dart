@@ -49,7 +49,12 @@ class CreateController extends GetxController {
     );
     Get.find<RoomProvider>().createRoom(room).then((value) {
       room = value.body;
-      if (room.id != null) notifySuccess();
+      if (room.id != null) {
+        if (room.visibility == 0)
+          notifySuccess();
+        else
+          Get.back(result: room);
+      }
     });
   }
 
@@ -82,12 +87,12 @@ class CreateController extends GetxController {
               padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Text(
-                    'Room Code: 45324',
+                    'Room Code: ${room.id.toString().padLeft(4, '0')}',
                     style: TextStyle(fontSize: 20),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.copy,
