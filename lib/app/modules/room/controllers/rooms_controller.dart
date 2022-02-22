@@ -36,7 +36,7 @@ class RoomController extends GetxController {
 
   Future fetch() async {
     isLoading.value = true;
-    var x = await provider.index('/api/room', page: nextPage.value);
+    var x = await provider.index('room', page: nextPage.value);
     isLoading.value = false;
     return x;
   }
