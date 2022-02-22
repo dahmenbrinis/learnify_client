@@ -11,18 +11,6 @@ class RoomProvider extends Provider<Room> {
   @override
   fromJsonModel(json) => Room.fromJson(json);
 
-  @override
-  Future<Room?> getRoom(int id) async {
-    final response = await get('/api/room/$id', headers: headers);
-    return response.body;
-  }
-
-  Future<List<Room>> getRooms({int page = 1}) async {
-    final response =
-        await get('/api/room?page=$page&search=$search', headers: headers);
-    return response.body;
-  }
-
   Future<Response> createRoom(Room room) async =>
       await post('/api/room', room.toJson(), headers: headers);
   Future<Response> updateRoom(Room room) async =>

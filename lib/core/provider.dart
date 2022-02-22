@@ -58,7 +58,7 @@ abstract class Provider<ModelType extends Model> extends GetConnect {
       Map<String, String>? headers,
       Map<String, dynamic>? query,
       Progress? uploadProgress}) {
-    return super.request<ModelType>(url, method,
+    return super.request<ModelType>("/api/" + url, method,
         body: body,
         contentType: contentType,
         headers: headers ?? this.headers,
