@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 
 class Footer extends StatefulWidget {
   const Footer();
@@ -27,7 +30,7 @@ class _FooterState extends State<Footer> {
       currentIndex: index,
       onTap: (int selectedIndex) => setState(() {
         index = selectedIndex;
-
+        if (selectedIndex == 1) Get.toNamed(Routes.ROOM);
         // print(index);
       }),
       items: [
