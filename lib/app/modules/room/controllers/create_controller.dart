@@ -5,6 +5,7 @@ import 'package:learnify_client/app/modules/room/room_model.dart';
 
 class CreateController extends GetxController {
   //TODO: Implement CreateController
+  var provider = Get.find<RoomProvider>();
   final loginFormKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -40,22 +41,20 @@ class CreateController extends GetxController {
     super.onClose();
   }
 
-  void createRoom() {
+  void createRoom() async {
     room = Room(
       name: nameController.text,
       description: descriptionController.text,
       levelId: int.parse(level),
       visibility: isPrivateRoom ? 0 : 1,
     );
-    Get.find<RoomProvider>().createRoom(room).then((value) {
-      room = value.body;
-      if (room.id != null) {
-        if (room.visibility == 0)
-          notifySuccess();
-        else
-          Get.back(result: room);
-      }
-    });
+    room = provider.create('room', room) as Room ?? room;
+    if (room.id != null) {
+      if (room.visibility == 0)
+        notifySuccess();
+      else
+        Get.back(result: room);
+    }
   }
 
   void updateRoom() {
