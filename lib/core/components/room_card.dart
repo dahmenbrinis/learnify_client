@@ -1,24 +1,24 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/User/AuthController.dart';
+import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
-import 'package:learnify_client/app/modules/room/views/create_view.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
-import 'package:learnify_client/utils.dart';
-
-import '../app/modules/room/controllers/rooms_controller.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/core/utils.dart';
 
 class RoomCard extends StatelessWidget {
-  final Rx<Room> _room;
+  final controller = Get.find<RoomController>();
+  final _room = Rx<Room>(Room());
+  final Room data;
 
   Room get room => _room.value;
+
   set room(Room value) => _room.value = value;
-  final Image image;
 
   final _isOpen = false.obs;
   final refresh = false.obs;
@@ -27,25 +27,25 @@ class RoomCard extends StatelessWidget {
 
   set isOpen(value) => _isOpen.value = value;
 
-  RoomCard(this._room, {required this.image});
+  RoomCard(this.data);
 
   @override
   Widget build(BuildContext context) {
+    room = data;
     return Obx(() {
-      Container(height: refresh.value ? 0 : 1);
       return RawMaterialButton(
-        // padding: EdgeInsets.all(0),
-        // onPressed: () => Get.toNamed('question', parameters: {"id": "0"}),
         onLongPress: () => isOpen = !isOpen,
-        onPressed: () {},
+        onPressed: () {
+          if (room.permissions!.canView)
+            Get.toNamed(Routes.QUESTIONS, arguments: room);
+        },
         child: Container(
-          // color: Colors.blue,
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color(0xe2ffffff),
             borderRadius: BorderRadius.circular(5),
-            boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
           ),
           child: Column(
             children: [
@@ -76,7 +76,9 @@ class RoomCard extends StatelessWidget {
                     mainAxisCellCount: 2,
                     child: GestureDetector(
                       onTap: () => isOpen = !isOpen,
-                      child: Icon(Icons.more_vert, color: Colors.blue),
+                      child: RotatedBox(
+                          quarterTurns: 1,
+                          child: Icon(Iconsax.more, color: Colors.blue)),
                     ),
                   ),
                   StaggeredGridTile.count(
@@ -89,7 +91,6 @@ class RoomCard extends StatelessWidget {
               ),
 
               ///------- body ---------
-
               if (isOpen) Divider(color: Colors.black),
               if (isOpen)
                 Obx(() {
@@ -101,19 +102,21 @@ class RoomCard extends StatelessWidget {
                       crossAxisSpacing: 10,
                       children: [
                         if (room.permissions!.canAsk)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/question_svgrepo_com.svg',
-                                width: 30,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Ask Question',
-                                style: TextStyle(color: Color(0xff00d1ff)),
-                              )
-                            ],
+                          MaterialButton(
+                            onPressed: () => Get.toNamed(Routes.CREATE_QUESTION,
+                                arguments: room),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.message_add,
+                                    color: Color(0xff00d1ff)),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Ask Question',
+                                  style: TextStyle(color: Color(0xff00d1ff)),
+                                )
+                              ],
+                            ),
                           ),
                         if (room.permissions!.canUpdate)
                           MaterialButton(
@@ -124,16 +127,12 @@ class RoomCard extends StatelessWidget {
                                   room = value;
                                 }
                                 refresh.value = !refresh.value;
-                                // print(controller.list.length);
                               });
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/edit__list.svg',
-                                  width: 30,
-                                ),
+                                Icon(Iconsax.edit, color: Colors.blue.shade700),
                                 SizedBox(height: 10),
                                 Text(
                                   'Edit Room',
@@ -146,10 +145,8 @@ class RoomCard extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                'assets/file_remove.svg',
-                                width: 30,
-                              ),
+                              Icon(Iconsax.box_remove,
+                                  color: Color(0xffE86575)),
                               SizedBox(height: 10),
                               Text(
                                 'Remove Room',
@@ -161,10 +158,7 @@ class RoomCard extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                'assets/leaderboard.svg',
-                                width: 30,
-                              ),
+                              Icon(Iconsax.award, color: Color(0xffF3B412)),
                               SizedBox(height: 10),
                               Text(
                                 'Leaderboard',
@@ -172,18 +166,40 @@ class RoomCard extends StatelessWidget {
                               )
                             ],
                           ),
+                        if (!room.permissions!.canDelete &&
+                            room.permissions!.canView)
+                          RawMaterialButton(
+                            onPressed: () async {
+                              Room? res = await controller.leave(room);
+                              if (res!.id != null) {
+                                room = res;
+                                // controller.refresh();
+                              }
+                              _room.refresh();
+                              refresh.value = !refresh.value;
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.logout, color: Color(0xffE86575)),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Leave Room',
+                                  style: TextStyle(color: Color(0xffE86575)),
+                                )
+                              ],
+                            ),
+                          ),
                         if (!room.permissions!.canView)
                           MaterialButton(
                             onPressed: () async {
-                              await Get.find<RoomController>()
-                                  .join(room)
-                                  .then((value) {
-                                if (value != null) {
-                                  room = value;
-                                }
-                                _room.refresh();
-                                refresh.value = !refresh.value;
-                              });
+                              Room? res = await controller.join(room);
+                              if (res!.id != null) {
+                                room = res;
+                                // controller.refresh();
+                              }
+                              _room.refresh();
+                              refresh.value = !refresh.value;
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,13 +223,11 @@ class RoomCard extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                'assets/managestudents.svg',
-                                width: 30,
-                              ),
+                              Icon(Iconsax.profile_2user,
+                                  color: Colors.indigoAccent),
                               SizedBox(height: 10),
                               Text(
-                                'Manage Student',
+                                'Manage Students',
                                 style: TextStyle(color: Colors.indigoAccent),
                               )
                             ],
@@ -241,14 +255,6 @@ class RoomCard extends StatelessWidget {
                     Text(room.userCount.toString() + " Poeple",
                         style: TextStyle(color: Colors.blue),
                         textAlign: TextAlign.center),
-                    // Flexible(flex: 1, child: widget.image),
-                    // SizedBox(width: 10),
-                    // Flexible(flex: 9, child: Text(widget.description)),
-                    // SizedBox(width: 10),
-                    // Flexible(
-                    //   flex: 1,
-                    //   child: Icon(Icons.more_vert, color: Colors.blue),
-                    // ),
                   ],
                 ),
               ),
