@@ -13,7 +13,7 @@ class InputField extends StatelessWidget {
 
   InputField({
     required this.inputText,
-    double this.padding = 5,
+    this.padding = 5,
     this.inputController,
     this.height = 0,
     this.lines = 1,
@@ -23,7 +23,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 1),
+      padding: const EdgeInsets.symmetric(vertical: 1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,21 +43,5 @@ class InputField extends StatelessWidget {
         ],
       ),
     );
-    // return Padding(
-    //   padding: EdgeInsets.symmetric(vertical: padding),
-    //   child: TextFormField(
-    //     maxLines: lines,
-    //     style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w300),
-    //     controller: inputController,
-    //     decoration: InputDecoration(
-    //       filled: true,
-    //       // border: const UnderlineInputBorder(),
-    //       labelText: inputText,
-    //       labelStyle: const TextStyle(fontSize: 18, color: Colors.black38),
-    //       fillColor: Colors.white,
-    //       contentPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-    //     ),
-    //   ),
-    // );
   }
 }

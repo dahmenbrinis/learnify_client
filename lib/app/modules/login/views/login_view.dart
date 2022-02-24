@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../../../../components/input_filed.dart';
-import '../../../../layouts/background_widget.dart';
-import '../controllers/login_controller.dart';
+import 'package:learnify_client/app/modules/login/controllers/login_controller.dart';
+import 'package:learnify_client/core/components/input_filed.dart';
+import 'package:learnify_client/core/layouts/background_widget.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
@@ -24,11 +23,11 @@ class LoginView extends GetView<LoginController> {
                 Expanded(
                     child: Column(
                   children: [
-                    Spacer(flex: 2),
+                    const Spacer(flex: 2),
                     Text("Learnify",
                         style: TextStyle(
                             color: Colors.greenAccent.shade200, fontSize: 50)),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     InputField(
                       inputText: const Text(
                         'Email',
@@ -74,10 +73,10 @@ class LoginView extends GetView<LoginController> {
                         },
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
-                        Text('New User ?', style: TextStyle(fontSize: 20)),
+                        const Text('New User ?', style: TextStyle(fontSize: 20)),
                         TextButton(
                           onPressed: () => Get.toNamed('register'),
                           child: Text(
@@ -90,7 +89,7 @@ class LoginView extends GetView<LoginController> {
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                    Spacer(flex: 3),
+                    const Spacer(flex: 3),
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
                 ))

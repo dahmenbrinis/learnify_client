@@ -27,10 +27,6 @@ class LoginController extends GetxController {
     authController.login(emailController.text, passwordController.text);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onClose() {}

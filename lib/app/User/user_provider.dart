@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:learnify_client/app/User/user_model.dart';
-import 'package:learnify_client/utils.dart';
+import 'package:learnify_client/core/utils.dart';
 import 'AuthController.dart';
 
 class UserProvider extends GetConnect {

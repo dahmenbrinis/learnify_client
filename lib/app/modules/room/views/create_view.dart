@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/room/controllers/create_controller.dart';
-import 'package:learnify_client/components/input_filed.dart';
+import 'package:learnify_client/core/components/input_filed.dart';
 
 class CreateView extends GetView<CreateController> {
   @override
@@ -87,28 +87,6 @@ class CreateView extends GetView<CreateController> {
                               ),
                             ],
                           ),
-                          if (controller.isPrivateRoom && false)
-                            MaterialButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () {},
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Room Code: 45324',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.copy,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          // InputField(inputText: Text(""))
                         ]);
                   }),
                   Column(

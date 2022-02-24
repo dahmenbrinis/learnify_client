@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/modules/register/controllers/register_controller.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
-import 'package:learnify_client/components/input_filed.dart';
-import 'package:learnify_client/layouts/background_widget.dart';
-
-import '../controllers/register_controller.dart';
+import 'package:learnify_client/core/components/input_filed.dart';
+import 'package:learnify_client/core/layouts/background_widget.dart';
 
 class RegisterView extends GetView<RegisterController> {
   @override

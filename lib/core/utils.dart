@@ -1,4 +1,3 @@
-import 'package:get/get_connect/http/src/http.dart';
 
 class Utils {
   static const String baseUrl = 'http://192.168.1.20:8000';

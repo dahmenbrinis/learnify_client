@@ -46,7 +46,7 @@ class Room extends Model {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     permissions = json['permissions'] != null
-        ? Permissions?.fromJson(json['permissions'])
+        ? Permissions.fromJson(json['permissions'])
         : null;
     userCount = json['userCount'];
     questionsCount = json['questionsCount'];
@@ -54,6 +54,7 @@ class Room extends Model {
     visibilityName = json['visibilityName'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;

@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:get/get.dart';
-import 'package:learnify_client/utils.dart';
+import 'package:learnify_client/core/utils.dart';
 import 'user_provider.dart';
 import 'user_model.dart';
 
@@ -17,11 +16,6 @@ class AuthController extends GetxController {
   set authenticated(value) => _authenticated.value = value;
   set user(user) => _user.value = user;
 
-  @override
-  void onInit() {
-    //TODO:Grab token from storage.
-    super.onInit();
-  }
 
   login(String email, String password) async {
     var response = await userProvider.post(
@@ -38,7 +32,7 @@ class AuthController extends GetxController {
       user = response.body;
       authenticated = true;
       Get.snackbar('Welcome', 'hello ${user.name} and welcome',
-          duration: Duration(seconds: 2));
+          duration: const Duration(seconds: 2));
       Get.offNamed('/room');
     }
   }
@@ -55,7 +49,7 @@ class AuthController extends GetxController {
           "${jsonDecode(response.bodyString ?? 'message:error')['message']}");
     }
     if (response.isOk) {
-      this.user = response.body ?? user;
+      user = response.body ?? user;
       authenticated = true;
       Get.snackbar('Welcome', 'hello ${user.name} and welcome',
           duration: const Duration(seconds: 2));
@@ -78,7 +72,7 @@ class AuthController extends GetxController {
       user = res.body ?? user;
       authenticated = true;
       Get.snackbar('Welcome', 'hello ${user.name} and welcome',
-          duration: Duration(seconds: 2));
+          duration: const Duration(seconds: 2));
       Get.offNamed('/room');
     }
   }

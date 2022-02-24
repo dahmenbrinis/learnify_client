@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SelectField extends StatefulWidget {
   final List<String> items;
-  SelectField({required this.items});
+  const SelectField({required this.items});
 
   @override
   _SelectFieldState createState() => _SelectFieldState();
@@ -19,10 +19,10 @@ class _SelectFieldState extends State<SelectField> {
           color: Colors.white),
       // color: Colors.white,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       child: DropdownButton<String>(
         value: dropdownValue,
-        icon: Icon(Icons.arrow_drop_down),
+        icon: const Icon(Icons.arrow_drop_down),
 
         onChanged: (String? newValue) {
           setState(() {
@@ -35,7 +35,7 @@ class _SelectFieldState extends State<SelectField> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: 20, color: Colors.black54),
+              style: const TextStyle(fontSize: 20, color: Colors.black54),
             ),
           );
         }).toList(),

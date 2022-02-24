@@ -11,7 +11,7 @@ class CreateController extends GetxController {
   final descriptionController = TextEditingController();
   final visibilityController = TextEditingController();
   Room old = Room();
-  Room room = Room();
+  Room? room = Room();
   final _level = '1'.obs;
   String get level => _level.value;
   set level(value) => _level.value = value;
@@ -19,10 +19,6 @@ class CreateController extends GetxController {
   bool get isPrivateRoom => _isPrivateRoom.value;
   set isPrivateRoom(bool value) => _isPrivateRoom.value = value;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -36,10 +32,6 @@ class CreateController extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void createRoom() async {
     room = Room(
@@ -48,35 +40,33 @@ class CreateController extends GetxController {
       levelId: int.parse(level),
       visibility: isPrivateRoom ? 0 : 1,
     );
-    room = provider.create('room', room) as Room ?? room;
-    if (room.id != null) {
-      if (room.visibility == 0)
+    room = await provider.create('rooms', room!);
+    if (room != null) {
+      if (room!.visibility == 0) {
         notifySuccess();
-      else
+      } else {
         Get.back(result: room);
+      }
     }
   }
 
-  void updateRoom() {
+  void updateRoom() async {
     room = Room(
-      id: room.id,
+      id: room!.id,
       name: nameController.text,
       description: descriptionController.text,
       levelId: int.parse(level),
       visibility: isPrivateRoom ? 0 : 1,
     );
-    Get.find<RoomProvider>().updateRoom(room).then((value) {
-      room = value.body;
-      if (room.id != null) Get.back(result: room);
-      // notifySuccess();
-    });
+    room = await provider.update('rooms/${room!.id}', room!);
+    if (room != null) Get.back(result: room);
   }
 
   notifySuccess() {
     Get.defaultDialog(
       barrierDismissible: false,
-      title: 'Created Room ${room.name} \n',
-      titlePadding: EdgeInsets.all(10),
+      title: 'Created Room ${room!.name} \n',
+      titlePadding: const EdgeInsets.all(10),
       content: MaterialButton(
         padding: EdgeInsets.zero,
         onPressed: () {},
@@ -88,8 +78,8 @@ class CreateController extends GetxController {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Room Code: ${room.id.toString().padLeft(4, '0')}',
-                    style: TextStyle(fontSize: 20),
+                    'Room Code: ${room!.id.toString().padLeft(4, '0')}',
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),

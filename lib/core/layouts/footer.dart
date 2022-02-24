@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 
 class Footer extends StatefulWidget {
@@ -21,7 +20,7 @@ class _FooterState extends State<Footer> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       unselectedItemColor: Colors.grey,
-      fixedColor: Colors.blue.shade700,
+      fixedColor: Colors.blueAccent.shade400,
       backgroundColor: Colors.grey.shade100,
       selectedFontSize: 18,
       unselectedFontSize: 12,
@@ -31,13 +30,14 @@ class _FooterState extends State<Footer> {
       onTap: (int selectedIndex) => setState(() {
         index = selectedIndex;
         if (selectedIndex == 1) Get.toNamed(Routes.ROOM);
-        // print(index);
       }),
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.group_sharp), label: 'Rooms'),
-        BottomNavigationBarItem(icon: Icon(Icons.help), label: 'Questions'),
-        BottomNavigationBarItem(icon: Icon(Icons.chair), label: 'Challenges'),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        BottomNavigationBarItem(
+            icon: Icon(Iconsax.home_hashtag), label: 'Rooms'),
+        BottomNavigationBarItem(
+            icon: Icon(Iconsax.message_programming), label: 'Questions'),
+        BottomNavigationBarItem(icon: Icon(Iconsax.award), label: 'Challenges'),
+        BottomNavigationBarItem(icon: Icon(Iconsax.setting), label: 'Settings'),
       ],
     );
   }
