@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
 import 'package:learnify_client/app/modules/comments/providers/comment_provider.dart';
 import 'package:learnify_client/app/modules/questions/question_model.dart';
+
+import '../../../User/auth.dart';
 
 class CreateCommentController extends GetxController {
   //TODO: Implement CreateCommentController
@@ -31,7 +32,7 @@ class CreateCommentController extends GetxController {
 
   addComment() async {
     comment = Comment(title: titleController.text, body: bodyController.text);
-    comment!.user = Get.find<AuthController>().user;
+    comment!.user = Auth.user;
     comment =
         await provider.create('questions/${question.id}/comments', comment!);
     if (comment != null) Get.back(result: comment);

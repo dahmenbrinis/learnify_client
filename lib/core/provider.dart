@@ -3,14 +3,13 @@
 import 'package:get/get.dart';
 import 'package:learnify_client/core/model.dart';
 import 'package:learnify_client/core/pagination.dart';
-import '../app/User/AuthController.dart';
+import '../app/User/auth.dart';
 import 'utils.dart';
 
 abstract class Provider<ModelType extends Model> extends GetConnect
     with Pagination<ModelType> {
-  String get token => Get.find<AuthController>().user.token as String;
-
-  get headers => token.isEmpty
+  String? get token => Auth.user.token;
+  get headers => token == null
       ? {'Accept': 'application/json'}
       : {'Authorization': "Bearer $token", 'Accept': 'application/json'};
 
@@ -26,10 +25,10 @@ abstract class Provider<ModelType extends Model> extends GetConnect
     };
     httpClient.baseUrl = Utils.baseUrl;
     httpClient.defaultContentType = "application/json";
-    httpClient.timeout = const Duration(seconds: 10);
+    httpClient.timeout = const Duration(seconds: 20);
   }
 
-  Future<Paginated<ModelType>> index(String url,
+  Future<Paginated<ModelType>?> index(String url,
       {Map<String, String>? filters, int page = 1}) async {
     filters = filters ?? {};
     filters.assign('page', page.toString());

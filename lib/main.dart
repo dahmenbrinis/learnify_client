@@ -11,6 +11,7 @@ void main() {
   Get.put<UserProvider>(UserProvider());
   Get.put<AuthController>(AuthController());
   print(Utils.baseUrl);
+  MyWidgetsBinding();
   runApp(
     GetMaterialApp(
       title: "Application",
@@ -18,4 +19,17 @@ void main() {
       getPages: AppPages.routes,
     ),
   );
+}
+
+class MyImageCache extends ImageCache {
+  @override
+  void clear() {
+    print('Clearing cache!');
+    super.clear();
+  }
+}
+
+class MyWidgetsBinding extends WidgetsFlutterBinding {
+  @override
+  ImageCache createImageCache() => MyImageCache();
 }

@@ -27,7 +27,6 @@ class LoginController extends GetxController {
     authController.login(emailController.text, passwordController.text);
   }
 
-
   @override
   void onClose() {}
   // void increment() => count.value++;

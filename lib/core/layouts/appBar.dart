@@ -2,9 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/core/components/net_image.dart';
+import 'package:learnify_client/core/model.dart';
+import '../../app/User/auth.dart';
 import '../components/avatar_image.dart';
+import '../utils.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   static double preferHeight = AppBar().preferredSize.height;
@@ -12,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
 
   final Widget? logo;
+
   const CustomAppBar({required this.title, this.height = 0, this.logo});
 
   @override
@@ -33,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           controllerRoom.fetch();
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // const SizedBox(width: 10),
             if (logo != null) logo!,
@@ -49,17 +55,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             if (isLargeTitle)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: SvgPicture.asset('assets/stats.svg'),
+              GestureDetector(
+                // padding: EdgeInsets.zero,
+                onTap: () => Get.offAllNamed(Routes.HOME),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: SvgPicture.asset('assets/stats.svg'),
+                ),
               ),
-            RawMaterialButton(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-              child: const CustomAvatarImage(
-                image: AssetImage('assets/profile_pic3.jpg'),
-                // padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+            // Obx(() {
+            //   return FadeInImage.assetNetwork(
+            //       placeholder: 'assets/loading2.gif',
+            //       image:
+            //           '${Utils.baseUrl}/api/images/${AuthController.user.profileImageId ?? 3}');
+            // }),
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                child: CustomAvatarImage(
+                  NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
+                ),
               ),
-              onPressed: () => Get.offAllNamed('/login'),
+              onTap: () => Get.offAllNamed('/login'),
             ),
           ],
         ),

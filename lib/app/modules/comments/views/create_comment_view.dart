@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../core/components/input_filed.dart';
 import '../controllers/create_comment_controller.dart';
@@ -11,6 +12,11 @@ class CreateCommentView extends GetView<CreateCommentController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: RawMaterialButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Icon(Iconsax.direct_left5)),
         title: Text('CreateCommentView'),
         centerTitle: true,
       ),

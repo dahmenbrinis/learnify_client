@@ -25,11 +25,12 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.ROOM;
+  // static const INITIAL = Routes.ROOM;
 
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => HomeView(),
+      page: () => new HomeView(),
       binding: HomeBinding(),
       // middlewares: [AuthMiddleware()],
     ),

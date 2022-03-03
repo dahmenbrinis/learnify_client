@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/core/components/net_image.dart';
 import '../../app/modules/questions/question_model.dart';
 import '../components/avatar_image.dart';
 
@@ -53,14 +55,16 @@ class QuestionCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomAvatarImage(
-                              image:
-                                  Image.asset('assets/profile_pic2.jpg').image,
+                              NetImage(
+                                id: question.user.imageId,
+                                alt: question.user.name!,
+                              ),
                               // padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                             ),
                             const SizedBox(height: 5),
                             Text(
                               question.user.name,
-                              style: const TextStyle(color: Colors.black54),
+                              style: const TextStyle(color: Colors.blue),
                               textAlign: TextAlign.center,
                             )
                           ],

@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/core/components/net_image.dart';
+import '../../app/User/auth.dart';
 import '../components/avatar_image.dart';
 
 class SecondAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -41,9 +43,9 @@ class SecondAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             children: [
               RawMaterialButton(
-                padding: EdgeInsets.all(4),
-                child: const CustomAvatarImage(
-                  image: AssetImage('assets/profile_pic3.jpg'),
+                padding: const EdgeInsets.all(4),
+                child: CustomAvatarImage(
+                  NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
                 ),
                 onPressed: () => Get.offAllNamed('/login'),
               ),

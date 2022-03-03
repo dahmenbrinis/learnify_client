@@ -7,12 +7,17 @@ import 'package:learnify_client/core/pagination.dart';
 import '../../questions/question_model.dart';
 
 class CommentsController extends GetxController {
-  //TODO: Implement CommentsController
   var provider = Get.find<CommentProvider>();
   final Question question = Get.arguments;
   final _paginatedList = Rx(Paginated<Comment>());
 
-  var scrollController = ScrollController();
+  final _isHidden = false.obs;
+
+  get isHidden => _isHidden.value;
+
+  set isHidden(value) => _isHidden.value = value;
+
+  ScrollController scrollController = ScrollController();
   Paginated<Comment> get list => _paginatedList.value;
   set list(Paginated<Comment> value) => _paginatedList.value = value;
   final _isLoading = false.obs;
@@ -21,6 +26,8 @@ class CommentsController extends GetxController {
   @override
   void onInit() {
     scrollController.addListener(() {
+      // if (scrollController.offset > 300 && !isHidden) isHidden = true;
+      if (scrollController.offset == 0) isHidden = false;
       if (scrollController.position.atEdge &&
           scrollController.position.pixels != 0) fetch();
     });

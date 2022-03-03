@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
 class CustomAvatarImage extends StatelessWidget {
-  final ImageProvider image;
-
+  Widget? image;
   final EdgeInsetsGeometry padding;
-  const CustomAvatarImage(
-      {required this.image, this.padding = EdgeInsets.zero});
+
+  CustomAvatarImage(this.image, {this.padding = EdgeInsets.zero});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: CircleAvatar(
-          backgroundColor: const Color(0xff95acba),
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(2),
-              child: CircleAvatar(
-                backgroundImage: image,
-              ),
+        backgroundColor: const Color(0x800090FF),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(200),
+              child: image,
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

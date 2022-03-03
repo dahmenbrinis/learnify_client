@@ -1,14 +1,6 @@
-// ignore_for_file: avoid_print
-
-abstract class Model {
-  // Model.fromJson(Map<String, dynamic> json);
-  Map<String, dynamic> toJson();
-  Model();
-}
-
-class ImageModel extends Model {
+class Image {
   int? id;
-  String? src;
+  dynamic src;
   String? alt;
   int? userId;
   String? imagableType;
@@ -16,7 +8,7 @@ class ImageModel extends Model {
   String? createdAt;
   String? updatedAt;
 
-  ImageModel(
+  Image(
       {this.id,
       this.src,
       this.alt,
@@ -26,12 +18,7 @@ class ImageModel extends Model {
       this.createdAt,
       this.updatedAt});
 
-  @override
-  String toString() {
-    return '$id';
-  }
-
-  ImageModel.fromJson(json) {
+  Image.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     src = json['src'];
     alt = json['alt'];

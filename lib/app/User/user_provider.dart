@@ -1,24 +1,10 @@
 import 'package:get/get.dart';
 import 'package:learnify_client/app/User/user_model.dart';
+import 'package:learnify_client/core/provider.dart';
 import 'package:learnify_client/core/utils.dart';
 import 'AuthController.dart';
 
-class UserProvider extends GetConnect {
-  String get token => Get.find<AuthController>().user.token as String;
-  get headers => token.isEmpty
-      ? {'Accept': 'application/json'}
-      : {'Authorization': "Bearer $token", 'Accept': 'application/json'};
-
-  @override
-  void onInit() {
-    httpClient.defaultDecoder = (map) {
-      if (map is Map<String, dynamic>) return User.fromJson(map);
-      if (map is List) return map.map((item) => User.fromJson(item)).toList();
-    };
-    httpClient.baseUrl = Utils.baseUrl;
-    httpClient.defaultContentType = "application/json";
-  }
-
+class UserProvider extends Provider {
   Future<User?> getUser(int id) async {
     final response = await get('/api/user/$id');
     return response.body;
@@ -33,4 +19,9 @@ class UserProvider extends GetConnect {
       await post('api/user', user, headers: headers);
   Future<Response> deleteUser(int id) async =>
       await delete('/api/user/$id', headers: headers);
+
+  @override
+  fromJsonModel(item) {
+    return User.fromJson(item);
+  }
 }

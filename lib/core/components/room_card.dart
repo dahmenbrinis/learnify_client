@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/core/components/net_image.dart';
 import 'package:learnify_client/core/utils.dart';
+
+import '../../app/User/auth.dart';
 
 class RoomCard extends StatelessWidget {
   final controller = Get.find<RoomController>();
@@ -59,10 +61,7 @@ class RoomCard extends StatelessWidget {
                   StaggeredGridTile.count(
                       crossAxisCellCount: 4,
                       mainAxisCellCount: 4,
-                      child: FadeInImage.assetNetwork(
-                          placeholder: 'assets/math.png',
-                          image:
-                              '${Utils.baseUrl}/api/${room.imageName ?? "s"}')),
+                      child: NetImage(id: room.imageId, alt: room.name!)),
                   StaggeredGridTile.fit(
                     crossAxisCellCount: 14,
                     child: Text(room.name!.capitalize!,
@@ -218,8 +217,7 @@ class RoomCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                        if (room.creatorId ==
-                            Get.find<AuthController>().user.id)
+                        if (room.creatorId == Auth.user.id)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [

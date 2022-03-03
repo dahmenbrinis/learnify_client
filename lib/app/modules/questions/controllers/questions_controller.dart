@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/modules/questions/providers/question_provider.dart';
 import 'package:learnify_client/app/modules/questions/question_model.dart';
 
 import '../../../../core/pagination.dart';
-import '../../../User/AuthController.dart';
 import '../../../User/user_model.dart';
 import '../../room/room_model.dart';
 
@@ -14,7 +14,7 @@ class QuestionsController extends GetxController {
   set paginatedList(Paginated<Question> value) => _paginatedList.value = value;
   Paginated<Question> get paginatedList => _paginatedList.value;
   Room room = Get.arguments;
-  User user = Get.find<AuthController>().user;
+  User user = Auth.user;
   var isLoading = true.obs;
   var scrollController = ScrollController();
 

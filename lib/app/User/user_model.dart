@@ -1,4 +1,6 @@
-class User {
+import 'package:learnify_client/core/model.dart';
+
+class User extends Model {
   int? id;
   String? name;
   String? email;
@@ -8,6 +10,7 @@ class User {
   int? type;
   String? createdAt;
   String? updatedAt;
+  int? imageId;
   static const userType = {'0': "Teacher", '1': "Student"};
   User(
       {this.id,
@@ -17,6 +20,7 @@ class User {
       this.emailVerifiedAt,
       this.type,
       this.createdAt,
+      this.imageId,
       this.updatedAt});
 
   @override
@@ -34,6 +38,7 @@ class User {
     type = json['type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    imageId = json['imageId'];
   }
 
   Map<String, dynamic> toJson() {

@@ -4,7 +4,7 @@ class Room extends Model {
   int? id;
   String? name;
   String? description;
-  String? imageName;
+  int? imageId;
   String? code;
   int? visibility;
   int? levelId;
@@ -21,7 +21,7 @@ class Room extends Model {
       {this.id,
       this.name,
       this.description,
-      this.imageName,
+      this.imageId,
       this.code,
       this.visibility,
       this.levelId,
@@ -38,7 +38,7 @@ class Room extends Model {
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    imageName = json['image_name'];
+    imageId = json['imageId'];
     code = json['code'];
     visibility = json['visibility'];
     levelId = json['level_id'];
@@ -60,7 +60,7 @@ class Room extends Model {
     data['id'] = id;
     data['name'] = name;
     data['description'] = description;
-    data['image_name'] = imageName;
+    data['image_name'] = imageId;
     data['code'] = code;
     data['visibility'] = visibility;
     data['level_id'] = levelId;
