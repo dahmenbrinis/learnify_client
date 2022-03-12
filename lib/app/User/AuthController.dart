@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/core/provider.dart';
 import 'package:learnify_client/core/utils.dart';
@@ -24,6 +25,7 @@ class AuthController extends GetxController {
     if (response.isOk) {
       Auth.user = response.body;
       Auth.authenticated = true;
+      await updateFcmToken();
       Get.snackbar('Welcome', 'hello ${Auth.user.name} and welcome',
           duration: const Duration(seconds: 2));
       Get.offNamed('/room');
@@ -44,6 +46,7 @@ class AuthController extends GetxController {
     if (response.isOk) {
       Auth.user = response.body ?? Auth.user;
       Auth.authenticated = true;
+      await updateFcmToken();
       Get.snackbar('Welcome', 'hello ${Auth.user.name} and welcome',
           duration: const Duration(seconds: 2));
       Get.offNamed('/room');
@@ -65,5 +68,10 @@ class AuthController extends GetxController {
       Auth.authenticated = false;
       Get.offNamed('/room');
     }
+  }
+
+  updateFcmToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    provider.sendRequest('fcm_update','POST',headers: provider.headers,body:  {'fcm_token':token});
   }
 }

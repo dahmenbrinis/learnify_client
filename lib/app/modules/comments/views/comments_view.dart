@@ -99,32 +99,32 @@ class CommentsView extends GetView<CommentsController> {
                               // textAlign: TextAlign.center,
                             ),
                           ),
-                          StaggeredGridTile.count(
-                            crossAxisCellCount: 12,
-                            mainAxisCellCount: 4,
-                            child: StaggeredGrid.count(
-                              crossAxisCount: 4,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              children: const [
-                                StaggeredGridTile.count(
-                                  crossAxisCellCount: 1,
-                                  mainAxisCellCount: 1,
-                                  child: NetImage(alt: 'I M'),
-                                ),
-                                StaggeredGridTile.count(
-                                  crossAxisCellCount: 1,
-                                  mainAxisCellCount: 1,
-                                  child: NetImage(alt: 'I M'),
-                                ),
-                                StaggeredGridTile.count(
-                                  crossAxisCellCount: 1,
-                                  mainAxisCellCount: 1,
-                                  child: NetImage(alt: 'I M'),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // StaggeredGridTile.count(
+                          //   crossAxisCellCount: 12,
+                          //   mainAxisCellCount: 4,
+                          //   child: StaggeredGrid.count(
+                          //     crossAxisCount: 4,
+                          //     mainAxisSpacing: 10,
+                          //     crossAxisSpacing: 10,
+                          //     children: const [
+                          //       StaggeredGridTile.count(
+                          //         crossAxisCellCount: 1,
+                          //         mainAxisCellCount: 1,
+                          //         child: NetImage(alt: 'I M'),
+                          //       ),
+                          //       StaggeredGridTile.count(
+                          //         crossAxisCellCount: 1,
+                          //         mainAxisCellCount: 1,
+                          //         child: NetImage(alt: 'I M'),
+                          //       ),
+                          //       StaggeredGridTile.count(
+                          //         crossAxisCellCount: 1,
+                          //         mainAxisCellCount: 1,
+                          //         child: NetImage(alt: 'I M'),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

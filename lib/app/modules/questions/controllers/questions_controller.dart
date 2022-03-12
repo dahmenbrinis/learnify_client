@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/User/auth.dart';
@@ -18,10 +19,10 @@ class QuestionsController extends GetxController {
   var isLoading = true.obs;
   var scrollController = ScrollController();
 
-  Future fetch() async {
+  Future fetch({int? page = null}) async {
     isLoading.value = true;
     var list = await provider.index('rooms/${room.id}/questions',
-        page: paginatedList.next_page);
+        page: page??paginatedList.next_page);
     paginatedList.addAll(list);
     isLoading.value = false;
   }
@@ -30,6 +31,13 @@ class QuestionsController extends GetxController {
   void onInit() {
     paginatedList.init();
     fetch();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.data['type'] =='App\\Notifications\\QuestionAdded') {
+        int page = paginatedList.current_page ;
+        paginatedList.init();
+        fetch(page:page);
+      }
+    });
     scrollController.addListener(() {
       if (scrollController.position.atEdge &&
           scrollController.position.pixels != 0) fetch();
