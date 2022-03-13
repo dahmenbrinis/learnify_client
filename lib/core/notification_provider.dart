@@ -19,10 +19,10 @@ class NotificationProvider{
   static void pushNotification(RemoteMessage message) {
     switch(message.data['type'] as String){
       case 'App\\Notifications\\QuestionAdded':
-        Get.snackbar('${message.data['userName']} asked a question', '${message.data['questionName']}',);
+        Get.snackbar('${message.data['title']} asked a question', '${message.data['body']}',);
         break;
       case 'App\\Notifications\\NewCommentNotification':
-        Get.snackbar('${message.data['userName']} Commented on your post', '${message.data['commentName']}',);
+        Get.snackbar('${message.data['title']} Commented on your post', '${message.data['body']}',);
         break;
     }
   }

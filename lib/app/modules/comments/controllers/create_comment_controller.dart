@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
+import 'package:learnify_client/app/modules/comments/controllers/comments_controller.dart';
 import 'package:learnify_client/app/modules/comments/providers/comment_provider.dart';
 import 'package:learnify_client/app/modules/questions/question_model.dart';
 
@@ -35,6 +36,9 @@ class CreateCommentController extends GetxController {
     comment!.user = Auth.user;
     comment =
         await provider.create('questions/${question.id}/comments', comment!);
-    if (comment != null) Get.back(result: comment);
+    if (comment != null) {
+      Get.find<CommentsController>().list.data.insert(0, comment!);
+    }
+    Get.back();
   }
 }

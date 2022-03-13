@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
@@ -25,6 +26,15 @@ class CommentsController extends GetxController {
   set isLoading(value) => _isLoading.value = value;
   @override
   void onInit() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.data['type'] == 'App\\Notifications\\QuestionAdded') {
+        int page = list.current_page;
+        list.init();
+        fetch(page: page);
+        print(message.notification);
+      }
+    });
     scrollController.addListener(() {
       // if (scrollController.offset > 300 && !isHidden) isHidden = true;
       if (scrollController.offset == 0) isHidden = false;
@@ -40,10 +50,11 @@ class CommentsController extends GetxController {
     fetch();
   }
 
-  fetch() async {
+  fetch({int? page = null}) async {
     isLoading = true;
     // var newData = await provider.index('questions/1/comments');
-    var newData = await provider.index('questions/${question.id}/comments');
+    var newData =
+        await provider.index('questions/${page ?? question.id}/comments');
     list.addAll(newData);
     isLoading = false;
   }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/comments/bindings/create_comment_binding.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 
 import '../../../../core/components/avatar_image.dart';
 import '../../../../core/components/net_image.dart';
@@ -191,9 +192,7 @@ class CommentsView extends GetView<CommentsController> {
         onPressed: () async {
           //TODO: make this route a named route .
 
-          Comment? comment = await Get.to(CreateCommentView(),
-              binding: CreateCommentBinding(), arguments: controller.question);
-          if (comment!.id != null) controller.list.data.add(comment);
+          Get.toNamed(Routes.CREATE_COMMENT,arguments: controller.question);
           // controller.update();
         },
         child: const Icon(Iconsax.note_add, size: 30),
