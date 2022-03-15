@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:learnify_client/app/User/AuthController.dart';
 import 'package:learnify_client/app/User/user_provider.dart';
 import 'package:learnify_client/core/notification_provider.dart';
+import 'package:learnify_client/core/theme.dart';
 import 'package:learnify_client/core/utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+      theme: CustomThemes.mainTheme,
     ),
   );
 }
@@ -56,7 +58,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       NOTIFICATION_CHANNEL_KEY: 'basic_channel',
       NOTIFICATION_ID: message.data[NOTIFICATION_CONTENT]?[NOTIFICATION_ID] ??
           message.messageId ??
-          Random().nextInt(2147483647),
+          1,
       NOTIFICATION_TITLE: message.data[NOTIFICATION_CONTENT]
               ?[NOTIFICATION_TITLE] ??
           message.notification?.title,

@@ -34,14 +34,15 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     room = data;
-    return Obx(() {
-      return RawMaterialButton(
-        onLongPress: () => isOpen = !isOpen,
-        onPressed: () {
-          if (room.permissions!.canView)
-            Get.toNamed(Routes.QUESTIONS, arguments: room);
-        },
-        child: Container(
+    return RawMaterialButton(
+      onLongPress: () => isOpen = !isOpen,
+      onPressed: () {
+        if (room.permissions!.canView)
+          Get.toNamed(Routes.QUESTIONS, arguments: room);
+      },
+      child: Obx(() {
+        return AnimatedContainer(
+          duration: Duration(milliseconds: 5000),
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -49,51 +50,54 @@ class RoomCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
           ),
-          child: Column(
-            children: [
-              ///------- head ---------
-              StaggeredGrid.count(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                crossAxisCount: 20,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                children: [
-                  StaggeredGridTile.count(
-                      crossAxisCellCount: 4,
-                      mainAxisCellCount: 4,
-                      child: NetImage(id: room.imageId, alt: room.name!)),
-                  StaggeredGridTile.fit(
-                    crossAxisCellCount: 14,
-                    child: Text(room.name!.capitalize!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.black)),
-                  ),
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 2,
-                    mainAxisCellCount: 2,
-                    child: GestureDetector(
-                      onTap: () => isOpen = !isOpen,
-                      child: RotatedBox(
-                          quarterTurns: 1,
-                          child: Icon(Iconsax.more, color: Colors.blue)),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 3000),
+            child: Column(
+              children: [
+                ///------- head ---------
+                StaggeredGrid.count(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisCount: 20,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: [
+                    StaggeredGridTile.count(
+                        crossAxisCellCount: 4,
+                        mainAxisCellCount: 4,
+                        child: NetImage(id: room.imageId, alt: room.name!)),
+                    StaggeredGridTile.fit(
+                      crossAxisCellCount: 14,
+                      child: Text(room.name!.capitalize!,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black)),
                     ),
-                  ),
-                  StaggeredGridTile.count(
-                    crossAxisCellCount: 14,
-                    mainAxisCellCount: 4,
-                    child: Text(room.description!,
-                        style: TextStyle(color: Colors.black45)),
-                  ),
-                ],
-              ),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 2,
+                      mainAxisCellCount: 2,
+                      child: GestureDetector(
+                        onTap: () => isOpen = !isOpen,
+                        child: RotatedBox(
+                            quarterTurns: 1,
+                            child: Icon(Iconsax.more, color: Colors.blue)),
+                      ),
+                    ),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 14,
+                      mainAxisCellCount: 4,
+                      child: Text(room.description!,
+                          style: TextStyle(color: Colors.black45)),
+                    ),
+                  ],
+                ),
 
-              ///------- body ---------
-              if (isOpen) Divider(color: Colors.black),
-              if (isOpen)
-                Obx(() {
-                  return Padding(
+                ///------- body ---------
+                // if (isOpen) Divider(color: Colors.black),
+
+                Visibility(
+                  visible: isOpen,
+                  child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: StaggeredGrid.count(
                       crossAxisCount: 3,
@@ -232,34 +236,35 @@ class RoomCard extends StatelessWidget {
                           ),
                       ],
                     ),
-                  );
-                }),
-
-              ///------- footer ---------
-              Divider(color: Colors.black),
-
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: StaggeredGrid.count(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 20,
-                  children: [
-                    Text(room.answersCount.toString() + " New Answers",
-                        style: TextStyle(color: Colors.blue),
-                        textAlign: TextAlign.center),
-                    Text(room.questionsCount.toString() + " Questions",
-                        style: TextStyle(color: Colors.blue),
-                        textAlign: TextAlign.center),
-                    Text(room.userCount.toString() + " Poeple",
-                        style: TextStyle(color: Colors.blue),
-                        textAlign: TextAlign.center),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+
+                ///------- footer ---------
+                Divider(color: Colors.black),
+
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 20,
+                    children: [
+                      Text(room.answersCount.toString() + " New Answers",
+                          style: TextStyle(color: Colors.blue),
+                          textAlign: TextAlign.center),
+                      Text(room.questionsCount.toString() + " Questions",
+                          style: TextStyle(color: Colors.blue),
+                          textAlign: TextAlign.center),
+                      Text(room.userCount.toString() + " Poeple",
+                          style: TextStyle(color: Colors.blue),
+                          textAlign: TextAlign.center),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }
