@@ -2,7 +2,9 @@ import 'package:learnify_client/core/model.dart';
 
 class User extends Model {
   int? id;
+  String? reputation;
   String? name;
+  String? points;
   String? email;
   String? token = '';
   String? password;
@@ -14,6 +16,8 @@ class User extends Model {
   static const userType = {'0': "Teacher", '1': "Student"};
   User(
       {this.id,
+      this.reputation,
+      this.points,
       this.name,
       this.email,
       this.password,
@@ -25,11 +29,15 @@ class User extends Model {
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, token: $token, password: $password, emailVerifiedAt: $emailVerifiedAt, type: $type, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'User{id: $id,id: $reputation, name: $points,name: $name, email: $email, token: $token, password: $password, emailVerifiedAt: $emailVerifiedAt, type: $type, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    if (json['reputation'] is int)
+      json['reputation'] = json['reputation'].toString();
+    reputation = (json['reputation'] as String?) ?? '0';
+    points = json['points'] ?? '0';
     name = json['name'];
     email = json['email'];
     token = json['token'];
@@ -44,6 +52,8 @@ class User extends Model {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
+    data['reputation'] = reputation;
+    data['points'] = points;
     data['name'] = name;
     data['email'] = email;
     data['token'] = token;

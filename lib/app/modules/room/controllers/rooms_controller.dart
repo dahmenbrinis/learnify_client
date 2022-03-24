@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:learnify_client/app/User/auth.dart';
@@ -48,5 +50,15 @@ class RoomController extends GetxController {
   Future<Room?> leave(Room room) async {
     var res = await provider.leave(room.id!, room.id.toString());
     return res;
+  }
+
+  Future<bool> delete(int roomID) async {
+    var res = await provider.destroy('rooms/${roomID}');
+    return res;
+  }
+
+  void rerender() {
+    _paginatedList.refresh();
+    print('works');
   }
 }

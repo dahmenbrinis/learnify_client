@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:learnify_client/app/modules/questions/controllers/questions_controller.dart';
 import 'package:learnify_client/app/modules/questions/question_model.dart';
 
+import '../../../User/auth.dart';
 import '../../room/room_model.dart';
 import '../providers/question_provider.dart';
 
@@ -18,6 +19,7 @@ class CreateQuestionController extends GetxController {
         title: titleController.text, description: descriptionController.text);
     var provider = Get.find<QuestionProvider>();
     question = await provider.create('rooms/${room.id}/questions', question!);
+    Auth.refreshPoints();
     if (question != null) {
       Get.find<QuestionsController>().paginatedList.data.insert(0, question!);
     }

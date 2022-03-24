@@ -12,13 +12,14 @@ class InputField extends StatelessWidget {
   final Color color;
 
   InputField({
+    Key? key,
     required this.inputText,
     this.padding = 5,
     this.inputController,
     this.height = 0,
     this.lines = 1,
     this.color = Colors.white,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

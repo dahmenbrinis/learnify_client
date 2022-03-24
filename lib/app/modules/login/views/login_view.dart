@@ -1,98 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/login/controllers/login_controller.dart';
 import 'package:learnify_client/core/components/input_filed.dart';
 import 'package:learnify_client/core/layouts/background_widget.dart';
+
+import '../../../../core/components/main_input_field.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: BackgroundWidget(
         child: Form(
           key: controller.loginFormKey,
           child: Container(
+            // height: 200,
+            // width: 200,
             margin: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 8),
+              horizontal: MediaQuery.of(context).size.width / 10,
+              vertical: MediaQuery.of(context).size.width / 10,
+            ),
+
             // width: width * 0.66,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                    child: Column(
-                  children: [
-                    const Spacer(flex: 2),
-                    Text("Learnify",
-                        style: TextStyle(
-                            color: Colors.greenAccent.shade200, fontSize: 50)),
-                    const SizedBox(height: 20),
-                    InputField(
-                      inputText: const Text(
-                        'Email',
-                        style: TextStyle(fontSize: 20, color: Colors.white70),
-                      ),
-                      padding: 20,
-                      inputController: controller.emailController,
-                    ),
-                    InputField(
-                      inputText: const Text(
-                        'Password',
-                        style: TextStyle(fontSize: 20, color: Colors.white70),
-                      ),
-                      padding: 20,
-                      inputController: controller.passwordController,
-                    ),
-                    // InputField(inputText: 'Register As'),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextButton(
-                        child:
-                            const Text('Login', style: TextStyle(fontSize: 20)),
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: Colors.greenAccent.shade200,
-                          textStyle: const TextStyle(fontSize: 20),
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width / 3, 0),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                        ),
-                        onPressed: () {
-                          controller.login();
-
-                          // controller.login();
-                          // networking.login(
-                          //     email: 'dahmen@gmail.com', password: 'password');
-                          // Get.toNamed('rooms');
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const RoomsScreen()),
-                          // );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Text('New User ?', style: TextStyle(fontSize: 20)),
-                        TextButton(
-                          onPressed: () => Get.toNamed('register'),
-                          child: Text(
-                            'SignUp',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.greenAccent.shade400),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      // const SizedBox(height: 10),
+                      CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        radius: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            'assets/logo2.svg',
+                            color: Colors.white,
+                            height: 50,
                           ),
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                    const Spacer(flex: 3),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ))
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      MainInputField(
+                        inputText: Text(
+                          'Email',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        icon: Icon(
+                          Icons.email_outlined,
+                          color: Theme.of(context).disabledColor,
+                        ),
+                        inputController: controller.emailController,
+                      ),
+                      MainInputField(
+                        inputText: Text(
+                          'Password',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        icon: Icon(
+                          Iconsax.security,
+                          color: Theme.of(context).disabledColor,
+                        ),
+                        inputController: controller.passwordController,
+                      ),
+                      // const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextButton(
+                          child: const Text('Login'),
+                          style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            textStyle: Theme.of(context).textTheme.headline6,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 40),
+                          ),
+                          onPressed: () {
+                            controller.login();
+                          },
+                        ),
+                      ),
+                      // const SizedBox(height: 10),
+                      //TODO: try getoff it may work and fix the global key probleme //
+                      Row(
+                        children: [
+                          Text('New User ?',
+                              style: Theme.of(context).textTheme.headline6),
+                          TextButton(
+                            onPressed: () => Get.toNamed('register'),
+                            child: Text(
+                              'SignUp',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  ?.copyWith(color: Colors.blueAccent),
+                            ),
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+                      const Spacer(flex: 3),
+                    ],
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                )
               ],
               // crossAxisAlignment: CrossAxisAlignment.center,
             ),

@@ -42,6 +42,11 @@ dependencies:
   firebase_messaging: ^11.2.8
   flutter_local_notifications: ^9.4.0
   awesome_notifications: ^0.6.21
+  glass_kit: ^2.0.1
+  dropdown_button2: ^1.2.2
+  step_progress_indicator: ^1.0.2
+  get_cli: ^1.7.1
+  badges: ^2.0.2
 #  cached_network_image: ^3.2.0
 
 dev_dependencies:

@@ -3,6 +3,7 @@ import 'package:learnify_client/app/modules/questions/bindings/create_question_b
 import 'package:learnify_client/app/modules/questions/controllers/create_question_controller.dart';
 import 'package:learnify_client/app/modules/questions/providers/question_provider.dart';
 
+import '../../home/providers/vote_provider.dart';
 import '../controllers/questions_controller.dart';
 
 class QuestionsBinding extends Bindings {
@@ -11,5 +12,6 @@ class QuestionsBinding extends Bindings {
     Get.lazyPut<QuestionsController>(() => QuestionsController());
     Get.lazyPut<QuestionProvider>(() => QuestionProvider());
     Get.lazyPut<CreateQuestionController>(() => CreateQuestionController());
+    Get.lazyPut<VoteProvider>(() => VoteProvider());
   }
 }

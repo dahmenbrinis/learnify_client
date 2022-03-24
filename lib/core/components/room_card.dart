@@ -35,74 +35,89 @@ class RoomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     room = data;
     return RawMaterialButton(
-      onLongPress: () => isOpen = !isOpen,
-      onPressed: () {
-        if (room.permissions!.canView)
-          Get.toNamed(Routes.QUESTIONS, arguments: room);
-      },
-      child: Obx(() {
-        return AnimatedContainer(
-          duration: Duration(milliseconds: 5000),
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Color(0xe2ffffff),
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-          ),
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 3000),
-            child: Column(
+      onPressed: () => isOpen = !isOpen,
+      onLongPress: () {},
+      child: Container(
+        // duration: Duration(seconds: 1),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color(0xe2ffffff),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+        ),
+        child: Column(
+          children: [
+            ///------- head ---------
+            StaggeredGrid.count(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisCount: 20,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
               children: [
-                ///------- head ---------
-                StaggeredGrid.count(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  crossAxisCount: 20,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  children: [
-                    StaggeredGridTile.count(
-                        crossAxisCellCount: 4,
-                        mainAxisCellCount: 4,
-                        child: NetImage(id: room.imageId, alt: room.name!)),
-                    StaggeredGridTile.fit(
-                      crossAxisCellCount: 14,
-                      child: Text(room.name!.capitalize!,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.black)),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 2,
-                      mainAxisCellCount: 2,
-                      child: GestureDetector(
-                        onTap: () => isOpen = !isOpen,
-                        child: RotatedBox(
-                            quarterTurns: 1,
-                            child: Icon(Iconsax.more, color: Colors.blue)),
-                      ),
-                    ),
-                    StaggeredGridTile.count(
-                      crossAxisCellCount: 14,
-                      mainAxisCellCount: 4,
-                      child: Text(room.description!,
-                          style: TextStyle(color: Colors.black45)),
-                    ),
-                  ],
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 4,
+                  mainAxisCellCount: 4,
+                  child: NetImage(id: room.imageId, alt: room.name!),
                 ),
+                StaggeredGridTile.fit(
+                  crossAxisCellCount: 13,
+                  child: Text(
+                    room.name!.capitalize!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 3,
+                  mainAxisCellCount: 4,
+                  // mainAxisExtent: 100,
+                  child: Obx(() {
+                    return Visibility(
+                      visible: room.permissions!.canView,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (room.permissions!.canView)
+                            Get.toNamed(Routes.QUESTIONS, arguments: room);
+                        },
+                        child: RotatedBox(
+                            quarterTurns: 0,
+                            child: Icon(Iconsax.arrow_circle_right,
+                                color: Colors.blue)),
+                      ),
+                    );
+                  }),
+                ),
+                StaggeredGridTile.fit(
+                  crossAxisCellCount: 13,
+                  // mainAxisCellCount: 4,
+                  child: Text(room.description!,
+                      style: TextStyle(color: Colors.black45)),
+                ),
+              ],
+            ),
 
-                ///------- body ---------
-                // if (isOpen) Divider(color: Colors.black),
+            ///------- body ---------
+            Obx(() {
+              return Visibility(
+                  visible: isOpen,
+                  child: Divider(thickness: 1, color: Colors.grey));
+            }),
 
-                Visibility(
+            Obx(() {
+              return AnimatedSize(
+                duration: Duration(milliseconds: 400),
+                curve: Curves.fastOutSlowIn,
+                child: Visibility(
                   visible: isOpen,
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: StaggeredGrid.count(
                       crossAxisCount: 3,
                       mainAxisSpacing: 20,
-                      crossAxisSpacing: 10,
+                      crossAxisSpacing: 5,
                       children: [
                         if (room.permissions!.canAsk)
                           MaterialButton(
@@ -145,29 +160,44 @@ class RoomCard extends StatelessWidget {
                             ),
                           ),
                         if (room.permissions!.canDelete)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Iconsax.box_remove,
-                                  color: Color(0xffE86575)),
-                              SizedBox(height: 10),
-                              Text(
-                                'Remove Room',
-                                style: TextStyle(color: Color(0xffE86575)),
-                              )
-                            ],
+                          RawMaterialButton(
+                            onPressed: () async {
+                              bool deleted = await controller.delete(room.id!);
+                              if (deleted) {
+                                controller.paginatedList.data.remove(room);
+                                controller.rerender();
+                              }
+                              _room.refresh();
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.box_remove,
+                                    color: Color(0xffE86575)),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Remove Room',
+                                  style: TextStyle(color: Color(0xffE86575)),
+                                )
+                              ],
+                            ),
                           ),
                         if (room.permissions!.canView)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Iconsax.award, color: Color(0xffF3B412)),
-                              SizedBox(height: 10),
-                              Text(
-                                'Leaderboard',
-                                style: TextStyle(color: Color(0xffF3B412)),
-                              )
-                            ],
+                          MaterialButton(
+                            onPressed: () {
+                              Get.toNamed(Routes.LEADERBOARD, arguments: room);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.cup, color: Color(0xffF3B412)),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Leaderboard',
+                                  style: TextStyle(color: Color(0xffF3B412)),
+                                )
+                              ],
+                            ),
                           ),
                         if (!room.permissions!.canDelete &&
                             room.permissions!.canView)
@@ -179,7 +209,6 @@ class RoomCard extends StatelessWidget {
                                 // controller.refresh();
                               }
                               _room.refresh();
-                              refresh.value = !refresh.value;
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,7 +231,6 @@ class RoomCard extends StatelessWidget {
                                 // controller.refresh();
                               }
                               _room.refresh();
-                              refresh.value = !refresh.value;
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -238,33 +266,36 @@ class RoomCard extends StatelessWidget {
                     ),
                   ),
                 ),
+              );
+            }),
 
-                ///------- footer ---------
-                Divider(color: Colors.black),
-
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: StaggeredGrid.count(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 20,
-                    children: [
-                      Text(room.answersCount.toString() + " New Answers",
-                          style: TextStyle(color: Colors.blue),
-                          textAlign: TextAlign.center),
-                      Text(room.questionsCount.toString() + " Questions",
-                          style: TextStyle(color: Colors.blue),
-                          textAlign: TextAlign.center),
-                      Text(room.userCount.toString() + " Poeple",
-                          style: TextStyle(color: Colors.blue),
-                          textAlign: TextAlign.center),
-                    ],
-                  ),
-                ),
-              ],
+            ///------- footer ---------
+            Divider(
+              color: Colors.grey,
+              thickness: 1,
             ),
-          ),
-        );
-      }),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: StaggeredGrid.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 20,
+                children: [
+                  Text(room.answersCount.toString() + " New Answers",
+                      style: TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center),
+                  Text(room.questionsCount.toString() + " Questions",
+                      style: TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center),
+                  Text(room.userCount.toString() + " Poeple",
+                      style: TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

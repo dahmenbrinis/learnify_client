@@ -1,15 +1,20 @@
 import 'package:get/get.dart';
 
 import '../User/authMiddleware.dart';
-
 import '../modules/comments/bindings/comments_binding.dart';
 import '../modules/comments/bindings/create_comment_binding.dart';
 import '../modules/comments/views/comments_view.dart';
 import '../modules/comments/views/create_comment_view.dart';
+import '../modules/global_leaderboard/bindings/global_leaderboard_binding.dart';
+import '../modules/global_leaderboard/views/global_leaderboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/leaderboard/bindings/leaderboard_binding.dart';
+import '../modules/leaderboard/views/leaderboard_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/my_questions/bindings/my_questions_binding.dart';
+import '../modules/my_questions/views/my_questions_view.dart';
 import '../modules/questions/bindings/create_question_binding.dart';
 import '../modules/questions/bindings/questions_binding.dart';
 import '../modules/questions/views/create_question_view.dart';
@@ -68,11 +73,30 @@ class AppPages {
       name: _Paths.COMMENTS,
       page: () => CommentsView(),
       binding: CommentsBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: _Paths.CREATE_COMMENT,
       page: () => CreateCommentView(),
       binding: CreateCommentBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.LEADERBOARD,
+      page: () => LeaderboardView(),
+      binding: LeaderboardBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.GLOBAL_LEADERBOARD,
+      page: () => GlobalLeaderboardView(),
+      binding: GlobalLeaderboardBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.MY_QUESTIONS,
+      page: () => MyQuestionsView(),
+      binding: MyQuestionsBinding(),
     ),
   ];
 }

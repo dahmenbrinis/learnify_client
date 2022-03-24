@@ -112,40 +112,6 @@ class CustomThemes {
       ),
     );
 
-// TextBox Setting.
-    theme = theme.copyWith(
-      inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(),
-          borderSide: const BorderSide(
-            color: const Color(0xff448aff),
-            width: 2.0,
-            style: BorderStyle.solid,
-          ),
-        ),
-        disabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.only(),
-          borderSide: const BorderSide(
-            color: const Color(0xff00b0ff),
-            width: 1.0,
-            style: BorderStyle.solid,
-          ),
-        ),
-        contentPadding: const EdgeInsets.only(
-          top: 10.0,
-          left: 10.0,
-          right: 10.0,
-          bottom: 10.0,
-        ),
-      ),
-    );
-
 // Card Setting.
     theme = theme.copyWith(
       cardTheme: theme.cardTheme.copyWith(

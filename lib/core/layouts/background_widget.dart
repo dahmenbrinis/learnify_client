@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:glass_kit/glass_kit.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget child;
-  const BackgroundWidget({required this.child});
+  const BackgroundWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,28 +78,15 @@ class BackgroundWidget extends StatelessWidget {
               ),
             )),
         Center(
-          child: Opacity(
-            opacity: 0.9,
-            child: Transform.rotate(
-              angle: 0.2,
-              child: Container(
-                width: 1000,
-                height: 600,
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
-                      BoxShadow(blurRadius: 10, color: Colors.blue)
-                    ],
-                    gradient: const LinearGradient(
-                        colors: [Colors.lightBlue, Colors.blue],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)),
-              ),
-            ),
+          child: GlassContainer.clearGlass(
+            blur: 70,
+            // color: Colors.blue,
+            color: Color(0x555596F3),
+            width: double.infinity,
+            height: double.infinity,
+            child: child,
           ),
-        ),
-        child,
+        )
       ],
     );
   }

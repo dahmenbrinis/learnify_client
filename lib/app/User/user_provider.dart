@@ -4,7 +4,7 @@ import 'package:learnify_client/core/provider.dart';
 import 'package:learnify_client/core/utils.dart';
 import 'AuthController.dart';
 
-class UserProvider extends Provider {
+class UserProvider extends Provider<User> {
   Future<User?> getUser(int id) async {
     final response = await get('/api/user/$id');
     return response.body;

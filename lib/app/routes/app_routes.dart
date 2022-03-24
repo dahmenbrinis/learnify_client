@@ -12,6 +12,9 @@ abstract class Routes {
   static const CREATE_QUESTION = _Paths.CREATE_QUESTION;
   static const COMMENTS = _Paths.COMMENTS;
   static const CREATE_COMMENT = _Paths.CREATE_COMMENT;
+  static const LEADERBOARD = _Paths.LEADERBOARD;
+  static const GLOBAL_LEADERBOARD = _Paths.GLOBAL_LEADERBOARD;
+  static const MY_QUESTIONS = _Paths.MY_QUESTIONS;
 }
 
 abstract class _Paths {
@@ -25,4 +28,7 @@ abstract class _Paths {
   static const CREATE_QUESTION = '/create-question';
   static const COMMENTS = '/comments';
   static const CREATE_COMMENT = '/create-comment';
+  static const LEADERBOARD = '/leaderboard';
+  static const GLOBAL_LEADERBOARD = '/global-leaderboard';
+  static const MY_QUESTIONS = '/my-questions';
 }

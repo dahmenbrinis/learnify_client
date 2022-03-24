@@ -2,6 +2,8 @@ import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
 import 'package:learnify_client/core/model.dart';
 
+import '../home/vote_model.dart';
+
 class Question extends Model {
   int? id;
   String? title;
@@ -15,7 +17,7 @@ class Question extends Model {
   int? answersCount;
   User? user;
   Room? room;
-
+  List<Vote> votes = [];
   Question(
       {this.id,
       this.title,
@@ -45,6 +47,10 @@ class Question extends Model {
     answersCount = json['answersCount'];
     user = json['user'] != null ? User?.fromJson(json['user']) : null;
     room = json['room'] != null ? Room?.fromJson(json['room']) : null;
+    var res = json['votes'] != null
+        ? json['votes'].map((item) => Vote.fromJson(item)).toList()
+        : [];
+    votes = List<Vote>.from(res);
   }
 
   Map<String, dynamic> toJson() {
