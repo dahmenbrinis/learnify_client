@@ -37,7 +37,10 @@ class CreateCommentController extends GetxController {
     comment =
         await provider.create('questions/${question.id}/comments', comment!);
     if (comment != null) {
-      Get.find<CommentsController>().list.data.insert(0, comment!);
+      var ctrl = Get.find<CommentsController>();
+      ctrl.list.data.add(comment!);
+      ctrl.rerender();
+      Auth.refreshPoints();
     }
     Get.back();
   }

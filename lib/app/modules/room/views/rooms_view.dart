@@ -58,20 +58,20 @@ class RoomsView extends GetView<RoomController> {
       ),
       bottomNavigationBar: const Footer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: controller.user.type == 1
-          ? null
-          : FloatingActionButton(
+      floatingActionButton: controller.user.type == 0
+          ? FloatingActionButton(
               backgroundColor: Colors.blue,
               tooltip: 'create new Room',
               onPressed: () async {
-                //TODO: make this route a named route .
                 Room? room = await Get.to(() => CreateView());
-                if (room!.id != null)
-                  controller.paginatedList.data.insert(0, room);
+                if (room == null) return;
+                if (room.id == null) return;
+                controller.paginatedList.data.insert(0, room);
                 controller.update();
               },
               child: const Icon(Iconsax.additem4, size: 30),
-            ),
+            )
+          : null,
     );
   }
 }

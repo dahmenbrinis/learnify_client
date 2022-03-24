@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
 import 'package:learnify_client/app/modules/comments/providers/comment_provider.dart';
 import 'package:learnify_client/core/pagination.dart';
@@ -50,12 +51,22 @@ class CommentsController extends GetxController {
     fetch();
   }
 
-  fetch({int? page = null}) async {
+  fetch({int? page}) async {
     isLoading = true;
     // var newData = await provider.index('questions/1/comments');
-    var newData =
-        await provider.index('questions/${page ?? question.id}/comments');
+    var newData = await provider.index(
+        'questions/${page ?? question.id}/comments',
+        page: list.next_page);
     list.addAll(newData);
     isLoading = false;
+  }
+
+  rerender() {
+    _paginatedList.refresh();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
   }
 }

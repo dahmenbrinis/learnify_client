@@ -51,9 +51,9 @@ abstract class Provider<ModelType extends Model> extends GetConnect
         .then((value) => value.body);
   }
 
-  Future<bool?> destroy(String url) {
+  Future<bool> destroy(String url) {
     return sendRequest(url, 'DELETE', headers: headers)
-        .then((value) => value.body);
+        .then((value) => value.bodyString == "1");
   }
 
   Future<Response> sendRequest(String url, String method,

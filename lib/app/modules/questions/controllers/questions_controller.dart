@@ -22,7 +22,7 @@ class QuestionsController extends GetxController {
   Future fetch({int? page = null}) async {
     isLoading.value = true;
     var list = await provider.index('rooms/${room.id}/questions',
-        page: page??paginatedList.next_page);
+        page: page ?? paginatedList.next_page);
     paginatedList.addAll(list);
     isLoading.value = false;
   }
@@ -32,10 +32,10 @@ class QuestionsController extends GetxController {
     paginatedList.init();
     fetch();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (message.data['type'] =='App\\Notifications\\QuestionAdded') {
-        int page = paginatedList.current_page ;
+      if (message.data['type'] == 'App\\Notifications\\QuestionAdded') {
+        int page = paginatedList.current_page;
         paginatedList.init();
-        fetch(page:page);
+        fetch(page: page);
       }
     });
     scrollController.addListener(() {
@@ -46,5 +46,8 @@ class QuestionsController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
+  }
 }

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/modules/comments/bindings/create_comment_binding.dart';
 import 'package:learnify_client/app/modules/comments/comment_model.dart';
+import 'package:learnify_client/app/modules/comments/providers/comment_provider.dart';
+import 'package:learnify_client/app/modules/home/providers/vote_provider.dart';
+import 'package:learnify_client/app/modules/home/vote_model.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 
 import '../../../../core/components/avatar_image.dart';
 import '../../../../core/components/net_image.dart';
 import '../../../../core/layouts/SecondAppBar.dart';
+import '../../../../core/layouts/appBar.dart';
+import '../../questions/question_model.dart';
 import '../controllers/comments_controller.dart';
 import 'create_comment_view.dart';
 
@@ -17,15 +24,14 @@ class CommentsView extends GetView<CommentsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SecondAppBar(
-        title: "",
-        // title:  controller.question.title!,
-        logo: RawMaterialButton(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            onPressed: () => Get.back(),
-            child: const Align(
-                alignment: Alignment.centerLeft,
-                child: Icon(Iconsax.direct_left5))),
+      appBar: CustomAppBar(
+        title: controller.question.title!,
+        logo: GestureDetector(
+            onTap: () => Get.back(),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Icon(Iconsax.direct_left5),
+            )),
       ),
       body: Container(
         color: Colors.blue,
@@ -63,11 +69,14 @@ class CommentsView extends GetView<CommentsController> {
                                   // padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                                 ),
                                 const SizedBox(height: 10),
-                                Text(
-                                  controller.question.user!.name!,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 12),
-                                  textAlign: TextAlign.center,
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    controller.question.user!.name!,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 12),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 )
                               ],
                             ),
@@ -137,18 +146,19 @@ class CommentsView extends GetView<CommentsController> {
             /// comments section ///
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.only(topRight: Radius.elliptical(100, 100)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).bottomAppBarColor,
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.elliptical(100, 100)),
                 ),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.elliptical(100, 100)),
                   child: Obx(() {
                     if (controller.isLoading &&
-                        controller.list.current_page == 0)
+                        controller.list.current_page == 0) {
                       return const Center(child: RefreshProgressIndicator());
+                    }
                     return ListView.builder(
                       controller: controller.scrollController,
                       itemCount: controller.list.length,
@@ -165,9 +175,8 @@ class CommentsView extends GetView<CommentsController> {
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ),
-                            CommentCard(
-                              controller.list.data[index],
-                            ),
+                            CommentCard(controller.list.data[index],
+                                controller.question),
                             if (index + 1 == controller.list.data.length &&
                                 controller.isLoading &&
                                 controller.list.has_next)
@@ -190,9 +199,7 @@ class CommentsView extends GetView<CommentsController> {
         backgroundColor: Colors.blue,
         tooltip: 'create new Room',
         onPressed: () async {
-          //TODO: make this route a named route .
-
-          Get.toNamed(Routes.CREATE_COMMENT,arguments: controller.question);
+          Get.toNamed(Routes.CREATE_COMMENT, arguments: controller.question);
           // controller.update();
         },
         child: const Icon(Iconsax.note_add, size: 30),
@@ -205,15 +212,31 @@ class CommentCard extends StatelessWidget {
   final Comment data;
   final _comment = Rx<Comment>(Comment());
 
+  final RxBool _isVoted = false.obs;
+
+  bool get isVoted => _isVoted.value;
+
+  set isVoted(bool value) => _isVoted.value = value;
+
+  // final RxBool _isApproved = false.obs;
+  // bool get isApproved => _isVoted.value;
+  // set isApproved(bool value) => _isVoted.value = value;
+
+  Question question;
+
   Comment get comment => _comment.value;
 
   set comment(Comment value) => _comment.value = value;
 
-  CommentCard(Comment this.data);
+  CommentCard(Comment this.data, Question this.question);
 
   @override
   Widget build(BuildContext context) {
     comment = data;
+    isVoted = comment.votes
+        .any((Vote element) => element.userId == Auth.user.id.toString());
+    // isApproved = comment.canApprove;
+    bool isOwner = question.room!.creatorId == Auth.user.id;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: StaggeredGrid.count(
@@ -235,14 +258,15 @@ class CommentCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   comment.user!.name!,
-                  style: const TextStyle(color: Colors.black, fontSize: 10),
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColorDark, fontSize: 10),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
           StaggeredGridTile.count(
-            crossAxisCellCount: 13,
+            crossAxisCellCount: 11,
             mainAxisCellCount: 2,
             child: Align(
               alignment: Alignment.topLeft,
@@ -260,16 +284,67 @@ class CommentCard extends StatelessWidget {
             ),
           ),
           StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
+            crossAxisCellCount: 5,
+            mainAxisCellCount: 2,
             child: Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.centerRight,
               child: Container(
-                  // padding: EdgeInsets.only(left: 10),
-                  child: Icon(
-                Iconsax.like_tag,
-                color: Colors.red.shade300,
-              )),
+                // color: Colors.red,
+                child: Obx(() {
+                  // print(comment.voteCount);
+                  return Row(
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("${comment.voteCount ?? 0} votes "),
+                      // if (!this.isVoted)
+                      Visibility(
+                        visible: !this.isVoted,
+                        child: GestureDetector(
+                          onTap: () async {
+                            var provider = Get.find<VoteProvider>();
+                            var res = await provider.vote(comment.id!,
+                                (Comment).toString(), question.room!.id!);
+                            if (res == null) return;
+                            if (res.id == null) return;
+                            this.isVoted = true;
+                            comment.voteCount = (comment.voteCount ?? 0) + 1;
+                            Auth.refreshPoints();
+                            _comment.refresh();
+                          },
+                          child: Icon(
+                            Iconsax.like5,
+                            color: Colors.greenAccent.shade400,
+                          ),
+                        ),
+                      ),
+                      // if (this.isVoted)
+                      Visibility(
+                        visible: this.isVoted,
+                        child: GestureDetector(
+                          onTap: () async {
+                            var provider = Get.find<VoteProvider>();
+                            var res = await provider.unVote(comment.id!,
+                                (Comment).toString(), question.room!.id!);
+
+                            if (res == null) return;
+                            if (res == 0) return;
+
+                            this.isVoted = false;
+                            comment.voteCount = (comment.voteCount ?? 0) - 1;
+                            Auth.refreshPoints();
+                            _comment.refresh();
+                          },
+                          child: Icon(
+                            Iconsax.dislike5,
+                            color: Colors.red.shade400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
             ),
           ),
           StaggeredGridTile.fit(
@@ -290,6 +365,86 @@ class CommentCard extends StatelessWidget {
               ],
             ),
           ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 3,
+            mainAxisCellCount: 3,
+            child: Obx(() {
+              return Visibility(
+                visible: comment.isValid,
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 5),
+                    Icon(Iconsax.tick_circle, color: Colors.green),
+                    Text(
+                      'approved',
+                      style: TextStyle(color: Colors.green),
+                    )
+                  ],
+                ),
+              );
+            }),
+          ),
+          Obx(() {
+            return StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: comment.canApprove && isOwner,
+                      child: MaterialButton(
+                        color: Colors.greenAccent,
+                        onPressed: () async {
+                          var provider = Get.find<CommentProvider>();
+                          var res = await provider.approve(question, comment);
+                          if (res == null) return;
+                          if (res == 0) return;
+
+                          comment.canApprove = false;
+                          comment.isValid = true;
+                          // comment.voteCount = (comment.voteCount ?? 0) - 1;
+                          Auth.refreshPoints();
+                          _comment.refresh();
+                        },
+                        child: const Text(
+                          'Approve',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: !comment.canApprove && isOwner,
+                      child: MaterialButton(
+                        color: Colors.redAccent.shade200,
+                        onPressed: () async {
+                          var provider = Get.find<CommentProvider>();
+                          var res =
+                              await provider.disApprove(question, comment);
+                          if (res == null) return;
+                          if (res == false) return;
+
+                          comment.canApprove = true;
+                          comment.isValid = false;
+                          // comment.voteCount = (comment.voteCount ?? 0) - 1;
+                          Auth.refreshPoints();
+                          _comment.refresh();
+                        },
+                        child: const Text(
+                          'Remove Approval',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 18,
             child: Divider(color: Colors.black),

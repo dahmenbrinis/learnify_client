@@ -72,6 +72,7 @@ class AuthController extends GetxController {
 
   updateFcmToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    provider.sendRequest('fcm_update','POST',headers: provider.headers,body:  {'fcm_token':token});
+    provider.sendRequest('fcm_update', 'POST',
+        headers: provider.headers, body: {'fcm_token': token});
   }
 }

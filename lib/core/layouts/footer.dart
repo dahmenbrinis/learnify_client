@@ -13,7 +13,7 @@ class Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<Footer> {
-  int index = 0;
+  static int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +22,27 @@ class _FooterState extends State<Footer> {
       fixedColor: Colors.blueAccent.shade400,
       backgroundColor: Colors.grey.shade100,
       selectedFontSize: 18,
-      unselectedFontSize: 12,
+      unselectedFontSize: 14,
       showUnselectedLabels: true,
       iconSize: 30,
       currentIndex: index,
       onTap: (int selectedIndex) => setState(() {
+        if (selectedIndex == 3) return;
         index = selectedIndex;
-        if (selectedIndex == 1) Get.toNamed(Routes.ROOM);
+        // print(index);
+        // Get.toNamed(Routes.GLOBAL_LEADERBOARD);
+        if (selectedIndex == 0) Get.toNamed(Routes.ROOM);
+        if (selectedIndex == 1) Get.toNamed(Routes.MY_QUESTIONS);
+        if (selectedIndex == 2) Get.toNamed(Routes.GLOBAL_LEADERBOARD);
+        if (selectedIndex == 3) Get.toNamed(Routes.GLOBAL_LEADERBOARD);
       }),
       items: [
         BottomNavigationBarItem(
             icon: Icon(Iconsax.home_hashtag), label: 'Rooms'),
         BottomNavigationBarItem(
             icon: Icon(Iconsax.message_programming), label: 'Questions'),
-        BottomNavigationBarItem(icon: Icon(Iconsax.award), label: 'Challenges'),
+        BottomNavigationBarItem(
+            icon: Icon(Iconsax.award), label: 'LeaderBoard'),
         BottomNavigationBarItem(icon: Icon(Iconsax.setting), label: 'Settings'),
       ],
     );

@@ -4,7 +4,7 @@ import 'package:learnify_client/app/User/AuthController.dart';
 
 class LoginController extends GetxController {
   AuthController get authController => Get.find<AuthController>();
-  final loginFormKey = GlobalKey<FormState>();
+  var loginFormKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

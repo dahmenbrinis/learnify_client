@@ -19,7 +19,6 @@ class CreateController extends GetxController {
   bool get isPrivateRoom => _isPrivateRoom.value;
   set isPrivateRoom(bool value) => _isPrivateRoom.value = value;
 
-
   @override
   void onReady() {
     if (old.id != null) {
@@ -31,7 +30,6 @@ class CreateController extends GetxController {
     }
     super.onReady();
   }
-
 
   void createRoom() async {
     room = Room(

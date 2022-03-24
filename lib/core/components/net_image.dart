@@ -12,11 +12,19 @@ class NetImage extends StatelessWidget {
   @override
   CircleAvatar build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).backgroundColor,
       backgroundImage: const AssetImage('assets/loading.gif'),
       child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: minSize, minWidth: minSize),
-          child: Image.network("${Utils.baseUrl}/api/images/$id/$alt"),),
+        constraints: BoxConstraints(minHeight: minSize, minWidth: minSize),
+        child: Image.network(
+          "${Utils.baseUrl}/api/images/$id/$alt",
+          headers: const {
+            "Connection": "Keep-Alive",
+            'Keep-Alive': 'timeout=5, max=1000'
+          },
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

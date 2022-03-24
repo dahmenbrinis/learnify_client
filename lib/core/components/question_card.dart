@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/components/net_image.dart';
+import '../../app/modules/home/providers/vote_provider.dart';
+import '../../app/modules/home/vote_model.dart';
 import '../../app/modules/questions/question_model.dart';
 import '../components/avatar_image.dart';
 
@@ -11,136 +15,174 @@ class QuestionCard extends StatelessWidget {
   final _question = Rx<Question>(Question());
 
   final List<Widget>? footer;
-  get question => _question.value;
-  set question(value) => _question.value = value;
+  Question get question => _question.value;
+  set question(Question value) => _question.value = value;
 
   // final int voteCount, answersCount;
 
   QuestionCard(this.data, {this.footer});
+  final _isVoted = false.obs;
+
+  get isVoted => _isVoted.value;
+
+  set isVoted(value) => _isVoted.value = value;
 
   bool isOpen = false;
 
   @override
   Widget build(BuildContext context) {
     question = data;
-    return RawMaterialButton(
-      onPressed: () => Get.toNamed(Routes.COMMENTS, arguments: question),
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        // color: Colors.blue,
-        decoration: BoxDecoration(
-          color: Color(0xe2ffffff),
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-        ),
-        child: ConstrainedBox(
-          constraints:
-              BoxConstraints(minHeight: MediaQuery.of(context).size.height / 5),
-          child: Container(
-            padding: const EdgeInsets.all(5),
-            // child: Text('hello ', style: TextStyle(color: Colors.white)),
-            // duration: Duration(seconds: 3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                //------- head ---------
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(minWidth: 60),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomAvatarImage(
-                              NetImage(
-                                id: question.user.imageId,
-                                alt: question.user.name!,
-                              ),
-                              // padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              question.user.name,
-                              style: const TextStyle(color: Colors.blue),
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      flex: 9,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(question.title!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.black)),
-                            const SizedBox(height: 5),
-                            Text(question.description!,
-                                style: const TextStyle(color: Colors.black45))
-                          ]),
-                    ),
-                    const SizedBox(width: 10),
-                    const Flexible(
-                      fit: FlexFit.tight,
-                      child: Center(
-                          child: Icon(Icons.more_vert, color: Colors.blue)),
-                    ),
-                  ],
-                ),
-
-                ///------- body ---------///
-                // SizedBox(height: 10),
-
-                // if (isOpen)
-
-                ///------- footer ---------///
-                const Divider(color: Colors.black),
-                // SizedBox(height: 5),
-                Container(
-                  constraints: const BoxConstraints(maxHeight: 25),
-                  // color: Colors.lightGreenAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 0),
-                  // margin: EdgeInsets.symmetric(vertical: -5),
+    isVoted = question.votes
+        .any((Vote element) => element.userId == Auth.user.id.toString());
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 5000),
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Color(0xe2ffffff),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+      ),
+      child: RawMaterialButton(
+        onPressed: () => Get.toNamed(Routes.COMMENTS, arguments: question),
+        child: StaggeredGrid.count(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisCount: 20,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          children: [
+            /// header ///
+            StaggeredGridTile.count(
+              crossAxisCellCount: 3,
+              mainAxisCellCount: 3,
+              child: CustomAvatarImage(
+                NetImage(id: question.user?.imageId, alt: question.user!.name!),
+              ),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 12,
+              mainAxisCellCount: 3,
+              child: Center(
+                child: Text(question.title!.capitalize!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.black)),
+              ),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 5,
+              mainAxisCellCount: 2,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  // color: Colors.red,
                   child: Obx(() {
+                    // print(comment.voteCount);
                     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: footer ??
-                          [
-                            Text(question.answersCount.toString() + " Answers",
-                                style: const TextStyle(color: Colors.blue)),
-                            Text(question.voteCount.toString() + " Votes",
-                                style: const TextStyle(color: Colors.blue)),
-                            FlatButton.icon(
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () => question.voteCount,
-                              icon: const Icon(
-                                Icons.arrow_drop_up,
-                                color: Colors.greenAccent,
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 0),
-                              label: const Text(
-                                'UpVote',
-                                style: TextStyle(color: Colors.greenAccent),
-                              ),
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("${question.voteCount ?? 0} votes "),
+                        // if (!this.isVoted)
+                        Visibility(
+                          visible: !this.isVoted,
+                          child: GestureDetector(
+                            onTap: () async {
+                              var provider = Get.find<VoteProvider>();
+                              var res = await provider.vote(question.id!,
+                                  (Question).toString(), question.room!.id!);
+                              if (res == null) return;
+                              if (res.id == null) return;
+                              this.isVoted = true;
+                              question.voteCount =
+                                  (question.voteCount ?? 0) + 1;
+                              Auth.refreshPoints();
+                              _question.refresh();
+                            },
+                            child: Icon(
+                              Iconsax.like5,
+                              color: Colors.greenAccent.shade400,
                             ),
-                          ],
+                          ),
+                        ),
+                        // if (this.isVoted)
+                        Visibility(
+                          visible: this.isVoted,
+                          child: GestureDetector(
+                            onTap: () async {
+                              var provider = Get.find<VoteProvider>();
+
+                              var res = await provider.unVote(question.id!,
+                                  (Question).toString(), question.room!.id!);
+
+                              if (res == null) return;
+                              if (res == 0) return;
+
+                              this.isVoted = false;
+                              question.voteCount =
+                                  (question.voteCount ?? 0) - 1;
+                              Auth.refreshPoints();
+                              _question.refresh();
+                            },
+                            child: Icon(
+                              Iconsax.dislike5,
+                              color: Colors.red.shade400,
+                            ),
+                          ),
+                        ),
+                      ],
                     );
                   }),
                 ),
-                // SizedBox(height: 5),
-              ],
+              ),
             ),
-          ),
+
+            // StaggeredGridTile.count(
+            //   crossAxisCellCount: 2,
+            //   mainAxisCellCount: 2,
+            //   child: GestureDetector(
+            //     onTap: () => isOpen = !isOpen,
+            //     child: const RotatedBox(
+            //         quarterTurns: 1,
+            //         child: Icon(Iconsax.more, color: Colors.red)),
+            //   ),
+            // ),
+
+            /// body ///
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              // mainAxisCellCount: 6,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                child: Text(question.description!,
+                    style: Theme.of(context).textTheme.bodyMedium),
+              ),
+            ),
+
+            /// footer ///
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              // mainAxisCellCount: 4,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                child: StaggeredGrid.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  children: [
+                    Text(question.answersCount.toString() + " Answers",
+                        style: TextStyle(color: Colors.blue),
+                        textAlign: TextAlign.center),
+                    Text(question.voteCount.toString() + " Questions",
+                        style: TextStyle(color: Colors.blue),
+                        textAlign: TextAlign.center),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
