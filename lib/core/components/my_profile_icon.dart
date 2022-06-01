@@ -1,7 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../app/User/AuthController.dart';
 import '../../app/User/auth.dart';
 import 'avatar_image.dart';
 import 'net_image.dart';
@@ -39,7 +42,9 @@ class MyProfileName extends StatelessWidget {
             ),
           ),
         ],
-        onChanged: (value) {},
+        onChanged: (value) {
+          MenuItems.onChanged(context, value as MenuItem);
+        },
         itemHeight: 48,
         itemPadding: const EdgeInsets.only(left: 16, right: 16),
         dropdownWidth: 160,
@@ -70,8 +75,8 @@ class MenuItems {
   static const List<MenuItem> secondItems = [logout];
 
   static const notifications =
-      MenuItem(text: 'My profile', icon: Icons.favorite);
-  static const profile = MenuItem(text: 'My Profile', icon: Icons.download);
+      MenuItem(text: 'Notifications', icon: Iconsax.notification);
+  static const profile = MenuItem(text: 'My Profile', icon: Iconsax.user);
   static const logout = MenuItem(text: 'Logout', icon: Iconsax.logout);
 
   static Widget buildItem(MenuItem item) {
@@ -104,7 +109,8 @@ class MenuItems {
         //Do something
         break;
       case MenuItems.logout:
-        //Do something
+        var controller = Get.find<AuthController>();
+        controller.logout();
         break;
     }
   }
