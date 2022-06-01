@@ -308,6 +308,7 @@ class CommentCard extends StatelessWidget {
                             if (res == null) return;
                             if (res.id == null) return;
                             this.isVoted = true;
+                            data.votes.add(res);
                             comment.voteCount = (comment.voteCount ?? 0) + 1;
                             Auth.refreshPoints();
                             _comment.refresh();

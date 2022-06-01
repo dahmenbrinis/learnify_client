@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/provider.dart';
 import 'package:learnify_client/core/utils.dart';
 import 'auth.dart';
@@ -49,24 +50,21 @@ class AuthController extends GetxController {
       await updateFcmToken();
       Get.snackbar('Welcome', 'hello ${Auth.user.name} and welcome',
           duration: const Duration(seconds: 2));
-      Get.offNamed('/room');
+      Get.offNamed(Routes.ROOM);
     }
   }
 
-  logout(String name, String email, String password,
-      {String type = '0'}) async {
-    User user = User(
-        name: name, email: email, password: password, type: int.parse(type));
-    var res = await provider.post('/api/logout', {}, headers: provider.headers);
-    if (res.hasError) {
-      print('body = ${res.bodyString} ${Utils.baseUrl}');
-      Get.snackbar('Error',
-          "${jsonDecode(res.bodyString ?? 'message:error')['message']}");
-    }
+  logout() async {
+    var res = await provider.sendRequest('logout', "POST");
+    // if (res.hasError) {
+    //   print('body = ${res.bodyString} ${Utils.baseUrl}');
+    //   Get.snackbar('Error',
+    //       "${jsonDecode(res.bodyString ?? 'message:error')['message']}");
+    // }
     if (res.isOk) {
-      Auth.user = res.body ?? user;
+      Auth.user = res.body;
       Auth.authenticated = false;
-      Get.offNamed('/room');
+      Get.offNamed(Routes.LOGIN);
     }
   }
 

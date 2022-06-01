@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -5,12 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
-import 'package:learnify_client/app/routes/app_pages.dart';
-import 'package:learnify_client/core/components/net_image.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../app/User/auth.dart';
-import '../components/avatar_image.dart';
-import '../utils.dart';
+import '../../app/routes/app_pages.dart';
+import '../components/my_profile_icon.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   static double preferHeight = AppBar().preferredSize.height;
@@ -123,15 +122,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             //       image:
             //           '${Utils.baseUrl}/api/images/${AuthController.user.profileImageId ?? 3}');
             // }),
-            GestureDetector(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: CustomAvatarImage(
-                  NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
-                ),
-              ),
-              onTap: () => Get.offAllNamed('/login'),
-            ),
+            MyProfileName(),
+            // GestureDetector(
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            //     child: CustomAvatarImage(
+            //       NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
+            //     ),
+            //   ),
+            //   onTap: () {
+            //     var controller = Get.find<AuthController>();
+            //     controller.logout();
+            //   },
+            // ),
           ],
         ),
       ],

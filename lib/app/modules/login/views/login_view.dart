@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/login/controllers/login_controller.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/components/input_filed.dart';
 import 'package:learnify_client/core/layouts/background_widget.dart';
 
@@ -93,7 +94,7 @@ class LoginView extends GetView<LoginController> {
                           Text('New User ?',
                               style: Theme.of(context).textTheme.headline6),
                           TextButton(
-                            onPressed: () => Get.toNamed('register'),
+                            onPressed: () => Get.toNamed(Routes.REGISTER),
                             child: Text(
                               'SignUp',
                               style: Theme.of(context)
@@ -105,7 +106,7 @@ class LoginView extends GetView<LoginController> {
                         ],
                         mainAxisAlignment: MainAxisAlignment.center,
                       ),
-                      const Spacer(flex: 3),
+                      // const Spacer(flex: 3),
                     ],
                     // mainAxisAlignment: MainAxisAlignment.center,
                   ),

@@ -11,9 +11,9 @@ class RegisterController extends GetxController {
   final typeController = TextEditingController();
   @override
   void onInit() {
-    nameController.text = 'Teacher username';
-    emailController.text = 'teacher@gmail.com';
-    passwordController.text = 'password';
+    // nameController.text = 'Teacher username';
+    // emailController.text = 'teacher@gmail.com';
+    // passwordController.text = 'password';
     typeController.text = '1';
     super.onInit();
   }

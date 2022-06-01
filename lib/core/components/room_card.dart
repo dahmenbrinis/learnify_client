@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -72,7 +73,7 @@ class RoomCard extends StatelessWidget {
                 ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 3,
-                  mainAxisCellCount: 4,
+                  mainAxisCellCount: 5,
                   // mainAxisExtent: 100,
                   child: Obx(() {
                     return Visibility(
@@ -82,10 +83,18 @@ class RoomCard extends StatelessWidget {
                           if (room.permissions!.canView)
                             Get.toNamed(Routes.QUESTIONS, arguments: room);
                         },
-                        child: RotatedBox(
-                            quarterTurns: 0,
-                            child: Icon(Iconsax.arrow_circle_right,
-                                color: Colors.blue)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .primaryColorLight
+                                .withAlpha(50),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: RotatedBox(
+                              quarterTurns: 0,
+                              child: Icon(Iconsax.arrow_circle_right,
+                                  color: Colors.blue)),
+                        ),
                       ),
                     );
                   }),

@@ -3,7 +3,7 @@ import 'package:glass_kit/glass_kit.dart';
 
 class BackgroundWidget extends StatelessWidget {
   final Widget child;
-  const BackgroundWidget({Key? key, required this.child}) : super(key: key);
+  BackgroundWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +79,9 @@ class BackgroundWidget extends StatelessWidget {
             )),
         Center(
           child: GlassContainer.clearGlass(
-            blur: 70,
+            // blur: 70,
             // color: Colors.blue,
-            color: Color(0x555596F3),
+            // color: Color(0x555596F3),
             width: double.infinity,
             height: double.infinity,
             child: child,

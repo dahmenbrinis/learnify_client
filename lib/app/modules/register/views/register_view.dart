@@ -46,7 +46,6 @@ class RegisterView extends GetView<RegisterController> {
                       ),
                     ),
                     const SizedBox(height: 10),
-
                     MainInputField(
                       inputText: Text(
                         'Full Name',
@@ -149,7 +148,7 @@ class RegisterView extends GetView<RegisterController> {
                         Text('Already registred ?',
                             style: Theme.of(context).textTheme.headline6),
                         TextButton(
-                          onPressed: () => Get.offNamed(Routes.LOGIN),
+                          onPressed: () => Get.back(),
                           child: Text(
                             'Login',
                             style: Theme.of(context)
@@ -161,7 +160,7 @@ class RegisterView extends GetView<RegisterController> {
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                    const Spacer(flex: 3),
+                    // const Spacer(flex: 3),
                   ],
                   // mainAxisAlignment: MainAxisAlignment.center,
                 ),
