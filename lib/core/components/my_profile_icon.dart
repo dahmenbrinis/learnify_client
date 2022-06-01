@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 
 import '../../app/User/AuthController.dart';
 import '../../app/User/auth.dart';
@@ -103,10 +104,10 @@ class MenuItems {
   static onChanged(BuildContext context, MenuItem item) {
     switch (item) {
       case MenuItems.notifications:
-        //Do something
+        Get.toNamed(Routes.NOTIFICATIONS);
         break;
       case MenuItems.profile:
-        //Do something
+        Get.toNamed(Routes.PROFILE, arguments: Auth.user);
         break;
       case MenuItems.logout:
         var controller = Get.find<AuthController>();

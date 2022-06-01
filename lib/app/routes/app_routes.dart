@@ -15,6 +15,9 @@ abstract class Routes {
   static const LEADERBOARD = _Paths.LEADERBOARD;
   static const GLOBAL_LEADERBOARD = _Paths.GLOBAL_LEADERBOARD;
   static const MY_QUESTIONS = _Paths.MY_QUESTIONS;
+  static const PROFILE = _Paths.PROFILE;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const MANAGE_STUDENTS = _Paths.MANAGE_STUDENTS;
 }
 
 abstract class _Paths {
@@ -31,4 +34,7 @@ abstract class _Paths {
   static const LEADERBOARD = '/leaderboard';
   static const GLOBAL_LEADERBOARD = '/global-leaderboard';
   static const MY_QUESTIONS = '/my-questions';
+  static const PROFILE = '/profile';
+  static const NOTIFICATIONS = '/notifications';
+  static const MANAGE_STUDENTS = '/manage-students';
 }

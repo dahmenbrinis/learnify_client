@@ -13,8 +13,14 @@ import '../modules/leaderboard/bindings/leaderboard_binding.dart';
 import '../modules/leaderboard/views/leaderboard_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/manage_students/bindings/manage_students_binding.dart';
+import '../modules/manage_students/views/manage_students_view.dart';
 import '../modules/my_questions/bindings/my_questions_binding.dart';
 import '../modules/my_questions/views/my_questions_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
 import '../modules/questions/bindings/create_question_binding.dart';
 import '../modules/questions/bindings/questions_binding.dart';
 import '../modules/questions/views/create_question_view.dart';
@@ -97,6 +103,21 @@ class AppPages {
       name: _Paths.MY_QUESTIONS,
       page: () => MyQuestionsView(),
       binding: MyQuestionsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATIONS,
+      page: () => NotificationsView(),
+      binding: NotificationsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANAGE_STUDENTS,
+      page: () => ManageStudentsView(),
+      binding: ManageStudentsBinding(),
     ),
   ];
 }
