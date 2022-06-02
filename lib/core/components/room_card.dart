@@ -140,7 +140,8 @@ class RoomCard extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Text(
                                   'Ask Question',
-                                  style: TextStyle(color: Color(0xff00d1ff)),
+                                  style: TextStyle(
+                                      color: Color(0xff00d1ff), fontSize: 12),
                                 )
                               ],
                             ),
@@ -163,7 +164,9 @@ class RoomCard extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Text(
                                   'Edit Room',
-                                  style: TextStyle(color: Colors.blue.shade700),
+                                  style: TextStyle(
+                                      color: Colors.blue.shade700,
+                                      fontSize: 12),
                                 )
                               ],
                             ),
@@ -186,7 +189,8 @@ class RoomCard extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Text(
                                   'Remove Room',
-                                  style: TextStyle(color: Color(0xffE86575)),
+                                  style: TextStyle(
+                                      color: Color(0xffE86575), fontSize: 12),
                                 )
                               ],
                             ),
@@ -203,7 +207,8 @@ class RoomCard extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Text(
                                   'Leaderboard',
-                                  style: TextStyle(color: Color(0xffF3B412)),
+                                  style: TextStyle(
+                                      color: Color(0xffF3B412), fontSize: 12),
                                 )
                               ],
                             ),
@@ -226,7 +231,8 @@ class RoomCard extends StatelessWidget {
                                 SizedBox(height: 10),
                                 Text(
                                   'Leave Room',
-                                  style: TextStyle(color: Color(0xffE86575)),
+                                  style: TextStyle(
+                                      color: Color(0xffE86575), fontSize: 12),
                                 )
                               ],
                             ),
@@ -253,23 +259,31 @@ class RoomCard extends StatelessWidget {
                                 Text(
                                   'Join Room',
                                   style: TextStyle(
-                                      color: Colors.greenAccent.shade700),
+                                      color: Colors.greenAccent.shade700,
+                                      fontSize: 12),
                                 )
                               ],
                             ),
                           ),
                         if (room.creatorId == Auth.user.id)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Iconsax.profile_2user,
-                                  color: Colors.indigoAccent),
-                              SizedBox(height: 10),
-                              Text(
-                                'Manage Students',
-                                style: TextStyle(color: Colors.indigoAccent),
-                              )
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.MANAGE_STUDENTS,
+                                  arguments: room);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Iconsax.profile_2user,
+                                    color: Colors.indigoAccent),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Manage Students',
+                                  style: TextStyle(
+                                      color: Colors.indigoAccent, fontSize: 12),
+                                )
+                              ],
+                            ),
                           ),
                       ],
                     ),
@@ -287,12 +301,12 @@ class RoomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: StaggeredGrid.count(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 crossAxisSpacing: 20,
                 children: [
-                  Text(room.answersCount.toString() + " New Answers",
-                      style: TextStyle(color: Colors.blue),
-                      textAlign: TextAlign.center),
+                  // Text(room.answersCount.toString() + " New Answers",
+                  //     style: TextStyle(color: Colors.blue),
+                  //     textAlign: TextAlign.center),
                   Text(room.questionsCount.toString() + " Questions",
                       style: TextStyle(color: Colors.blue),
                       textAlign: TextAlign.center),
