@@ -15,8 +15,10 @@ class User extends Model {
   String? createdAt;
   String? updatedAt;
   int? imageId;
-  Badges? badges;
+  List<Badges> badges = [];
   static const userType = {'0': "Teacher", '1': "Student"};
+
+  bool isRecommended = false;
   User(
       {this.id,
       this.reputation,
@@ -49,10 +51,15 @@ class User extends Model {
     comments_count = json['comments_count'] ?? 0;
     emailVerifiedAt = json['email_verified_at'];
     type = json['type'];
+    isRecommended = json['isRecommended'] ?? false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     imageId = json['imageId'];
-    badges = json['badges'] == null ? null : Badges.fromJson(json['badges']);
+    badges = json['badges'] == null
+        ? []
+        : List<Badges>.from(json['badges'].map((item) {
+            return Badges.fromJson(item);
+          }).toList());
   }
 
   Map<String, dynamic> toJson() {

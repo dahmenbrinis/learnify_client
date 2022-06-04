@@ -74,7 +74,7 @@ class ManageStudentsController extends GetxController {
   kick(int userId) async {
     isKickProgress(true);
     var res = await provider.sendRequest(
-        "rooms/${room.value.id!}/kick/$userId}", "GET");
+        "rooms/${room.value.id!}/kick/$userId", "GET");
     isKickProgress(false);
     if (res.bodyString != "1") return;
     int index = users.data.indexWhere((element) => element.id == userId);
@@ -84,12 +84,13 @@ class ManageStudentsController extends GetxController {
 
   var isCommendProgress = false.obs;
   commend(int userId) async {
-    isKickProgress(true);
-    var res = await provider.get("rooms/${room.value.id!}/commend/$userId}");
-    isKickProgress(false);
+    isCommendProgress(true);
+    var res = await provider.sendRequest(
+        "rooms/${room.value.id!}/commend/$userId", "GET");
+    isCommendProgress(false);
     if (res.bodyString != "1") return;
     int index = users.data.indexWhere((element) => element.id == userId);
-    if (index >= 0) users.data.removeAt(index);
+    if (index >= 0) users.data[index].isRecommended = true;
     _users.refresh();
   }
 }
