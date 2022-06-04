@@ -8,6 +8,8 @@ class User extends Model {
   String? email;
   String? token = '';
   String? password;
+  int questions_count = 0;
+  int comments_count = 0;
   dynamic emailVerifiedAt;
   int? type;
   String? createdAt;
@@ -42,6 +44,8 @@ class User extends Model {
     email = json['email'];
     token = json['token'];
     password = json['password'];
+    questions_count = json['questions_count'] ?? 0;
+    comments_count = json['comments_count'] ?? 0;
     emailVerifiedAt = json['email_verified_at'];
     type = json['type'];
     createdAt = json['created_at'];

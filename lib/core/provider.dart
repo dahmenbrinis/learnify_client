@@ -1,5 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:learnify_client/core/model.dart';
 import 'package:learnify_client/core/pagination.dart';

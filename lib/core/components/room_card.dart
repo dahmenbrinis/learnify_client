@@ -35,22 +35,21 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     room = data;
-    return RawMaterialButton(
-      onPressed: () => isOpen = !isOpen,
-      onLongPress: () {},
-      child: Container(
-        // duration: Duration(seconds: 1),
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Color(0xe2ffffff),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-        ),
-        child: Column(
-          children: [
-            ///------- head ---------
-            StaggeredGrid.count(
+    return Container(
+      // duration: Duration(seconds: 1),
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Color(0xe2ffffff),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+      ),
+      child: Column(
+        children: [
+          ///------- head ---------
+          RawMaterialButton(
+            onPressed: () => isOpen = !isOpen,
+            child: StaggeredGrid.count(
               // crossAxisAlignment: CrossAxisAlignment.start,
               crossAxisCount: 20,
               mainAxisSpacing: 10,
@@ -107,217 +106,219 @@ class RoomCard extends StatelessWidget {
                 ),
               ],
             ),
+          ),
 
-            ///------- body ---------
-            Obx(() {
-              return Visibility(
-                  visible: isOpen,
-                  child: Divider(thickness: 1, color: Colors.grey));
-            }),
+          ///------- body ---------
+          Obx(() {
+            return Visibility(
+                visible: isOpen,
+                child: Divider(thickness: 1, color: Colors.grey));
+          }),
 
-            Obx(() {
-              return AnimatedSize(
-                duration: Duration(milliseconds: 400),
-                curve: Curves.fastOutSlowIn,
-                child: Visibility(
-                  visible: isOpen,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: StaggeredGrid.count(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 5,
-                      children: [
-                        if (room.permissions!.canAsk)
-                          MaterialButton(
-                            onPressed: () => Get.toNamed(Routes.CREATE_QUESTION,
-                                arguments: room),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.message_add,
-                                    color: Color(0xff00d1ff)),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Ask Question',
-                                  style: TextStyle(
-                                      color: Color(0xff00d1ff), fontSize: 12),
-                                )
-                              ],
-                            ),
+          Obx(() {
+            return AnimatedSize(
+              duration: Duration(milliseconds: 400),
+              curve: Curves.fastOutSlowIn,
+              child: Visibility(
+                visible: isOpen,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 5,
+                    children: [
+                      if (room.permissions!.canAsk)
+                        MaterialButton(
+                          onPressed: () => Get.toNamed(Routes.CREATE_QUESTION,
+                              arguments: room),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.message_add,
+                                  color: Color(0xff00d1ff)),
+                              SizedBox(height: 10),
+                              Text(
+                                'Ask Question',
+                                style: TextStyle(
+                                    color: Color(0xff00d1ff), fontSize: 12),
+                              )
+                            ],
                           ),
-                        if (room.permissions!.canUpdate)
-                          MaterialButton(
-                            onPressed: () async {
-                              await Get.to(() => UpdateView(room: room))
-                                  ?.then((value) {
-                                if (value != null) {
-                                  room = value;
-                                }
-                                refresh.value = !refresh.value;
-                              });
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.edit, color: Colors.blue.shade700),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Edit Room',
-                                  style: TextStyle(
-                                      color: Colors.blue.shade700,
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
-                          ),
-                        if (room.permissions!.canDelete)
-                          RawMaterialButton(
-                            onPressed: () async {
-                              bool deleted = await controller.delete(room.id!);
-                              if (deleted) {
-                                controller.paginatedList.data.remove(room);
-                                controller.rerender();
+                        ),
+                      if (room.permissions!.canUpdate)
+                        MaterialButton(
+                          onPressed: () async {
+                            await Get.to(() => UpdateView(room: room))
+                                ?.then((value) {
+                              if (value != null) {
+                                room = value;
                               }
-                              _room.refresh();
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.box_remove,
-                                    color: Color(0xffE86575)),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Remove Room',
-                                  style: TextStyle(
-                                      color: Color(0xffE86575), fontSize: 12),
-                                )
-                              ],
-                            ),
+                              refresh.value = !refresh.value;
+                            });
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.edit, color: Colors.blue.shade700),
+                              SizedBox(height: 10),
+                              Text(
+                                'Edit Room',
+                                style: TextStyle(
+                                    color: Colors.blue.shade700, fontSize: 12),
+                              )
+                            ],
                           ),
-                        if (room.permissions!.canView)
-                          MaterialButton(
-                            onPressed: () {
-                              Get.toNamed(Routes.LEADERBOARD, arguments: room);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.cup, color: Color(0xffF3B412)),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Leaderboard',
-                                  style: TextStyle(
-                                      color: Color(0xffF3B412), fontSize: 12),
-                                )
-                              ],
-                            ),
+                        ),
+                      if (room.permissions!.canDelete)
+                        RawMaterialButton(
+                          onPressed: () async {
+                            bool deleted = await controller.delete(room.id!);
+                            if (deleted) {
+                              controller.paginatedList.data.remove(room);
+                              controller.rerender();
+                            }
+                            _room.refresh();
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.box_remove,
+                                  color: Color(0xffE86575)),
+                              SizedBox(height: 10),
+                              Text(
+                                'Remove Room',
+                                style: TextStyle(
+                                    color: Color(0xffE86575), fontSize: 12),
+                              )
+                            ],
                           ),
-                        if (!room.permissions!.canDelete &&
-                            room.permissions!.canView)
-                          RawMaterialButton(
-                            onPressed: () async {
-                              Room? res = await controller.leave(room);
-                              if (res!.id != null) {
-                                room = res;
-                                // controller.refresh();
-                              }
-                              _room.refresh();
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.logout, color: Color(0xffE86575)),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Leave Room',
-                                  style: TextStyle(
-                                      color: Color(0xffE86575), fontSize: 12),
-                                )
-                              ],
-                            ),
+                        ),
+                      if (room.permissions!.canView)
+                        MaterialButton(
+                          onPressed: () {
+                            Get.toNamed(Routes.LEADERBOARD, arguments: room);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.cup, color: Color(0xffF3B412)),
+                              SizedBox(height: 10),
+                              Text(
+                                'Leaderboard',
+                                style: TextStyle(
+                                    color: Color(0xffF3B412), fontSize: 12),
+                              )
+                            ],
                           ),
-                        if (!room.permissions!.canView)
-                          MaterialButton(
-                            onPressed: () async {
-                              Room? res = await controller.join(room);
-                              if (res!.id != null) {
-                                room = res;
-                                // controller.refresh();
-                              }
-                              _room.refresh();
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.add_box_outlined,
-                                  size: 30,
-                                  color: Colors.greenAccent.shade700,
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Join Room',
-                                  style: TextStyle(
-                                      color: Colors.greenAccent.shade700,
-                                      fontSize: 12),
-                                )
-                              ],
-                            ),
+                        ),
+                      if (!room.permissions!.canDelete &&
+                          room.permissions!.canView)
+                        RawMaterialButton(
+                          onPressed: () async {
+                            Room? res = await controller.leave(room);
+                            if (res!.id != null) {
+                              room = res;
+                              // controller.refresh();
+                            }
+                            _room.refresh();
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.logout, color: Color(0xffE86575)),
+                              SizedBox(height: 10),
+                              Text(
+                                'Leave Room',
+                                style: TextStyle(
+                                    color: Color(0xffE86575), fontSize: 12),
+                              )
+                            ],
                           ),
-                        if (room.creatorId == Auth.user.id)
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(Routes.MANAGE_STUDENTS,
-                                  arguments: room);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Iconsax.profile_2user,
-                                    color: Colors.indigoAccent),
-                                SizedBox(height: 10),
-                                Text(
-                                  'Manage Students',
-                                  style: TextStyle(
-                                      color: Colors.indigoAccent, fontSize: 12),
-                                )
-                              ],
-                            ),
+                        ),
+                      if (!room.permissions!.canView)
+                        MaterialButton(
+                          onPressed: () async {
+                            Room? res = await controller.join(room);
+                            if (res!.id != null) {
+                              room = res;
+                              // controller.refresh();
+                            }
+                            _room.refresh();
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_box_outlined,
+                                size: 30,
+                                color: Colors.greenAccent.shade700,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Join Room',
+                                style: TextStyle(
+                                    color: Colors.greenAccent.shade700,
+                                    fontSize: 12),
+                              )
+                            ],
                           ),
-                      ],
-                    ),
+                        ),
+                      if (room.creatorId == Auth.user.id)
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.MANAGE_STUDENTS,
+                                arguments: room);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.profile_2user,
+                                  color: Colors.indigoAccent),
+                              SizedBox(height: 10),
+                              Text(
+                                'Manage Students',
+                                style: TextStyle(
+                                    color: Colors.indigoAccent, fontSize: 12),
+                              )
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-              );
-            }),
+              ),
+            );
+          }),
 
-            ///------- footer ---------
-            Divider(
-              color: Colors.grey,
-              thickness: 1,
-            ),
+          ///------- footer ---------
+          Divider(
+            color: Colors.grey,
+            thickness: 1,
+          ),
 
-            Padding(
+          GestureDetector(
+            onTap: () => isOpen = !isOpen,
+            child: Padding(
               padding: const EdgeInsets.all(10),
               child: StaggeredGrid.count(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 crossAxisSpacing: 20,
                 children: [
-                  // Text(room.answersCount.toString() + " New Answers",
-                  //     style: TextStyle(color: Colors.blue),
-                  //     textAlign: TextAlign.center),
                   Text(room.questionsCount.toString() + " Questions",
                       style: TextStyle(color: Colors.blue),
                       textAlign: TextAlign.center),
-                  Text(room.userCount.toString() + " Poeple",
+                  Text(room.userCount.toString() + " Users",
+                      style: TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center),
+                  Text(room.answersCount.toString() + " Students",
                       style: TextStyle(color: Colors.blue),
                       textAlign: TextAlign.center),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
