@@ -17,10 +17,10 @@ class NetImage extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: minSize, minWidth: minSize),
         child: Image.network(
-          "${Utils.baseUrl}/api/images/$id/$alt",
+          "${Utils.baseUrl}/api/images/$id/$alt".replaceAll(" ", ""),
           headers: const {
             "Connection": "Keep-Alive",
-            'Keep-Alive': 'timeout=5, max=1000'
+            'Keep-Alive': 'timeout=5000, max=5000'
           },
           fit: BoxFit.cover,
         ),

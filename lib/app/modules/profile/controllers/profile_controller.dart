@@ -4,7 +4,7 @@ import 'package:learnify_client/app/User/user_provider.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
-  var user = Rx<User>(Get.arguments);
+  final user = Rx<User>(Get.arguments);
   final count = 0.obs;
   @override
   void onInit() {
@@ -31,4 +31,12 @@ class ProfileController extends GetxController {
   @override
   void onClose() {}
   void increment() => count.value++;
+  var email = "".obs;
+  var userName = "".obs;
+  saveInformation() {
+    var json = <String, dynamic>{};
+    if (email != user.value.email) json['email'] = email;
+    if (userName != user.value.email) json['name'] = userName;
+    if (json.isEmpty) return;
+  }
 }

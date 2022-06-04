@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:learnify_client/core/model.dart';
 
 class User extends Model {
@@ -10,6 +12,8 @@ class User extends Model {
   String? password;
   int questions_count = 0;
   int comments_count = 0;
+  int rooms_count = 0;
+  int valid_comments_count = 0;
   dynamic emailVerifiedAt;
   int? type;
   String? createdAt;
@@ -19,6 +23,22 @@ class User extends Model {
   static const userType = {'0': "Teacher", '1': "Student"};
 
   bool isRecommended = false;
+
+  int get rank {
+    int points = int.tryParse(this.points!)!;
+    double rank = sqrt(points / 10);
+    return rank.round();
+  }
+
+  int requiredPoints(int rank) {
+    return 10 * rank * rank;
+  }
+
+  int get remainingPoints {
+    int points = int.tryParse(this.points!)!;
+    return requiredPoints(rank + 1) - points;
+  }
+
   User(
       {this.id,
       this.reputation,
@@ -37,6 +57,14 @@ class User extends Model {
     return 'User{id: $id,id: $reputation, name: $points,name: $name, email: $email, token: $token, password: $password, emailVerifiedAt: $emailVerifiedAt, type: $type, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 
+  String badgeIconUrl(String badgeName) {
+    switch (badgeName) {
+      case "Recommended":
+        return 'assets/second.svg';
+    }
+    return 'assets/second.svg';
+  }
+
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     if (json['reputation'] is int)
@@ -49,6 +77,8 @@ class User extends Model {
     password = json['password'];
     questions_count = json['questions_count'] ?? 0;
     comments_count = json['comments_count'] ?? 0;
+    rooms_count = json['rooms_count'] ?? 0;
+    valid_comments_count = json['valid_comments_count'] ?? 0;
     emailVerifiedAt = json['email_verified_at'];
     type = json['type'];
     isRecommended = json['isRecommended'] ?? false;

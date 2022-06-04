@@ -58,9 +58,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (isLargeTitle || true)
-              Obx(() {
-                return SizedBox(
+            Obx(() {
+              return Visibility(
+                visible: true,
+                child: SizedBox(
                   width: 60,
                   child: StaggeredGrid.count(
                     crossAxisCount: 20,
@@ -90,9 +91,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         child: Padding(
                           padding: EdgeInsets.only(left: 10.0),
                           child: StepProgressIndicator(
-                            totalSteps: 50,
+                            totalSteps:
+                                Auth.user.requiredPoints(Auth.user.rank + 1) -
+                                    Auth.user.requiredPoints(Auth.user.rank),
                             currentStep:
-                                int.parse(Auth.user.reputation ?? '0') % 50,
+                                int.tryParse(Auth.user.points ?? '0')! -
+                                    Auth.user.requiredPoints(Auth.user.rank),
                             size: 5,
                             selectedSize: 6,
                             padding: 0,
@@ -104,8 +108,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ],
                   ),
-                );
-              }),
+                ),
+              );
+            }),
             // if (isLargeTitle)
             //   GestureDetector(
             //     // padding: EdgeInsets.zero,

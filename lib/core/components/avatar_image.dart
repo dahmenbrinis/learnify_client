@@ -21,8 +21,8 @@ class CustomAvatarImage extends StatelessWidget {
         showBadge: isTeacher,
         badgeContent: Container(
           padding: EdgeInsets.all(3),
-          width: 20,
-          height: 20,
+          width: 25,
+          height: 25,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             color: Colors.blue,
