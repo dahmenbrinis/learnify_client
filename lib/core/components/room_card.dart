@@ -13,6 +13,7 @@ import 'package:learnify_client/core/components/net_image.dart';
 import 'package:learnify_client/core/utils.dart';
 
 import '../../app/User/auth.dart';
+import 'Dialogs.dart';
 
 class RoomCard extends StatelessWidget {
   final controller = Get.find<RoomController>();
@@ -173,12 +174,23 @@ class RoomCard extends StatelessWidget {
                       if (room.permissions!.canDelete)
                         RawMaterialButton(
                           onPressed: () async {
-                            bool deleted = await controller.delete(room.id!);
-                            if (deleted) {
-                              controller.paginatedList.data.remove(room);
-                              controller.rerender();
-                            }
-                            _room.refresh();
+                            confirmationModal(
+                              "delete '${room.name}' ?",
+                              "are you sure that you want to delete the room :\n ${room.name} ?",
+                              "return",
+                              "delete room",
+                              Get.back,
+                              () async {
+                                bool deleted =
+                                    await controller.delete(room.id!);
+                                if (deleted) {
+                                  controller.paginatedList.data.remove(room);
+                                  controller.rerender();
+                                }
+                                _room.refresh();
+                                Get.back();
+                              },
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,12 +228,22 @@ class RoomCard extends StatelessWidget {
                           room.permissions!.canView)
                         RawMaterialButton(
                           onPressed: () async {
-                            Room? res = await controller.leave(room);
-                            if (res!.id != null) {
-                              room = res;
-                              // controller.refresh();
-                            }
-                            _room.refresh();
+                            confirmationModal(
+                              "leave  '${room.name}' ?",
+                              "are you sure that you want to leave the room:\n ${room.name} ?",
+                              "return",
+                              "leave room",
+                              Get.back,
+                              () async {
+                                Room? res = await controller.leave(room);
+                                if (res!.id != null) {
+                                  room = res;
+                                  // controller.refresh();
+                                }
+                                _room.refresh();
+                                Get.back();
+                              },
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,7 +299,7 @@ class RoomCard extends StatelessWidget {
                                   color: Colors.indigoAccent),
                               SizedBox(height: 10),
                               Text(
-                                'Manage Students',
+                                'Manage Users',
                                 style: TextStyle(
                                     color: Colors.indigoAccent, fontSize: 12),
                               )

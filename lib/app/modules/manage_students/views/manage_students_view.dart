@@ -8,6 +8,7 @@ import 'package:glass_kit/glass_kit.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/User/user_model.dart';
+import 'package:learnify_client/core/components/Dialogs.dart';
 import 'package:learnify_client/core/layouts/appBar.dart';
 import 'package:learnify_client/core/layouts/background_widget.dart';
 
@@ -22,7 +23,7 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Manage Students',
+        title: 'Manage Users',
       ),
       body: BackgroundWidget2(
         child: Obx(() {
@@ -71,6 +72,7 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                       id: user.imageId,
                       alt: user.name!,
                     ),
+                    isTeacher: user.type == 0,
                   ),
                   SizedBox(height: 2),
                   Center(
@@ -91,12 +93,13 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
               crossAxisCellCount: 26,
               mainAxisCellCount: 7,
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: StaggeredGrid.count(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisCount: 3,
                   children: [
                     Text("questions: ${user.questions_count}"),
                     Text("answers: ${user.comments_count}"),
-                    Text("Total Points: ${user.points!}"),
+                    Text(user.type == 0 ? "" : "All Points: ${user.points!}"),
                   ],
                 ),
               ),
@@ -111,7 +114,9 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "Points in current room : $points point",
+                      user.type == 0
+                          ? ""
+                          : "Points in current room : $points point",
                       style: TextStyle(fontSize: 12),
                     ),
                     Text(
@@ -132,7 +137,46 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        controller.kick(user.id!);
+                        if (user.type == 0) return;
+                      },
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Icon(
+                              Iconsax.profile_delete,
+                              color: user.type == 0
+                                  ? Colors.transparent
+                                  : Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "commend",
+                              style: TextStyle(
+                                color: user.type == 0
+                                    ? Colors.transparent
+                                    : Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                    GestureDetector(
+                      onTap: () {
+                        confirmationModal(
+                          "Kick ${user.name} ?",
+                          "are you sure that you want to kick the user ${user.name}",
+                          "return",
+                          "kick user",
+                          Get.back,
+                          () {
+                            controller.kick(user.id!);
+                            Get.back();
+                          },
+                        );
                       },
                       child: Column(
                         children: [
@@ -150,28 +194,6 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                               color: Theme.of(context).errorColor,
                             ),
                           )),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                    GestureDetector(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Icon(
-                              Iconsax.profile_delete,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              "commend",
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
