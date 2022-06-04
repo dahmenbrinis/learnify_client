@@ -15,6 +15,7 @@ class User extends Model {
   String? createdAt;
   String? updatedAt;
   int? imageId;
+  Badges? badges;
   static const userType = {'0': "Teacher", '1': "Student"};
   User(
       {this.id,
@@ -51,6 +52,7 @@ class User extends Model {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     imageId = json['imageId'];
+    badges = json['badges'] == null ? null : Badges.fromJson(json['badges']);
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +68,78 @@ class User extends Model {
     data['type'] = type;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class Badges {
+  int? id;
+  String? name;
+  String? description;
+  String? icon;
+  int? level;
+  String? createdAt;
+  String? updatedAt;
+  Pivot? pivot;
+
+  Badges(
+      {this.id,
+      this.name,
+      this.description,
+      this.icon,
+      this.level,
+      this.createdAt,
+      this.updatedAt,
+      this.pivot});
+
+  Badges.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    icon = json['icon'];
+    level = json['level'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['icon'] = this.icon;
+    data['level'] = this.level;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.pivot != null) {
+      data['pivot'] = this.pivot!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pivot {
+  int? userId;
+  int? badgeId;
+  String? createdAt;
+  String? updatedAt;
+
+  Pivot({this.userId, this.badgeId, this.createdAt, this.updatedAt});
+
+  Pivot.fromJson(Map<String, dynamic> json) {
+    userId = json['user_id'];
+    badgeId = json['badge_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_id'] = this.userId;
+    data['badge_id'] = this.badgeId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

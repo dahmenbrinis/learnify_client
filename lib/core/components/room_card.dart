@@ -10,7 +10,6 @@ import 'package:learnify_client/app/modules/room/room_model.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/components/net_image.dart';
-import 'package:learnify_client/core/utils.dart';
 
 import '../../app/User/auth.dart';
 import 'Dialogs.dart';
@@ -280,8 +279,9 @@ class RoomCard extends StatelessWidget {
                               Text(
                                 'Join Room',
                                 style: TextStyle(
-                                    color: Colors.greenAccent.shade700,
-                                    fontSize: 12),
+                                  color: Colors.greenAccent.shade700,
+                                  fontSize: 12,
+                                ),
                               )
                             ],
                           ),
