@@ -74,7 +74,7 @@ class ProfileController extends GetxController {
     user.refresh();
   }
 
-  var progress = 0.1.obs;
+  var progress = 0.5.obs;
   Rx<XFile?> image = Rx(null);
 
   chooseImage() async {
@@ -88,17 +88,23 @@ class ProfileController extends GetxController {
       'imagable_id': '${user.value.id}',
       'alt': '${user.value.name}',
     };
-    await confirmationModal(
+    confirmationModal(
       "change photo",
       "are you sure you want to chage your profile picture ? ",
       "Change",
       "cancel",
-      () => uploadImage(data),
-      Get.back,
+      () async {
+        await uploadImage(data);
+        image.value = null;
+        progress.value = 0;
+        Get.back();
+      },
+      () {
+        image.value = null;
+        progress.value = 0;
+        Get.back();
+      },
     );
-    print('done ;');
-    image.value = null;
-    progress.value = 0;
   }
 
   uploadImage(data) async {
@@ -111,9 +117,11 @@ class ProfileController extends GetxController {
     if (res.bodyString != null && res.bodyString!.contains("User")) {
       var image = Image.fromJson(jsonDecode(res.bodyString!));
       Auth.user.imageId = image.id;
+      Auth.user.alt2 = image.src!;
+      Auth.refreshUser();
       user.value.imageId = image.id;
+      user.value.alt2 = image.src!;
       user.refresh();
     }
-    Get.back();
   }
 }

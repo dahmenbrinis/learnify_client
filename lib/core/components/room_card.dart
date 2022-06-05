@@ -58,7 +58,7 @@ class RoomCard extends StatelessWidget {
                 StaggeredGridTile.count(
                   crossAxisCellCount: 4,
                   mainAxisCellCount: 4,
-                  child: NetImage(id: room.imageId, alt: room.name!),
+                  child: NetImage(id: room.imageId, alt: room.alt),
                 ),
                 StaggeredGridTile.fit(
                   crossAxisCellCount: 13,

@@ -17,6 +17,8 @@ class Room extends Model {
   int? answersCount;
   String? visibilityName;
 
+  var alt2 = 'test';
+
   Room(
       {this.id,
       this.name,
@@ -53,6 +55,8 @@ class Room extends Model {
     answersCount = json['answersCount'];
     visibilityName = json['visibilityName'];
   }
+
+  get alt => '$name $alt2';
 
   @override
   Map<String, dynamic> toJson() {

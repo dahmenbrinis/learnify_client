@@ -97,7 +97,7 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                         id: controller
                                             .users.data[index + 3].imageId,
                                         alt: controller
-                                            .users.data[index + 3].name!,
+                                            .users.data[index + 3].alt,
                                       ),
                                     ),
                                   ),
@@ -237,7 +237,7 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                       child: CustomAvatarImage(
                                         NetImage(
                                           id: controller.users.data[1].imageId,
-                                          alt: controller.users.data[1].name!,
+                                          alt: controller.users.data[1].alt,
                                         ),
                                       ),
                                     ),
@@ -288,7 +288,7 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                       child: CustomAvatarImage(
                                         NetImage(
                                           id: controller.users.data[0].imageId,
-                                          alt: controller.users.data[0].name!,
+                                          alt: controller.users.data[0].alt,
                                         ),
                                       ),
                                     ),
@@ -335,7 +335,7 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                       child: CustomAvatarImage(
                                         NetImage(
                                           id: controller.users.data[2].imageId,
-                                          alt: controller.users.data[2].name!,
+                                          alt: controller.users.data[2].alt,
                                         ),
                                       ),
                                     ),

@@ -75,7 +75,7 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                     CustomAvatarImage(
                       NetImage(
                         id: user.imageId,
-                        alt: user.name!,
+                        alt: user.alt,
                       ),
                       isTeacher: user.type == 0,
                     ),

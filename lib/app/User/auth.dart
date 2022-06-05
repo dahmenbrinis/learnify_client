@@ -21,4 +21,8 @@ class Auth {
     user.points = res.bodyString;
     _user.refresh();
   }
+
+  static refreshUser() {
+    _user.refresh();
+  }
 }

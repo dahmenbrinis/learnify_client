@@ -65,7 +65,7 @@ class CommentsView extends GetView<CommentsController> {
                                 CustomAvatarImage(
                                   NetImage(
                                       id: controller.question.user!.imageId,
-                                      alt: controller.question.user!.name!),
+                                      alt: controller.question.user!.alt),
                                   // padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                                 ),
                                 const SizedBox(height: 10),
@@ -257,8 +257,7 @@ class CommentCard extends StatelessWidget {
                     Get.toNamed(Routes.PROFILE, arguments: comment.user!);
                   },
                   child: CustomAvatarImage(
-                    NetImage(
-                        id: comment.user!.imageId, alt: comment.user!.name!),
+                    NetImage(id: comment.user!.imageId, alt: comment.user!.alt),
                   ),
                 ),
                 const SizedBox(height: 10),

@@ -20,7 +20,7 @@ class Image extends Model {
 
   Image.fromJson(Map<String, dynamic> json) {
     imagableType = json['imagable_type'];
-    imagableId = json['imagable_id'];
+    imagableId = json['imagable_id'].toString();
     src = json['src'];
     userId = json['user_id'];
     updatedAt = json['updated_at'];

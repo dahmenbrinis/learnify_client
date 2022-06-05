@@ -45,7 +45,7 @@ class SecondAppBar extends StatelessWidget implements PreferredSizeWidget {
               RawMaterialButton(
                 padding: const EdgeInsets.all(4),
                 child: CustomAvatarImage(
-                  NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
+                  NetImage(id: Auth.user.imageId, alt: Auth.user.alt),
                 ),
                 onPressed: () => Get.offAllNamed('/login'),
               ),

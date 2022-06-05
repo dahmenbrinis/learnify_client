@@ -87,7 +87,7 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                       id: controller
                                           .users.data[index + 3].payee.imageId,
                                       alt: controller
-                                          .users.data[index + 3].payee.name!,
+                                          .users.data[index + 3].payee.alt,
                                     ),
                                   ),
                                 ),
@@ -215,8 +215,7 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                       NetImage(
                                         id: controller
                                             .users.data[1].payee.imageId,
-                                        alt: controller
-                                            .users.data[1].payee.name!,
+                                        alt: controller.users.data[1].payee.alt,
                                       ),
                                     ),
                                   )
@@ -261,8 +260,7 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                       NetImage(
                                         id: controller
                                             .users.data[0].payee.imageId,
-                                        alt: controller
-                                            .users.data[0].payee.name!,
+                                        alt: controller.users.data[0].payee.alt,
                                       ),
                                     ),
                                   )
@@ -303,8 +301,7 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                       NetImage(
                                         id: controller
                                             .users.data[2].payee.imageId,
-                                        alt: controller
-                                            .users.data[2].payee.name!,
+                                        alt: controller.users.data[2].payee.alt,
                                       ),
                                     ),
                                   )

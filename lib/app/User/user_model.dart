@@ -9,6 +9,7 @@ class User extends Model {
   String? points;
   String? email;
   String? token = '';
+  String alt2 = 'test';
   String? password;
   int questions_count = 0;
   int comments_count = 0;
@@ -24,7 +25,7 @@ class User extends Model {
   static const userType = {'0': "Teacher", '1': "Student"};
 
   bool isRecommended = false;
-
+  String get alt => "$name $alt2";
   int get rank {
     int points = int.tryParse(this.points!)!;
     double rank = sqrt(points) / 3;

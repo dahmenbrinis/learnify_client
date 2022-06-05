@@ -60,8 +60,7 @@ class QuestionCard extends StatelessWidget {
                   Get.toNamed(Routes.PROFILE, arguments: question.user);
                 },
                 child: CustomAvatarImage(
-                  NetImage(
-                      id: question.user?.imageId, alt: question.user!.name!),
+                  NetImage(id: question.user?.imageId, alt: question.user!.alt),
                 ),
               ),
             ),

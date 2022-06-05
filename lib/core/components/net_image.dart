@@ -22,6 +22,8 @@ class NetImage extends StatelessWidget {
             "Connection": "Keep-Alive",
             'Keep-Alive': 'timeout=5000, max=5000'
           },
+          height: 400,
+          width: 400,
           fit: BoxFit.cover,
         ),
       ),

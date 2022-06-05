@@ -142,13 +142,13 @@ class ProfileView extends GetView<ProfileController> {
                                               ? Stack(
                                                   children: [
                                                     Container(
-                                                      width: 90,
-                                                      height: 90,
+                                                      width: 200,
+                                                      height: 200,
                                                       decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      200)),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(200),
+                                                      ),
                                                       child: Image.file(
                                                         File(image.path),
                                                         fit: BoxFit.cover,
@@ -172,7 +172,7 @@ class ProfileView extends GetView<ProfileController> {
                                                 )
                                               : NetImage(
                                                   id: user.imageId,
-                                                  alt: user.name!,
+                                                  alt: user.alt,
                                                   minSize: 200,
                                                 ),
                                         ),

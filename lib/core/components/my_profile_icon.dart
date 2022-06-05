@@ -22,7 +22,7 @@ class MyProfileName extends StatelessWidget {
         customButton: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: CustomAvatarImage(
-            NetImage(id: Auth.user.imageId, alt: Auth.user.name!),
+            NetImage(id: Auth.user.imageId, alt: Auth.user.alt),
           ),
         ),
         openWithLongPress: true,
