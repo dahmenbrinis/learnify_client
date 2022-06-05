@@ -138,14 +138,15 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                     GestureDetector(
                       onTap: () {
                         if (user.type == 0) return;
+                        controller.commend(user.id!);
                       },
                       child: Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Icon(
-                              Iconsax.profile_delete,
-                              color: user.type == 0
+                              Iconsax.like_shapes,
+                              color: user.type == 0 || user.isRecommended
                                   ? Colors.transparent
                                   : Theme.of(context).primaryColor,
                             ),
@@ -154,7 +155,7 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                             child: Text(
                               "commend",
                               style: TextStyle(
-                                color: user.type == 0
+                                color: user.type == 0 || user.isRecommended
                                     ? Colors.transparent
                                     : Theme.of(context).primaryColor,
                               ),

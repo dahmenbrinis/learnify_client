@@ -12,6 +12,25 @@ class CustomAvatarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!isTeacher) {
+      return Padding(
+        padding: padding,
+        child: CircleAvatar(
+          backgroundColor: const Color(0x800090FF),
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(200),
+                child: image,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return Padding(
       padding: padding,
       child: Badge(

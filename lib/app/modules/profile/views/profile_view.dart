@@ -36,7 +36,7 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                     child: Column(
                       children: [
-                        SizedBox(height: 70),
+                        SizedBox(height: 50),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
@@ -780,6 +780,7 @@ class ProfileView extends GetView<ProfileController> {
                                         obscureText: true,
                                         keyboardType: TextInputType.text,
                                         validator: (value) {},
+                                        onChanged: controller.oldPassword,
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -850,6 +851,7 @@ class ProfileView extends GetView<ProfileController> {
                                         obscureText: true,
                                         keyboardType: TextInputType.text,
                                         validator: (value) {},
+                                        onChanged: controller.newPassword,
                                         style: TextStyle(
                                           fontSize: 14,
                                         ),
@@ -923,7 +925,9 @@ class ProfileView extends GetView<ProfileController> {
                                                   BorderRadius.circular(8)),
                                           backgroundColor: Color(0xFF2191FB),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          controller.saveSecurityInformation();
+                                        },
                                         child: Text(
                                           'Update',
                                           style: TextStyle(
