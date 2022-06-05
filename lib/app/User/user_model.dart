@@ -14,6 +14,7 @@ class User extends Model {
   int comments_count = 0;
   int rooms_count = 0;
   int valid_comments_count = 0;
+  int owned_rooms_count = 0;
   dynamic emailVerifiedAt;
   int? type;
   String? createdAt;
@@ -79,6 +80,7 @@ class User extends Model {
     comments_count = json['comments_count'] ?? 0;
     rooms_count = json['rooms_count'] ?? 0;
     valid_comments_count = json['valid_comments_count'] ?? 0;
+    owned_rooms_count = json['owned_rooms_count'] ?? 0;
     emailVerifiedAt = json['email_verified_at'];
     type = json['type'];
     isRecommended = json['isRecommended'] ?? false;

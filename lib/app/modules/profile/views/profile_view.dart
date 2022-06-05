@@ -67,24 +67,44 @@ class ProfileView extends GetView<ProfileController> {
                                 children: [
                                   Stack(
                                     children: [
-                                      SvgPicture.asset(
-                                        'assets/second.svg',
-                                        height: 40,
-                                        width: 30,
-                                      ),
-                                      Positioned(
-                                        top: 6,
-                                        right: 11,
-                                        child: Text(
-                                          '${user.rank}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                      if (user.type == 0)
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 4),
+                                          padding: EdgeInsets.all(4),
+                                          width: 30,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: Colors.white70,
+                                          ),
+                                          child: Image.asset(
+                                            'assets/teacher_icon.png',
+                                            color: Colors.blue,
+                                          ),
                                         ),
-                                      ),
+                                      if (user.type != 0)
+                                        SvgPicture.asset(
+                                          'assets/second.svg',
+                                          height: 40,
+                                          width: 30,
+                                        ),
+                                      if (user.type != 0)
+                                        Positioned(
+                                          top: 6,
+                                          right: 11,
+                                          child: Text(
+                                            '${user.rank}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
                                     ],
                                   ),
                                   Text(
-                                    'Rank ${user.rank}',
+                                    user.type == 0
+                                        ? "Teacher"
+                                        : 'Rank ${user.rank}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
@@ -101,68 +121,51 @@ class ProfileView extends GetView<ProfileController> {
                             Container(
                                 width: 90,
                                 height: 90,
-                                child: Badge(
-                                  padding: EdgeInsets.zero,
-                                  position: BadgePosition.bottomEnd(
-                                      bottom: -2, end: -10),
-                                  badgeColor: Colors.blue,
-                                  showBadge: user.type == 0,
-                                  badgeContent: Container(
-                                    padding: EdgeInsets.all(4),
-                                    width: 30,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Colors.white70,
-                                    ),
-                                    child: Image.asset(
-                                      'assets/teacher_icon.png',
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  child: CircleAvatar(
-                                    minRadius: 40,
-                                    backgroundColor: Colors.white70,
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(200),
-                                          child: NetImage(
-                                            id: user.imageId,
-                                            alt: user.name!,
-                                            minSize: 200,
-                                          ),
+                                child: CircleAvatar(
+                                  minRadius: 40,
+                                  backgroundColor: Colors.white70,
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(200),
+                                        child: NetImage(
+                                          id: user.imageId,
+                                          alt: user.name!,
+                                          minSize: 200,
                                         ),
                                       ),
                                     ),
                                   ),
                                 )),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.25),
-                                      spreadRadius: 0,
-                                      blurRadius: 3,
-                                      offset: Offset(
-                                          0, 0), // changes position of shadow
-                                    )
-                                  ],
-                                ),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    'assets/camera.svg',
-                                    width: 25,
+                            Visibility(
+                              visible: user.id == Auth.user.id,
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.25),
+                                        spreadRadius: 0,
+                                        blurRadius: 3,
+                                        offset: Offset(
+                                            0, 0), // changes position of shadow
+                                      )
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/camera.svg',
+                                      width: 25,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -190,60 +193,61 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        SizedBox(
-                          width: 200,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Points : ${user.points} point',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
+                        if (user.type != 0) SizedBox(height: 10),
+                        if (user.type != 0)
+                          SizedBox(
+                            width: 200,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Points : ${user.points} point',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Center(
-                                  child: Padding(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: StepProgressIndicator(
-                                  totalSteps:
-                                      user.requiredPoints(user.rank + 1) -
-                                          user.requiredPoints(user.rank),
-                                  currentStep:
-                                      int.tryParse(user.points ?? '0')! -
-                                          user.requiredPoints(user.rank),
-                                  size: 5,
-                                  selectedSize: 6,
-                                  padding: 0,
-                                  selectedColor: Colors.greenAccent,
-                                  unselectedColor: Colors.white,
-                                  roundedEdges: Radius.circular(10),
+                                  ],
                                 ),
-                              )),
-                              SizedBox(height: 3),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '${user.remainingPoints} Points to reach rank ${user.rank + 1}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
+                                SizedBox(height: 10),
+                                Center(
+                                    child: Padding(
+                                  padding: EdgeInsets.only(left: 10.0),
+                                  child: StepProgressIndicator(
+                                    totalSteps:
+                                        user.requiredPoints(user.rank + 1) -
+                                            user.requiredPoints(user.rank),
+                                    currentStep:
+                                        int.tryParse(user.points ?? '0')! -
+                                            user.requiredPoints(user.rank),
+                                    size: 5,
+                                    selectedSize: 6,
+                                    padding: 0,
+                                    selectedColor: Colors.greenAccent,
+                                    unselectedColor: Colors.white,
+                                    roundedEdges: Radius.circular(10),
                                   ),
-                                ],
-                              ),
-                            ],
+                                )),
+                                SizedBox(height: 3),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      '${user.remainingPoints} Points to reach rank ${user.rank + 1}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                         SizedBox(height: 20),
                       ],
                     ),
@@ -373,7 +377,7 @@ class ProfileView extends GetView<ProfileController> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${user.points}',
+                                      '${user.type == 0 ? user.owned_rooms_count : user.points}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -387,7 +391,9 @@ class ProfileView extends GetView<ProfileController> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      'Points',
+                                      user.type == 0
+                                          ? 'created rooms'
+                                          : 'Points',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 12,
