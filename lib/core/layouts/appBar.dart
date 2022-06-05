@@ -59,12 +59,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Obx(() {
-              print(
-                  'points :${int.tryParse(Auth.user.points ?? '0')!}  , rank : ${Auth.user.rank}');
-              print(
-                  'total steps ${Auth.user.requiredPoints(Auth.user.rank + 1) - Auth.user.requiredPoints(Auth.user.rank)}');
-              print(
-                  'current step ${int.tryParse(Auth.user.points ?? '0')! - Auth.user.requiredPoints(Auth.user.rank - 1)}');
               return Visibility(
                 visible: true,
                 child: SizedBox(

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/User/auth.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/layouts/appBar.dart';
 import 'package:learnify_client/core/layouts/footer.dart';
 
@@ -82,12 +83,20 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                 StaggeredGridTile.count(
                                   crossAxisCellCount: 6,
                                   mainAxisCellCount: 6,
-                                  child: CustomAvatarImage(
-                                    NetImage(
-                                      id: controller
-                                          .users.data[index + 3].payee.imageId,
-                                      alt: controller
-                                          .users.data[index + 3].payee.alt,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(Routes.PROFILE,
+                                          arguments: controller
+                                              .users.data[index + 3].payee);
+                                    },
+                                    child: CustomAvatarImage(
+                                      NetImage(
+                                        id: controller.users.data[index + 3]
+                                            .payee.imageId,
+                                        alt: controller
+                                            .users.data[index + 3].payee.alt,
+                                        minSize: 200,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -211,11 +220,19 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller
-                                            .users.data[1].payee.imageId,
-                                        alt: controller.users.data[1].payee.alt,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.PROFILE,
+                                            arguments:
+                                                controller.users.data[1].payee);
+                                      },
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller
+                                              .users.data[1].payee.imageId,
+                                          alt: controller
+                                              .users.data[1].payee.alt,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -256,11 +273,14 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller
-                                            .users.data[0].payee.imageId,
-                                        alt: controller.users.data[0].payee.alt,
+                                    child: GestureDetector(
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller
+                                              .users.data[0].payee.imageId,
+                                          alt: controller
+                                              .users.data[0].payee.alt,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -297,11 +317,19 @@ class LeaderboardView extends GetView<LeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller
-                                            .users.data[2].payee.imageId,
-                                        alt: controller.users.data[2].payee.alt,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.PROFILE,
+                                            arguments:
+                                                controller.users.data[2].payee);
+                                      },
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller
+                                              .users.data[2].payee.imageId,
+                                          alt: controller
+                                              .users.data[2].payee.alt,
+                                        ),
                                       ),
                                     ),
                                   )

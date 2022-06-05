@@ -34,6 +34,7 @@ class RoomController extends GetxController {
     isLoading.value = true;
     var list = await provider.index('rooms', page: paginatedList.next_page);
     paginatedList.addAll(list);
+    _paginatedList.refresh();
     isLoading.value = false;
   }
 

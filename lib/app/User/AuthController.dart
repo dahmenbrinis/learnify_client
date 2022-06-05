@@ -61,11 +61,11 @@ class AuthController extends GetxController {
     //   Get.snackbar('Error',
     //       "${jsonDecode(res.bodyString ?? 'message:error')['message']}");
     // }
-    if (res.isOk) {
-      Auth.user = res.body;
-      Auth.authenticated = false;
-      Get.offNamed(Routes.LOGIN);
-    }
+
+    Auth.user = User();
+    Auth.authenticated = false;
+    Auth.refreshUser();
+    Get.offNamed(Routes.LOGIN);
   }
 
   updateFcmToken() async {
