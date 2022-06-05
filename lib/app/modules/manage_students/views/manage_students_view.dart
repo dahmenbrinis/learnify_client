@@ -15,6 +15,7 @@ import 'package:learnify_client/core/layouts/background_widget.dart';
 import '../../../../core/components/avatar_image.dart';
 import '../../../../core/components/net_image.dart';
 import '../../../../core/layouts/Background2.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/manage_students_controller.dart';
 import 'package:intl/intl.dart';
 
@@ -65,23 +66,28 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
             StaggeredGridTile.count(
               crossAxisCellCount: 9,
               mainAxisCellCount: 7,
-              child: Column(
-                children: [
-                  CustomAvatarImage(
-                    NetImage(
-                      id: user.imageId,
-                      alt: user.name!,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.PROFILE, arguments: user);
+                },
+                child: Column(
+                  children: [
+                    CustomAvatarImage(
+                      NetImage(
+                        id: user.imageId,
+                        alt: user.name!,
+                      ),
+                      isTeacher: user.type == 0,
                     ),
-                    isTeacher: user.type == 0,
-                  ),
-                  SizedBox(height: 2),
-                  Center(
-                      child: Text(
-                    user.name!,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-                ],
+                    SizedBox(height: 2),
+                    Center(
+                        child: Text(
+                      user.name!,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                  ],
+                ),
               ),
             ),
             StaggeredGridTile.count(
