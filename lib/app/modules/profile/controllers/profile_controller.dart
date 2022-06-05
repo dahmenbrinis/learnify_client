@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/app/User/user_provider.dart';
 import 'package:learnify_client/core/components/Dialogs.dart';
+import 'package:learnify_client/core/models/image_model.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
@@ -68,5 +72,48 @@ class ProfileController extends GetxController {
         "Return", Get.back);
     Auth.user.token = res.bodyString;
     user.refresh();
+  }
+
+  var progress = 0.1.obs;
+  Rx<XFile?> image = Rx(null);
+
+  chooseImage() async {
+    final ImagePicker _picker = ImagePicker();
+    image.value =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    var data = {
+      'image': MultipartFile(await image.value!.readAsBytes(),
+          filename: image.value!.path),
+      'imagable_type': 'App\\Models\\User',
+      'imagable_id': '${user.value.id}',
+      'alt': '${user.value.name}',
+    };
+    await confirmationModal(
+      "change photo",
+      "are you sure you want to chage your profile picture ? ",
+      "Change",
+      "cancel",
+      () => uploadImage(data),
+      Get.back,
+    );
+    print('done ;');
+    image.value = null;
+    progress.value = 0;
+  }
+
+  uploadImage(data) async {
+    var res = await Get.find<UserProvider>().sendRequest("images", "POST",
+        body: FormData(data), uploadProgress: (value) {
+      if (progress.value * 100 + 10 < value) {
+        progress.value = value / 100;
+      }
+    });
+    if (res.bodyString != null && res.bodyString!.contains("User")) {
+      var image = Image.fromJson(jsonDecode(res.bodyString!));
+      Auth.user.imageId = image.id;
+      user.value.imageId = image.id;
+      user.refresh();
+    }
+    Get.back();
   }
 }

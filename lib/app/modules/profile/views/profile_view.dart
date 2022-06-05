@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../../../core/components/avatar_image.dart';
@@ -127,24 +130,63 @@ class ProfileView extends GetView<ProfileController> {
                                   child: SizedBox(
                                     width: double.infinity,
                                     height: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(200),
-                                        child: NetImage(
-                                          id: user.imageId,
-                                          alt: user.name!,
-                                          minSize: 200,
+                                    child: Obx(() {
+                                      var image = controller.image.value;
+
+                                      return Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(200),
+                                          child: image != null
+                                              ? Stack(
+                                                  children: [
+                                                    Container(
+                                                      width: 90,
+                                                      height: 90,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      200)),
+                                                      child: Image.file(
+                                                        File(image.path),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    LiquidCircularProgressIndicator(
+                                                      value: controller
+                                                          .progress.value,
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation(
+                                                              Colors.white70),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      borderColor:
+                                                          Colors.white70,
+                                                      borderWidth: 3,
+                                                      direction: Axis
+                                                          .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+                                                    ),
+                                                  ],
+                                                )
+                                              : NetImage(
+                                                  id: user.imageId,
+                                                  alt: user.name!,
+                                                  minSize: 200,
+                                                ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    }),
                                   ),
                                 )),
                             Visibility(
-                              visible: user.id == Auth.user.id,
+                              visible: user.id == Auth.user.id &&
+                                  controller.image.value == null,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  controller.chooseImage();
+                                },
                                 child: Container(
                                   width: 30,
                                   height: 30,
@@ -273,6 +315,7 @@ class ProfileView extends GetView<ProfileController> {
                                 children: [
                                   Flexible(
                                     child: Text(
+                                      // '${controller.progress.value * 100}',
                                       '${user.comments_count}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -798,7 +841,7 @@ class ProfileView extends GetView<ProfileController> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 8, horizontal: 8),
                                             child: SvgPicture.asset(
-                                              'assets/icons/lock.svg',
+                                              'assets/lock.svg',
                                               width: 20,
                                               color: Color(0xFF777777),
                                             ),
@@ -869,7 +912,7 @@ class ProfileView extends GetView<ProfileController> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 8, horizontal: 8),
                                             child: SvgPicture.asset(
-                                              'assets/icons/lock.svg',
+                                              'assets/lock.svg',
                                               width: 24,
                                               color: Color(0xFF777777),
                                             ),

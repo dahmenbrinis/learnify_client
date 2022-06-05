@@ -5,7 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 Color TextColor = Colors.black87;
-void confirmationModal(String title, String body, String confirmText,
+confirmationModal(String title, String body, String confirmText,
     String cancelText, Function onConfirm, Function onCancel) {
   Get.defaultDialog(
     backgroundColor: Colors.transparent,
@@ -132,7 +132,7 @@ void confirmationModal(String title, String body, String confirmText,
   );
 }
 
-void successModal(
+successModal(
     String title, String body, String confirmText, Function onConfirm) {
   Get.defaultDialog(
     backgroundColor: Colors.transparent,
@@ -235,8 +235,7 @@ void successModal(
   );
 }
 
-void errorModal(
-    String title, String body, String cancelText, Function onCancel) {
+errorModal(String title, String body, String cancelText, Function onCancel) {
   Get.defaultDialog(
     backgroundColor: Colors.transparent,
     barrierDismissible: false,
