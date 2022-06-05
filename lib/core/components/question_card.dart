@@ -55,8 +55,14 @@ class QuestionCard extends StatelessWidget {
             StaggeredGridTile.count(
               crossAxisCellCount: 3,
               mainAxisCellCount: 3,
-              child: CustomAvatarImage(
-                NetImage(id: question.user?.imageId, alt: question.user!.name!),
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.PROFILE, arguments: question.user);
+                },
+                child: CustomAvatarImage(
+                  NetImage(
+                      id: question.user?.imageId, alt: question.user!.name!),
+                ),
               ),
             ),
             StaggeredGridTile.count(

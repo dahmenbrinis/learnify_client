@@ -27,12 +27,12 @@ class User extends Model {
 
   int get rank {
     int points = int.tryParse(this.points!)!;
-    double rank = sqrt(points / 10);
-    return rank.round();
+    double rank = sqrt(points) / 3;
+    return rank.floor();
   }
 
   int requiredPoints(int rank) {
-    return 10 * rank * rank;
+    return 9 * rank * rank;
   }
 
   int get remainingPoints {

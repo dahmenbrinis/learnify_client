@@ -252,8 +252,14 @@ class CommentCard extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.center,
               children: [
-                CustomAvatarImage(
-                  NetImage(id: comment.user!.imageId, alt: comment.user!.name!),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.PROFILE, arguments: comment.user!);
+                  },
+                  child: CustomAvatarImage(
+                    NetImage(
+                        id: comment.user!.imageId, alt: comment.user!.name!),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(

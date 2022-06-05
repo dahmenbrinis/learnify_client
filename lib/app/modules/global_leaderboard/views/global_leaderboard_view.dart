@@ -13,6 +13,7 @@ import '../../../../core/components/net_image.dart';
 import '../../../../core/layouts/appBar.dart';
 import '../../../../core/layouts/footer.dart';
 import '../../../User/auth.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/global_leaderboard_controller.dart';
 
 class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
@@ -83,12 +84,21 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                 StaggeredGridTile.count(
                                   crossAxisCellCount: 6,
                                   mainAxisCellCount: 6,
-                                  child: CustomAvatarImage(
-                                    NetImage(
-                                      id: controller
-                                          .users.data[index + 3].imageId,
-                                      alt: controller
-                                          .users.data[index + 3].name!,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        Routes.PROFILE,
+                                        arguments:
+                                            controller.users.data[index + 3],
+                                      );
+                                    },
+                                    child: CustomAvatarImage(
+                                      NetImage(
+                                        id: controller
+                                            .users.data[index + 3].imageId,
+                                        alt: controller
+                                            .users.data[index + 3].name!,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -218,10 +228,17 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller.users.data[1].imageId,
-                                        alt: controller.users.data[1].name!,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.PROFILE,
+                                            arguments:
+                                                controller.users.data[1]);
+                                      },
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller.users.data[1].imageId,
+                                          alt: controller.users.data[1].name!,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -262,10 +279,17 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller.users.data[0].imageId,
-                                        alt: controller.users.data[0].name!,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.PROFILE,
+                                            arguments:
+                                                controller.users.data[0]);
+                                      },
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller.users.data[0].imageId,
+                                          alt: controller.users.data[0].name!,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -302,10 +326,17 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    child: CustomAvatarImage(
-                                      NetImage(
-                                        id: controller.users.data[2].imageId,
-                                        alt: controller.users.data[2].name!,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.PROFILE,
+                                            arguments:
+                                                controller.users.data[1]);
+                                      },
+                                      child: CustomAvatarImage(
+                                        NetImage(
+                                          id: controller.users.data[2].imageId,
+                                          alt: controller.users.data[2].name!,
+                                        ),
                                       ),
                                     ),
                                   )
