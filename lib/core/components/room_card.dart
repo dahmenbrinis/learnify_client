@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/room/controllers/rooms_controller.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
+import 'package:learnify_client/app/modules/room/views/rooms_view.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/components/net_image.dart';
@@ -153,6 +154,9 @@ class RoomCard extends StatelessWidget {
                                 ?.then((value) {
                               if (value != null) {
                                 room = value;
+                                _room.refresh();
+                                Get.find<RoomController>().init();
+                                Get.find<RoomController>().fetch();
                               }
                               refresh.value = !refresh.value;
                             });
