@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/User/local_auth.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/provider.dart';
 import 'package:learnify_client/core/utils.dart';
@@ -27,6 +28,8 @@ class AuthController extends GetxController {
       Auth.user = response.body;
       Auth.authenticated = true;
       await updateFcmToken();
+      Auth.refreshPoints();
+      Auth.user.password = password;
       Get.snackbar('Welcome', 'hello ${Auth.user.name} and welcome',
           duration: const Duration(seconds: 2));
       Get.offNamed('/room');
@@ -48,6 +51,8 @@ class AuthController extends GetxController {
       Auth.user = response.body ?? Auth.user;
       Auth.authenticated = true;
       await updateFcmToken();
+      Auth.user.password = password;
+      Authentication().update();
       Get.snackbar('Welcome', 'hello ${Auth.user.name} and welcome',
           duration: const Duration(seconds: 2));
       Get.offNamed(Routes.ROOM);
@@ -61,10 +66,7 @@ class AuthController extends GetxController {
     //   Get.snackbar('Error',
     //       "${jsonDecode(res.bodyString ?? 'message:error')['message']}");
     // }
-
-    Auth.user = User();
-    Auth.authenticated = false;
-    Auth.refreshUser();
+    Authentication().logout();
     Get.offNamed(Routes.LOGIN);
   }
 

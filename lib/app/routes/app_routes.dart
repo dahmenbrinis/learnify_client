@@ -18,6 +18,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
   static const MANAGE_STUDENTS = _Paths.MANAGE_STUDENTS;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const NOTIFICATIONS = '/notifications';
   static const MANAGE_STUDENTS = '/manage-students';
+  static const SPLASH = '/splash';
 }

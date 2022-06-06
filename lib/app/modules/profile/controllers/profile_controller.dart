@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learnify_client/app/User/auth.dart';
+import 'package:learnify_client/app/User/local_auth.dart';
 import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/app/User/user_provider.dart';
 import 'package:learnify_client/core/components/Dialogs.dart';
@@ -55,6 +56,7 @@ class ProfileController extends GetxController {
     user.value.email = email.value;
     user.value.name = userName.value;
     Auth.user = user.value;
+    Auth.refreshUser();
     user.refresh();
   }
 
@@ -72,6 +74,7 @@ class ProfileController extends GetxController {
         "Return", Get.back);
     Auth.user.token = res.bodyString;
     user.refresh();
+    Auth.refreshUser();
   }
 
   var progress = 0.5.obs;

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:learnify_client/app/User/local_auth.dart';
 import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/app/User/user_provider.dart';
 
@@ -19,10 +20,11 @@ class Auth {
     final provider = Get.find<UserProvider>();
     var res = await provider.sendRequest('updatePoints', "GET");
     user.points = res.bodyString;
-    _user.refresh();
+    refreshUser();
   }
 
   static refreshUser() {
     _user.refresh();
+    Authentication().update();
   }
 }
