@@ -60,12 +60,7 @@ class AuthController extends GetxController {
   }
 
   logout() async {
-    var res = await provider.sendRequest('logout', "POST");
-    // if (res.hasError) {
-    //   print('body = ${res.bodyString} ${Utils.baseUrl}');
-    //   Get.snackbar('Error',
-    //       "${jsonDecode(res.bodyString ?? 'message:error')['message']}");
-    // }
+    await provider.sendRequest('logout', "POST");
     Authentication().logout();
     Get.offNamed(Routes.LOGIN);
   }
