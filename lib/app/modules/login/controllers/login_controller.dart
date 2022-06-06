@@ -10,9 +10,6 @@ class LoginController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    emailController.text = 'dahmen@gmail.com';
-    passwordController.text = 'password';
-    // login();
     super.onInit();
   }
 
@@ -29,5 +26,4 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {}
-  // void increment() => count.value++;
 }

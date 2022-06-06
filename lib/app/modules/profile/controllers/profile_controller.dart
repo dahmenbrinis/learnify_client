@@ -12,7 +12,8 @@ import 'package:learnify_client/core/models/image_model.dart';
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
   final user = Rx<User>(Get.arguments);
-  final count = 0.obs;
+  final isBadgesHidden = true.obs;
+  final badgesList = RxList([]);
   @override
   void onInit() {
     fetch();
@@ -24,9 +25,14 @@ class ProfileController extends GetxController {
     isLoading(true);
     var res = await Get.find<UserProvider>()
         .sendRequest("profile/${user.value.id}", "GET");
+    var res2 = await Get.find<UserProvider>().sendRequest("badgesList", "GET");
     isLoading(false);
     if (res.body == null) return;
+    badgesList.value = jsonDecode(res2.bodyString!)
+        .map((item) => Badges.fromJson(item))
+        .toList();
     user.value = res.body;
+    arrangeBadges();
     user.refresh();
   }
 
@@ -37,7 +43,6 @@ class ProfileController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
   var email = "".obs;
   var userName = "".obs;
   saveInformation() async {
@@ -126,5 +131,11 @@ class ProfileController extends GetxController {
       user.value.alt2 = image.src!;
       user.refresh();
     }
+  }
+
+  arrangeBadges() {
+    var badges = user.value.badges;
+    badgesList.sort((a, b) => b.level! - a.level!);
+    badges.sort((a, b) => b.level! - a.level!);
   }
 }

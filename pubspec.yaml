@@ -50,6 +50,7 @@ dependencies:
   image_picker:
   liquid_progress_indicator:
   flutter_secure_storage:
+  intl:
   flutter_launcher_icons: ^0.9.2
 #  cached_network_image: ^3.2.0
 flutter_icons:

@@ -59,14 +59,6 @@ class User extends Model {
     return 'User{id: $id,id: $reputation, name: $points,name: $name, email: $email, token: $token, password: $password, emailVerifiedAt: $emailVerifiedAt, type: $type, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 
-  String badgeIconUrl(String badgeName) {
-    switch (badgeName) {
-      case "Recommended":
-        return 'assets/second.svg';
-    }
-    return 'assets/second.svg';
-  }
-
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     if (json['reputation'] is int)

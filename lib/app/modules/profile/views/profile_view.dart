@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:learnify_client/app/User/user_model.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -27,6 +29,14 @@ class ProfileView extends GetView<ProfileController> {
           child: Container(
             child: Obx(() {
               var user = controller.user.value;
+              print(controller.badgesList.length);
+              var count = 6;
+              var disabledBadges = [...controller.badgesList.value];
+              for (var badge in user.badges) {
+                disabledBadges
+                    .removeWhere((element) => element.name == badge.name);
+              }
+              print(controller.badgesList.length);
               return Column(
                 children: [
                   Container(
@@ -503,56 +513,50 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      runAlignment: WrapAlignment.spaceBetween,
-                      runSpacing: 10,
-                      spacing: 10,
-                      children: [
-                        for (var badge in user.badges)
-                          Tooltip(
-                            triggerMode: TooltipTriggerMode.tap,
-                            message: badge.description,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 7, vertical: 5),
-                              width: (Get.width / 2) - 20,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2191FB),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    user.badgeIconUrl(badge.name!),
-                                    width: 30,
-                                    height: 30,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Flexible(
-                                    child: Text(
-                                      '${badge.name}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
+                  Obx(() {
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceAround,
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        runAlignment: WrapAlignment.spaceAround,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: [
+                          for (var badge in user.badges)
+                            if (count-- > 0 || !controller.isBadgesHidden.value)
+                              BadgeCard(badge),
+                          for (var badge in disabledBadges)
+                            if (count-- > 0 || !controller.isBadgesHidden.value)
+                              BadgeCard(badge, isDisabled: true),
+                        ],
+                      ),
+                    );
+                  }),
                   Visibility(
                       visible: user.badges.isEmpty,
                       child: Text('No badges achived yet! ')),
+                  // SizedBox(height: 15),
+                  Container(
+                    // color: Colors.red,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Obx(() {
+                          return TextButton(
+                            onPressed: () {
+                              controller.isBadgesHidden.value =
+                                  !controller.isBadgesHidden.value;
+                              count = 6;
+                            },
+                            child: Text(controller.isBadgesHidden.value
+                                ? 'load more'
+                                : 'load less'),
+                          );
+                        })
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 15),
                   Visibility(
                     visible: Auth.user.id == user.id,
@@ -695,7 +699,7 @@ class ProfileView extends GetView<ProfileController> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 8, horizontal: 8),
                                             child: SvgPicture.asset(
-                                              'assets/icons/envelope.svg',
+                                              'assets/envelope.svg',
                                               width: 24,
                                               color: Color(0xFF777777),
                                             ),
@@ -1004,5 +1008,158 @@ class ProfileView extends GetView<ProfileController> {
         ),
       ),
     );
+  }
+}
+
+class BadgeCard extends StatelessWidget {
+  Badges badge;
+  bool isDisabled = false;
+
+  BadgeCard(this.badge, {this.isDisabled = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      triggerMode: TooltipTriggerMode.tap,
+      message: "${badge.description}\nrarity:${getLevel()}" +
+          (!isDisabled ? "\nrecived at: ${getTime()}" : ""),
+      child: getBackgroundBadge(Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            badgeIconUrl(),
+            width: 30,
+            height: 30,
+          ),
+          SizedBox(width: 5),
+          Flexible(
+            child: Text(
+              '${badge.name}',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      )),
+    );
+  }
+
+  getLevel() {
+    switch (badge.level) {
+      case 1:
+        return 'Commune';
+      case 2:
+        return 'Rare';
+      case 3:
+        return 'Legendary';
+      case 4:
+        return 'Mythic';
+    }
+    return '';
+  }
+
+  Widget getBackgroundBadge(Widget child) {
+    var color = () {
+      switch (badge.level) {
+        case 1:
+          return Colors.blue;
+        case 2:
+          return Colors.indigo;
+        case 3:
+          return Color(0xffffd700);
+        case 4:
+          return Color(0xffff8c00);
+      }
+      return Colors.blue;
+    }();
+    var main = Stack(
+      children: [
+        if (badge.level == 2)
+          Positioned(
+            right: 6,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationZ(-(pi / 2)),
+              child: Icon(
+                Iconsax.medal_star,
+                color: color,
+                size: 40,
+              ),
+            ),
+          ),
+        if (badge.level == 2)
+          Positioned(
+            left: 6,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationZ((pi / 2)),
+              child: Icon(
+                Iconsax.medal_star,
+                color: color,
+                size: 40,
+              ),
+            ),
+          ),
+        if (badge.level == 4 || badge.level == 3)
+          Positioned(
+            left: -1,
+            child: Image.asset(
+              'assets/wings.png',
+              color: color,
+              height: 40,
+              width: 40,
+            ),
+          ),
+        if (badge.level == 4 || badge.level == 3)
+          Positioned(
+            right: -1,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(pi),
+              child: Image.asset(
+                'assets/wings.png',
+                color: color,
+                height: 40,
+                width: 40,
+              ),
+            ),
+          ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+          width: (Get.width / 2) - 70,
+          height: 40,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: child,
+        ),
+      ],
+    );
+    if (isDisabled)
+      return Container(
+        foregroundDecoration: BoxDecoration(
+          color: Colors.grey,
+          backgroundBlendMode: BlendMode.saturation,
+        ),
+        child: main,
+      );
+    return main;
+  }
+
+  String badgeIconUrl() {
+    switch (badge.name) {
+      case "Recommended":
+        return 'assets/second.svg';
+    }
+    return 'assets/second.svg';
+  }
+
+  getTime() {
+    return badge.createdAt!.substring(0, 10);
   }
 }
