@@ -52,9 +52,9 @@ class MyProfileName extends StatelessWidget {
         dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
         dropdownDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: Colors.white70,
+          color: Colors.white.withAlpha(220),
         ),
-        dropdownElevation: 8,
+        dropdownElevation: 4,
         offset: const Offset(40, -4),
       ),
     );

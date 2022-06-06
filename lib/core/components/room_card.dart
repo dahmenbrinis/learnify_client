@@ -77,7 +77,7 @@ class RoomCard extends StatelessWidget {
                   // mainAxisExtent: 100,
                   child: Obx(() {
                     return Visibility(
-                      visible: room.permissions!.canView,
+                      visible: room.permissions!.canView && false,
                       child: GestureDetector(
                         onTap: () {
                           if (room.permissions!.canView)
@@ -87,13 +87,12 @@ class RoomCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Theme.of(context)
                                 .primaryColorLight
-                                .withAlpha(50),
+                                .withAlpha(90),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: RotatedBox(
                               quarterTurns: 0,
-                              child: Icon(Iconsax.arrow_circle_right,
-                                  color: Colors.blue)),
+                              child: Icon(Iconsax.login, color: Colors.blue)),
                         ),
                       ),
                     );
@@ -306,6 +305,25 @@ class RoomCard extends StatelessWidget {
                                 'Manage Users',
                                 style: TextStyle(
                                     color: Colors.indigoAccent, fontSize: 12),
+                              )
+                            ],
+                          ),
+                        ),
+                      if (room.permissions!.canView)
+                        GestureDetector(
+                          onTap: () {
+                            if (room.permissions!.canView)
+                              Get.toNamed(Routes.QUESTIONS, arguments: room);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.login, color: Colors.blue),
+                              SizedBox(height: 10),
+                              Text(
+                                'Enter Room',
+                                style:
+                                    TextStyle(color: Colors.blue, fontSize: 12),
                               )
                             ],
                           ),
