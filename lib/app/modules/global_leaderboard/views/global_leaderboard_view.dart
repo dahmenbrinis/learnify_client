@@ -19,6 +19,7 @@ import '../controllers/global_leaderboard_controller.dart';
 class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
   @override
   Widget build(BuildContext context) {
+    Footer.index = 2;
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Global LeaderBoard',

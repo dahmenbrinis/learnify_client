@@ -11,6 +11,7 @@ import '../controllers/my_questions_controller.dart';
 class MyQuestionsView extends GetView<MyQuestionsController> {
   @override
   Widget build(BuildContext context) {
+    Footer.index = 1;
     return Scaffold(
       appBar: const CustomAppBar(
         title: "My Questions",

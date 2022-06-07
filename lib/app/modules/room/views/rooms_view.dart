@@ -13,6 +13,7 @@ import '../room_model.dart';
 class RoomsView extends GetView<RoomController> {
   @override
   Widget build(BuildContext context) {
+    Footer.index = 0;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(title: 'Rooms'),

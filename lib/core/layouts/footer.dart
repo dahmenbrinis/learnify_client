@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 
 class Footer extends StatefulWidget {
+  static int index = 0;
+
   const Footer();
 
   @override
@@ -13,8 +16,6 @@ class Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<Footer> {
-  static int index = 0;
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -25,16 +26,17 @@ class _FooterState extends State<Footer> {
       unselectedFontSize: 14,
       showUnselectedLabels: true,
       iconSize: 30,
-      currentIndex: index,
+      currentIndex: Footer.index,
       onTap: (int selectedIndex) => setState(() {
-        if (selectedIndex == 3) return;
-        index = selectedIndex;
+        // if (selectedIndex == 3) return;
+        Footer.index = selectedIndex;
         // print(index);
         // Get.toNamed(Routes.GLOBAL_LEADERBOARD);
         if (selectedIndex == 0) Get.toNamed(Routes.ROOM);
         if (selectedIndex == 1) Get.toNamed(Routes.MY_QUESTIONS);
         if (selectedIndex == 2) Get.toNamed(Routes.GLOBAL_LEADERBOARD);
-        if (selectedIndex == 3) Get.toNamed(Routes.GLOBAL_LEADERBOARD);
+        if (selectedIndex == 3)
+          Get.toNamed(Routes.PROFILE, arguments: Auth.user);
       }),
       items: [
         BottomNavigationBarItem(

@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -513,26 +514,24 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Obx(() {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceAround,
-                        crossAxisAlignment: WrapCrossAlignment.start,
-                        runAlignment: WrapAlignment.spaceAround,
-                        runSpacing: 10,
-                        spacing: 10,
-                        children: [
-                          for (var badge in user.badges)
-                            if (count-- > 0 || !controller.isBadgesHidden.value)
-                              BadgeCard(badge),
-                          for (var badge in disabledBadges)
-                            if (count-- > 0 || !controller.isBadgesHidden.value)
-                              BadgeCard(badge, isDisabled: true),
-                        ],
-                      ),
-                    );
-                  }),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      runAlignment: WrapAlignment.spaceAround,
+                      runSpacing: 10,
+                      spacing: 10,
+                      children: [
+                        for (var badge in user.badges)
+                          if (count-- > 0 || !controller.isBadgesHidden.value)
+                            BadgeCard(badge),
+                        for (var badge in disabledBadges)
+                          if (count-- > 0 || !controller.isBadgesHidden.value)
+                            BadgeCard(badge, isDisabled: true),
+                      ],
+                    ),
+                  ),
                   Visibility(
                       visible: user.badges.isEmpty,
                       child: Text('No badges achived yet! ')),
@@ -628,7 +627,7 @@ class ProfileView extends GetView<ProfileController> {
                                             padding: EdgeInsets.symmetric(
                                                 vertical: 10, horizontal: 12),
                                             child: SvgPicture.asset(
-                                              'assets/icons/user-Bold.svg',
+                                              'assets/user-Bold.svg',
                                               width: 20,
                                               color: Color(0xFF777777),
                                             ),
@@ -1021,17 +1020,13 @@ class BadgeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tooltip(
       triggerMode: TooltipTriggerMode.tap,
-      message: "${badge.description}\nrarity:${getLevel()}" +
-          (!isDisabled ? "\nrecived at: ${getTime()}" : ""),
+      message: "\n${badge.name}:\n${badge.description}\nrarity: ${getLevel()}" +
+          (!isDisabled ? "\nrecived at: ${getTime()}\n" : "\n"),
       child: getBackgroundBadge(Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            badgeIconUrl(),
-            width: 30,
-            height: 30,
-          ),
-          SizedBox(width: 5),
+          badgeIconUrl(),
+          SizedBox(width: 7),
           Flexible(
             child: Text(
               '${badge.name}',
@@ -1140,7 +1135,7 @@ class BadgeCard extends StatelessWidget {
         ),
       ],
     );
-    if (isDisabled)
+    if (isDisabled) {
       return Container(
         foregroundDecoration: BoxDecoration(
           color: Colors.grey,
@@ -1148,15 +1143,114 @@ class BadgeCard extends StatelessWidget {
         ),
         child: main,
       );
+    }
     return main;
   }
 
-  String badgeIconUrl() {
+  Widget badgeIconUrl() {
     switch (badge.name) {
       case "Recommended":
-        return 'assets/second.svg';
+        return Icon(
+          Iconsax.like_shapes,
+          color: Colors.white,
+          size: 25,
+        );
+      case "Champion":
+        return SvgPicture.asset(
+          'assets/badges/gold-winner-trophy.svg',
+          width: 25,
+          height: 25,
+          color: Color(0xffffd700),
+        );
+      case "Hotshot":
+        return SvgPicture.asset(
+          'assets/badges/flames.svg',
+          width: 25,
+          height: 25,
+          color: Color(0xffffd700),
+        );
+      case "Novice":
+        return SvgPicture.asset(
+          'assets/badges/red-flag.svg',
+          width: 25,
+          height: 25,
+          theme: SvgTheme(currentColor: Colors.pink, fontSize: 16),
+        );
+      case "The Expert":
+        return SvgPicture.asset(
+          'assets/badges/experience-expert.svg',
+          width: 25,
+          height: 25,
+          color: Colors.white,
+        );
+      case "Brainiac":
+        return SvgPicture.asset(
+          'assets/badges/mind.svg',
+          width: 25,
+          height: 25,
+          color: Colors.white,
+        );
+      case "Learnify Member":
+        return Image.asset(
+          'assets/logo2.png',
+          width: 25,
+          height: 25,
+          color: Colors.white,
+        );
+      case "Rockstar":
+        return SvgPicture.asset(
+          'assets/badges/female-rock-star-sunglasses-svgrepo-com.svg',
+          width: 30,
+          height: 30,
+          color: Colors.pink,
+        );
+      case "6 Month Member":
+        return Icon(
+          Iconsax.calendar_1,
+          size: 25,
+          color: Colors.white,
+        );
+      case "1 Month Member":
+        return Icon(
+          Iconsax.calendar_1,
+          size: 25,
+          color: Colors.white,
+        );
+      case "Pin Point Accurate":
+        return SvgPicture.asset(
+          'assets/badges/target-focus.svg',
+          width: 25,
+          height: 25,
+          color: Colors.pink,
+        );
+      case "1 Year Member":
+        return Icon(
+          Iconsax.calendar_1,
+          size: 25,
+          color: Colors.white,
+        );
+      case "Prodigy":
+        return SvgPicture.asset(
+          'assets/badges/alien-svgrepo-com.svg',
+          width: 25,
+          height: 25,
+          // color: Colors.black54,
+          theme: SvgTheme(fontSize: 20, currentColor: Colors.black),
+        );
+      case "Curiosity":
+        return SvgPicture.asset(
+          'assets/badges/decision.svg',
+          width: 20,
+          height: 20,
+          color: Colors.white,
+          // theme: SvgTheme(fontSize: 20, currentColor: Colors.black),
+        );
     }
-    return 'assets/second.svg';
+    return SvgPicture.asset(
+      'assets/second.svg',
+      width: 30,
+      height: 30,
+    );
   }
 
   getTime() {

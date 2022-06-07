@@ -155,7 +155,7 @@ class RoomCard extends StatelessWidget {
                                 room = value;
                                 _room.refresh();
                                 Get.find<RoomController>().init();
-                                Get.find<RoomController>().fetch();
+                                // Get.find<RoomController>().fetch();
                               }
                               refresh.value = !refresh.value;
                             });
