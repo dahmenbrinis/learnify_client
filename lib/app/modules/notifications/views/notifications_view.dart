@@ -67,62 +67,75 @@ class NotificationsView extends GetView<NotificationsController> {
                 indent: 15,
               ),
               Obx(() {
-                return Container(
-                  width: Get.width,
-                  height: Get.height - 150,
-                  child: ListView.builder(
-                    itemCount: controller.list.value.length,
-                    itemBuilder: (context, index) {
-                      var item = controller.list.value.data[index];
-                      return Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: item.readAt == null
-                                  ? Colors.blue
-                                  : Color(0xD85B85A1),
-                            ),
-                            padding: EdgeInsets.all(15),
-                            margin: EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "${item.data!.enhanced.title}",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
+                if (controller.isLoading.isTrue ||
+                    controller.isMarking.isTrue) {
+                  return Container(
+                    height: Get.height / 2 + 100,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  child: Container(
+                    width: Get.width,
+                    height: Get.height - 220,
+                    child: ListView.builder(
+                      itemCount: controller.list.value.length,
+                      itemBuilder: (context, index) {
+                        var item = controller.list.value.data[index];
+                        return Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: item.readAt == null
+                                    ? Colors.blue
+                                    : Color(0xD85B85A1),
+                              ),
+                              padding: EdgeInsets.all(15),
+                              margin: EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${item.data!.enhanced.title}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      "${item.createdAt!.substring(0, 10)}",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
+                                      Text(
+                                        "${item.createdAt!.substring(0, 10)}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 15),
-                                Text(
-                                  '${item.data!.enhanced.body}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(height: 5),
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-                    },
+                                  const SizedBox(height: 15),
+                                  Text(
+                                    '${item.data!.enhanced.body}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                ],
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 );
               }),
