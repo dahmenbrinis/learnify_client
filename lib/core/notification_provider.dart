@@ -20,9 +20,10 @@ class NotificationProvider {
   }
 
   static void pushNotification(RemoteMessage message) {
-    var notification = notification_model.Notification.fromJson(message.data);
+    var notification =
+        notification_model.Notification.fromJson(message.data).enhanced;
     Get.snackbar(
-      '${notification.title} asked a question',
+      '${notification.title}',
       '${notification.body}',
     );
   }
