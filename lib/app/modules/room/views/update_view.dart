@@ -91,6 +91,7 @@ class UpdateView extends GetView<CreateController> {
                         }),
                       ),
                       Obx(() {
+                        print(controller.roomCode.isEmpty);
                         return StaggeredGrid.count(
                             crossAxisCount: 1,
                             crossAxisSpacing: 10,
@@ -139,11 +140,13 @@ class UpdateView extends GetView<CreateController> {
                                         style: TextStyle(fontSize: 16),
                                       ),
                                       IconButton(
-                                        tooltip:
-                                            "the code is saved to your clipboard",
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          code = controller.getRandomString(6);
+                                          // controller.room!.code = code;
+                                          controller.roomCode.value = code;
+                                        },
                                         icon: Icon(
-                                          Iconsax.clipboard,
+                                          Iconsax.refresh,
                                           color: Colors.blue,
                                           size: 30,
                                         ),

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,26 +29,33 @@ class NotificationsView extends GetView<NotificationsController> {
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      child: Text(
-                        controller.count.value <= 0
-                            ? "There are no new notifications"
-                            : 'You have ${controller.count.value} new notifications',
-                        style: TextStyle(
-                            color: Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
+                      child: Obx(() {
+                        return Text(
+                          controller.count.value <= 0
+                              ? "There are no new notifications"
+                              : 'You have ${controller.count.value} new notifications',
+                          style: TextStyle(
+                              color: Colors.black,
+                              // fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        );
+                      }),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        // color: Colors.blue,
-                      ),
-                      child: Text(
-                        'Mark all as Read',
-                        style: TextStyle(color: Colors.blue, fontSize: 16),
+                    RawMaterialButton(
+                      onPressed: () {
+                        controller.markAsRead();
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          // color: Colors.blue,
+                        ),
+                        child: Text(
+                          'Mark all as Read',
+                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                        ),
                       ),
                     ),
                   ],
@@ -57,39 +66,66 @@ class NotificationsView extends GetView<NotificationsController> {
                 endIndent: 15,
                 indent: 15,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.lightBlue,
-                  // color: Colors.black38,
-                ),
-                padding: EdgeInsets.all(15),
-                margin: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Dahmen answered your question",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        Text(
-                          " 24-02-2021",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      'Student voted you question in room Math and its related Student voted you question in room Math and its related',
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                ),
-              ),
+              Obx(() {
+                return Container(
+                  width: Get.width,
+                  height: Get.height - 150,
+                  child: ListView.builder(
+                    itemCount: controller.list.value.length,
+                    itemBuilder: (context, index) {
+                      var item = controller.list.value.data[index];
+                      return Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: item.readAt == null
+                                  ? Colors.blue
+                                  : Color(0xD85B85A1),
+                            ),
+                            padding: EdgeInsets.all(15),
+                            margin: EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${item.data!.enhanced.title}",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${item.createdAt!.substring(0, 10)}",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                                Text(
+                                  '${item.data!.enhanced.body}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }),
             ],
           ),
         ),
