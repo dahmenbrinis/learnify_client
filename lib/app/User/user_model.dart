@@ -16,7 +16,7 @@ class User extends Model {
   int rooms_count = 0;
   int valid_comments_count = 0;
   int owned_rooms_count = 0;
-  dynamic emailVerifiedAt;
+  String? emailVerifiedAt;
   int? type;
   String? createdAt;
   String? updatedAt;

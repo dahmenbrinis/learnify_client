@@ -27,38 +27,32 @@ class CommentsController extends GetxController {
   set isLoading(value) => _isLoading.value = value;
   @override
   void onInit() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (message.data['type'] == 'App\\Notifications\\QuestionAdded') {
-        int page = list.current_page;
-        list.init();
-        fetch(page: page);
-        print(message.notification);
-      }
+      if (message.data['type'] == 'App\\Notifications\\QuestionAdded') fetch();
     });
     scrollController.addListener(() {
       // if (scrollController.offset > 300 && !isHidden) isHidden = true;
       if (scrollController.offset == 0) isHidden = false;
       if (scrollController.position.atEdge &&
-          scrollController.position.pixels != 0) fetch();
+          scrollController.position.pixels != 0) fetch(reload: false);
     });
     super.onInit();
   }
 
   @override
   void onReady() {
-    list.init();
     fetch();
   }
 
-  fetch({int? page}) async {
+  fetch({bool reload = true}) async {
     isLoading = true;
+    if (reload) list.init();
     // var newData = await provider.index('questions/1/comments');
-    var newData = await provider.index(
-        'questions/${page ?? question.id}/comments',
+    var newData = await provider.index('questions/${question.id}/comments',
         page: list.next_page);
-    list.addAll(newData);
     isLoading = false;
+    if (newData != null) list.addAll(newData);
+    rerender();
   }
 
   rerender() {

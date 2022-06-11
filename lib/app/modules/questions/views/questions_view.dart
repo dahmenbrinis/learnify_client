@@ -59,16 +59,33 @@ class QuestionsView extends GetView<QuestionsController> {
       bottomNavigationBar: const Footer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: controller.room.permissions?.canAsk ?? false
-          ? FloatingActionButton(
-              backgroundColor: Colors.blue,
-              tooltip: 'ask a Question',
-              onPressed: () async {
-                controller.user;
-                Get.toNamed(Routes.CREATE_QUESTION, arguments: controller.room);
-                // var question = await Get.to(() => CreateQuestionView(),
-                //     arguments: controller.room);
-              },
-              child: const Icon(Iconsax.message_add, size: 30),
+          ? Container(
+              width: 180,
+              height: 50,
+              child: FloatingActionButton(
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.blue,
+                tooltip: 'create new Room',
+                onPressed: () async {
+                  controller.user;
+                  Get.toNamed(Routes.CREATE_QUESTION,
+                      arguments: controller.room);
+                  // var question = await Get.to(() => CreateQuestionView(),
+                  //     arguments: controller.room);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Post Question'),
+                      Icon(Iconsax.message_question, size: 25),
+                    ],
+                  ),
+                ),
+              ),
             )
           : null,
     );

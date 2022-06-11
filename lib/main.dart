@@ -16,13 +16,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
-  await NotificationProvider.init();
+  await NotificationProvider().init();
   // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   //   print(message.data);
   // });
   var initSettings = const AndroidInitializationSettings('assets/logo.svg');
   InitializationSettings(android: initSettings);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   Get.put<UserProvider>(UserProvider());
   Get.put<AuthController>(AuthController());
@@ -37,44 +36,6 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
     ),
   );
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-  print('Handling a background message: ${message.messageId}');
-
-  if (!AwesomeStringUtils.isNullOrEmpty(message.notification?.title,
-          considerWhiteSpaceAsEmpty: true) ||
-      !AwesomeStringUtils.isNullOrEmpty(message.notification?.body,
-          considerWhiteSpaceAsEmpty: true)) {
-    print('message also contained a notification: ${message.notification}');
-
-    String? imageUrl;
-    // imageUrl ??= message.notification!.android?.imageUrl;
-    // imageUrl ??= message.notification!.apple?.imageUrl;
-
-    Map<String, dynamic> notificationAdapter = {
-      NOTIFICATION_CHANNEL_KEY: 'basic_channel',
-      NOTIFICATION_ID: message.data[NOTIFICATION_CONTENT]?[NOTIFICATION_ID] ??
-          message.messageId ??
-          1,
-      NOTIFICATION_TITLE: message.data[NOTIFICATION_CONTENT]
-              ?[NOTIFICATION_TITLE] ??
-          message.notification?.title,
-      NOTIFICATION_BODY: message.data[NOTIFICATION_CONTENT]
-              ?[NOTIFICATION_BODY] ??
-          message.notification?.body,
-      NOTIFICATION_LAYOUT:
-          AwesomeStringUtils.isNullOrEmpty(imageUrl) ? 'Default' : 'BigPicture',
-      NOTIFICATION_BIG_PICTURE: imageUrl
-    };
-
-    AwesomeNotifications().createNotificationFromJsonData(notificationAdapter);
-  } else {
-    AwesomeNotifications().createNotificationFromJsonData(message.data);
-  }
 }
 
 class MyImageCache extends ImageCache {

@@ -43,5 +43,6 @@ class CreateCommentController extends GetxController {
       Auth.refreshPoints();
     }
     Get.back();
+    await Get.find<CommentsController>().fetch();
   }
 }

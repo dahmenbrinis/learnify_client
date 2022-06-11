@@ -195,14 +195,29 @@ class CommentsView extends GetView<CommentsController> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
-        tooltip: 'create new Room',
-        onPressed: () async {
-          Get.toNamed(Routes.CREATE_COMMENT, arguments: controller.question);
-          // controller.update();
-        },
-        child: const Icon(Iconsax.note_add, size: 30),
+      floatingActionButton: Container(
+        width: 150,
+        height: 50,
+        child: FloatingActionButton(
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          backgroundColor: Colors.blue,
+          tooltip: 'create new Room',
+          onPressed: () async {
+            Get.toNamed(Routes.CREATE_COMMENT, arguments: controller.question);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text('Add Answer'),
+                Icon(Iconsax.message_add, size: 25),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

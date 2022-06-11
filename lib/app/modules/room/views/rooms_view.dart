@@ -97,20 +97,37 @@ class RoomsView extends GetView<RoomController> {
       ),
       bottomNavigationBar: const Footer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: controller.user.type == 0
-          ? FloatingActionButton(
-              backgroundColor: Colors.blue,
-              tooltip: 'create new Room',
-              onPressed: () async {
-                Room? room = await Get.to(() => CreateView());
-                if (room == null) return;
-                if (room.id == null) return;
-                controller.paginatedList.data.insert(0, room);
-                controller.update();
-              },
-              child: Icon(Iconsax.additem4, size: 30),
-            )
-          : null,
+      floatingActionButton:
+          controller.user.type == 0 && controller.user.emailVerifiedAt == null
+              ? Container(
+                  width: 150,
+                  height: 50,
+                  child: FloatingActionButton(
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    backgroundColor: Colors.blue,
+                    tooltip: 'create new Room',
+                    onPressed: () async {
+                      Room? room = await Get.to(() => CreateView());
+                      if (room == null) return;
+                      if (room.id == null) return;
+                      controller.paginatedList.data.insert(0, room);
+                      controller.update();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('Add a Room'),
+                          Icon(Iconsax.element_plus, size: 25),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : null,
     );
   }
 }

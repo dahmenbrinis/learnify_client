@@ -39,7 +39,7 @@ dependencies:
   firebase_core: ^1.13.1
   firebase_messaging: ^11.2.8
   flutter_local_notifications: ^9.4.0
-  awesome_notifications: ^0.6.21
+  awesome_notifications:
   glass_kit: ^2.0.1
   dropdown_button2:
   step_progress_indicator: ^1.0.2
