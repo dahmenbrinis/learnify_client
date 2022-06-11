@@ -1,5 +1,7 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glass_kit/glass_kit.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/modules/room/views/create_view.dart';
 import 'package:learnify_client/core/layouts/Background2.dart';
@@ -20,6 +22,42 @@ class RoomsView extends GetView<RoomController> {
       body: BackgroundWidget2(
         child: Column(
           children: [
+            Badge(
+              badgeContent: GestureDetector(
+                onTap: () {
+                  if (controller.isLoading.isFalse) {
+                    controller.textController.text = '';
+                    controller.init();
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(Iconsax.search_normal4),
+                ),
+              ),
+              elevation: 0,
+              position: BadgePosition.bottomEnd(bottom: 17, end: 18),
+              alignment: Alignment.bottomRight,
+              badgeColor: Colors.white,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                height: 50,
+                child: TextFormField(
+                  controller: controller.textController,
+                  onChanged: (value) {
+                    controller.search = value;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'search for rooms',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 15),
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () {
@@ -70,7 +108,7 @@ class RoomsView extends GetView<RoomController> {
                 controller.paginatedList.data.insert(0, room);
                 controller.update();
               },
-              child: const Icon(Iconsax.additem4, size: 30),
+              child: Icon(Iconsax.additem4, size: 30),
             )
           : null,
     );

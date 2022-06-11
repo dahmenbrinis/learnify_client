@@ -190,7 +190,7 @@ class ManageStudentsView extends GetView<ManageStudentsController> {
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Icon(
-                              Iconsax.profile_delete,
+                              Iconsax.forbidden_2,
                               color: Theme.of(context).errorColor,
                             ),
                           ),

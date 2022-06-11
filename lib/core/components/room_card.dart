@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -77,22 +78,18 @@ class RoomCard extends StatelessWidget {
                   // mainAxisExtent: 100,
                   child: Obx(() {
                     return Visibility(
-                      visible: room.permissions!.canView && false,
-                      child: GestureDetector(
-                        onTap: () {
-                          if (room.permissions!.canView)
-                            Get.toNamed(Routes.QUESTIONS, arguments: room);
-                        },
+                      visible: room.visibility == 0,
+                      child: Tooltip(
+                        message: "this room is private",
+                        triggerMode: TooltipTriggerMode.tap,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .primaryColorLight
-                                .withAlpha(90),
+                            // color: Theme.of(context)
+                            //     .primaryColorLight
+                            //     .withAlpha(90),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: RotatedBox(
-                              quarterTurns: 0,
-                              child: Icon(Iconsax.login, color: Colors.blue)),
+                          child: Icon(Iconsax.lock, color: Colors.blue),
                         ),
                       ),
                     );
@@ -264,7 +261,8 @@ class RoomCard extends StatelessWidget {
                         MaterialButton(
                           onPressed: () async {
                             Room? res = await controller.join(room);
-                            if (res!.id != null) {
+                            if (res == null) return;
+                            if (res.id != null) {
                               room = res;
                               // controller.refresh();
                             }

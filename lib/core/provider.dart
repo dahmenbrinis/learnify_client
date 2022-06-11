@@ -32,8 +32,8 @@ abstract class Provider<ModelType extends Model> extends GetConnect
 
   Future<Paginated<ModelType>?> index(String url,
       {Map<String, String>? filters, int page = 1}) async {
-    filters = filters ?? {};
-    filters.assign('page', page.toString());
+    filters = filters ?? <String, String>{};
+    filters['page'] = page.toString();
     var res = await sendRequest(url, "GET", query: filters);
     return res.body;
   }

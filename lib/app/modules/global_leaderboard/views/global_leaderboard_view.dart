@@ -331,7 +331,7 @@ class GlobalLeaderboardView extends GetView<GlobalLeaderboardController> {
                                       onTap: () {
                                         Get.toNamed(Routes.PROFILE,
                                             arguments:
-                                                controller.users.data[1]);
+                                                controller.users.data[2]);
                                       },
                                       child: CustomAvatarImage(
                                         NetImage(

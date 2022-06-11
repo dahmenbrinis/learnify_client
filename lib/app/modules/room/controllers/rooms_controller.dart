@@ -5,12 +5,17 @@ import 'package:get/get.dart';
 import 'package:learnify_client/app/User/auth.dart';
 import 'package:learnify_client/app/modules/room/providers/room_provider.dart';
 import 'package:learnify_client/app/modules/room/room_model.dart';
+import 'package:learnify_client/core/components/Dialogs.dart';
 import 'package:learnify_client/core/pagination.dart';
 import '../../../User/user_model.dart';
 
 class RoomController extends GetxController {
   var provider = Get.find<RoomProvider>();
   final _paginatedList = Rx<Paginated<Room>>(Paginated());
+
+  var textController = TextEditingController();
+
+  String search = '';
   set paginatedList(Paginated<Room> value) => _paginatedList.value = value;
   Paginated<Room> get paginatedList => _paginatedList.value;
 
@@ -32,9 +37,11 @@ class RoomController extends GetxController {
 
   Future fetch() async {
     isLoading.value = true;
-    var list = await provider.index('rooms', page: paginatedList.next_page);
+    var list = await provider.index('rooms',
+        page: paginatedList.next_page, filters: {'search': search});
     paginatedList.addAll(list);
     _paginatedList.refresh();
+    search = '';
     isLoading.value = false;
   }
 
@@ -44,7 +51,16 @@ class RoomController extends GetxController {
   }
 
   Future<Room?> join(Room room) async {
-    var res = await provider.join(room.id!, room.id.toString());
+    var code = '';
+    if (room.visibility == 0) {
+      await roomCodeModal((value) => code = value);
+      if (code == '') return null;
+    }
+    var res = await provider.join(room.id!, code);
+    if (code.isNotEmpty && (res == null || res.id == null)) {
+      errorModal(
+          "Error", "the code you entered is incorrect", "Back", Get.back);
+    }
     return res;
   }
 
