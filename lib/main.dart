@@ -15,8 +15,14 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'app/routes/app_pages.dart';
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message");
+  NotificationProvider().pushNotification(message);
+}
+
 Future<void> main() async {
   await NotificationProvider().init();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   //   print(message.data);
   // });

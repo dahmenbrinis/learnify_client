@@ -55,10 +55,6 @@ class NotificationProvider {
       print(message.data);
       pushNotification(message);
     });
-    FirebaseMessaging.onBackgroundMessage((message) async {
-      print(message.data);
-      pushNotification(message);
-    });
   }
 
   void pushNotification(RemoteMessage message) {
@@ -74,13 +70,11 @@ class NotificationProvider {
         // )
       ],
       content: NotificationContent(
-        id: 10,
-        channelKey: 'basic_channel',
-        title: '${notification.title}',
-        body: '${notification.body}',
-        backgroundColor: Colors.white,
-        icon: 'resource://drawable/logo2',
-      ),
+          id: 10,
+          channelKey: 'basic_channel',
+          title: '${notification.title}',
+          body: '${notification.body}',
+          backgroundColor: Colors.blue),
     );
     // Get.snackbar(
     //   '${notification.title}',

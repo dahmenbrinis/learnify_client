@@ -52,6 +52,7 @@ dependencies:
   flutter_launcher_icons: ^0.9.2
   flutter_svg: ^1.0.3
   get: 4.6.1
+  connectivity_plus:
   flutter:
     sdk: flutter
 #  cached_network_image: ^3.2.0

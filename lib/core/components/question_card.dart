@@ -84,59 +84,62 @@ class QuestionCard extends StatelessWidget {
                   // color: Colors.red,
                   child: Obx(() {
                     // print(comment.voteCount);
-                    return Row(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("${question.voteCount ?? 0} votes "),
-                        // if (!this.isVoted)
-                        Visibility(
-                          visible: !this.isVoted,
-                          child: GestureDetector(
-                            onTap: () async {
-                              var provider = Get.find<VoteProvider>();
-                              var res = await provider.vote(question.id!,
-                                  (Question).toString(), question.room!.id!);
-                              if (res == null) return;
-                              if (res.id == null) return;
-                              this.isVoted = true;
-                              question.voteCount =
-                                  (question.voteCount ?? 0) + 1;
-                              Auth.refreshPoints();
-                              _question.refresh();
-                            },
-                            child: Icon(
-                              Iconsax.like5,
-                              color: Colors.greenAccent.shade400,
+                    return Visibility(
+                      visible: question.user!.id != Auth.user.id,
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("${question.voteCount ?? 0} votes "),
+                          // if (!this.isVoted)
+                          Visibility(
+                            visible: !this.isVoted,
+                            child: GestureDetector(
+                              onTap: () async {
+                                var provider = Get.find<VoteProvider>();
+                                var res = await provider.vote(question.id!,
+                                    (Question).toString(), question.room!.id!);
+                                if (res == null) return;
+                                if (res.id == null) return;
+                                this.isVoted = true;
+                                question.voteCount =
+                                    (question.voteCount ?? 0) + 1;
+                                Auth.refreshPoints();
+                                _question.refresh();
+                              },
+                              child: Icon(
+                                Iconsax.like5,
+                                color: Colors.greenAccent.shade400,
+                              ),
                             ),
                           ),
-                        ),
-                        // if (this.isVoted)
-                        Visibility(
-                          visible: this.isVoted,
-                          child: GestureDetector(
-                            onTap: () async {
-                              var provider = Get.find<VoteProvider>();
+                          // if (this.isVoted)
+                          Visibility(
+                            visible: this.isVoted,
+                            child: GestureDetector(
+                              onTap: () async {
+                                var provider = Get.find<VoteProvider>();
 
-                              var res = await provider.unVote(question.id!,
-                                  (Question).toString(), question.room!.id!);
+                                var res = await provider.unVote(question.id!,
+                                    (Question).toString(), question.room!.id!);
 
-                              if (res == null) return;
-                              if (res == 0) return;
+                                if (res == null) return;
+                                if (res == 0) return;
 
-                              this.isVoted = false;
-                              question.voteCount =
-                                  (question.voteCount ?? 0) - 1;
-                              Auth.refreshPoints();
-                              _question.refresh();
-                            },
-                            child: Icon(
-                              Iconsax.dislike5,
-                              color: Colors.red.shade400,
+                                this.isVoted = false;
+                                question.voteCount =
+                                    (question.voteCount ?? 0) - 1;
+                                Auth.refreshPoints();
+                                _question.refresh();
+                              },
+                              child: Icon(
+                                Iconsax.dislike5,
+                                color: Colors.red.shade400,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   }),
                 ),

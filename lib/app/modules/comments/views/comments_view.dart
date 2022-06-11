@@ -372,18 +372,13 @@ class CommentCard extends StatelessWidget {
             crossAxisCellCount: 15,
             // mainAxisCellCount: 2,
             // mainAxisExtent: 20,
-            child: Wrap(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    comment.body!,
-                    style: TextStyle(fontSize: 16, color: Colors.black87),
-                    // textAlign: TextAlign.center,
-                  ),
-                ),
-                // Divider(color: Colors.black, thickness: 1),
-              ],
+            child: Container(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                comment.body!,
+                style: const TextStyle(fontSize: 16, color: Colors.black87),
+                // textAlign: TextAlign.center,
+              ),
             ),
           ),
           StaggeredGridTile.count(

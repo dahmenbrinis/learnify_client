@@ -40,9 +40,9 @@ class CreateCommentController extends GetxController {
       var ctrl = Get.find<CommentsController>();
       ctrl.list.data.add(comment!);
       ctrl.rerender();
+      Get.find<CommentsController>().fetch();
       Auth.refreshPoints();
     }
     Get.back();
-    await Get.find<CommentsController>().fetch();
   }
 }

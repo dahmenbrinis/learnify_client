@@ -60,7 +60,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Obx(() {
               return Visibility(
-                visible: true,
+                visible: Auth.user.type != 0,
                 child: SizedBox(
                   width: 60,
                   child: StaggeredGrid.count(
@@ -91,12 +91,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         child: Padding(
                           padding: EdgeInsets.only(left: 10.0),
                           child: StepProgressIndicator(
-                            totalSteps:
-                                Auth.user.requiredPoints(Auth.user.rank + 1) -
-                                    Auth.user.requiredPoints(Auth.user.rank),
+                            totalSteps: (Auth.user
+                                        .requiredPoints(Auth.user.rank + 1) -
+                                    Auth.user.requiredPoints(Auth.user.rank)) ??
+                                0,
                             currentStep:
-                                int.tryParse(Auth.user.points ?? '0')! -
-                                    Auth.user.requiredPoints(Auth.user.rank),
+                                (int.tryParse(Auth.user.points ?? '0') ??
+                                        0 -
+                                            Auth.user.requiredPoints(
+                                                Auth.user.rank)) ??
+                                    0,
                             size: 5,
                             selectedSize: 6,
                             padding: 0,
