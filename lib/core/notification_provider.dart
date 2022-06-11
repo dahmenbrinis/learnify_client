@@ -2,9 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:learnify_client/app/modules/notifications/database_notification_model.dart'
+    as notification_model;
 
 import '../app/User/auth.dart';
-class NotificationProvider{
+
+class NotificationProvider {
   static init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
@@ -17,16 +20,10 @@ class NotificationProvider{
   }
 
   static void pushNotification(RemoteMessage message) {
-    switch(message.data['type'] as String){
-      case 'App\\Notifications\\QuestionAdded':
-        Get.snackbar('${message.data['title']} asked a question', '${message.data['body']}',);
-        break;
-      case 'App\\Notifications\\NewCommentNotification':
-        Get.snackbar('${message.data['title']} Commented on your post', '${message.data['body']}',);
-        break;
-    }
+    var notification = notification_model.Notification.fromJson(message.data);
+    Get.snackbar(
+      '${notification.title} asked a question',
+      '${notification.body}',
+    );
   }
-
-
 }
-
