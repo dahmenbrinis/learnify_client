@@ -44,19 +44,6 @@ class CreateCommentView extends GetView<CreateCommentController> {
                     inputController: controller.bodyController,
                     lines: 4,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Upload Image:',
-                          style: TextStyle(fontSize: 20)),
-                      TextButton(
-                        onPressed: () {
-                          print('');
-                        },
-                        child: const Text("select an image"),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

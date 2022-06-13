@@ -39,29 +39,6 @@ class CreateQuestionView extends GetView<CreateQuestionController> {
                     inputController: controller.descriptionController,
                     lines: 4,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('More Details :',
-                          style: TextStyle(fontSize: 20)),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () {
-                          print('');
-                        },
-                        child: Row(
-                          children: const [
-                            Icon(Icons.image),
-                            SizedBox(width: 10),
-                            Text(
-                              "attach images",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
