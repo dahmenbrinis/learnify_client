@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -32,6 +34,19 @@ Future<void> main() async {
   Get.put<UserProvider>(UserProvider());
   Get.put<AuthController>(AuthController());
   print(Utils.baseUrl);
+  var subscription = Connectivity()
+      .onConnectivityChanged
+      .listen((ConnectivityResult result) async {
+    // Got a new connectivity status!
+    print(result);
+    final res = await InternetAddress.lookup('example.com');
+    if (result == ConnectivityResult.bluetooth ||
+        result == ConnectivityResult.none ||
+        res.isEmpty ||
+        res[0].rawAddress.isEmpty) {
+      Get.toNamed(Routes.NOT_CONNECTED);
+    }
+  });
   // MyWidgetsBinding();
   runApp(
     GetMaterialApp(

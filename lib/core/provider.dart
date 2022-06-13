@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/model.dart';
 import 'package:learnify_client/core/pagination.dart';
 import '../app/User/auth.dart';
@@ -70,6 +71,9 @@ abstract class Provider<ModelType extends Model> extends GetConnect
         headers: headers ?? this.headers,
         query: query,
         uploadProgress: uploadProgress);
+    if (res.statusCode == null) {
+      Get.toNamed(Routes.NOT_CONNECTED);
+    }
     return res;
     // return the response and handle the error .
     // TODO : handle errors.

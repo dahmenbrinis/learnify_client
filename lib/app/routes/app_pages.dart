@@ -17,6 +17,8 @@ import '../modules/manage_students/bindings/manage_students_binding.dart';
 import '../modules/manage_students/views/manage_students_view.dart';
 import '../modules/my_questions/bindings/my_questions_binding.dart';
 import '../modules/my_questions/views/my_questions_view.dart';
+import '../modules/not_connected/bindings/not_connected_binding.dart';
+import '../modules/not_connected/views/not_connected_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -125,6 +127,11 @@ class AppPages {
       name: _Paths.SPLASH,
       page: () => SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOT_CONNECTED,
+      page: () => NotConnectedView(),
+      binding: NotConnectedBinding(),
     ),
   ];
 }
