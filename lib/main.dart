@@ -39,11 +39,8 @@ Future<void> main() async {
       .listen((ConnectivityResult result) async {
     // Got a new connectivity status!
     print(result);
-    final res = await InternetAddress.lookup('example.com');
     if (result == ConnectivityResult.bluetooth ||
-        result == ConnectivityResult.none ||
-        res.isEmpty ||
-        res[0].rawAddress.isEmpty) {
+        result == ConnectivityResult.none) {
       Get.toNamed(Routes.NOT_CONNECTED);
     }
   });

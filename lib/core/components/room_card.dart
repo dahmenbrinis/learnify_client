@@ -26,7 +26,7 @@ class RoomCard extends StatelessWidget {
 
   set room(Room value) => _room.value = value;
 
-  final _isOpen = false.obs;
+  final _isOpen = true.obs;
   final refresh = false.obs;
 
   bool get isOpen => _isOpen.value;
@@ -123,13 +123,12 @@ class RoomCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: StaggeredGrid.count(
                     crossAxisCount: 3,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 5,
                     children: [
                       if (room.permissions!.canAsk)
                         MaterialButton(
                           onPressed: () => Get.toNamed(Routes.CREATE_QUESTION,
                               arguments: room),
+                          padding: EdgeInsets.all(5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -146,6 +145,7 @@ class RoomCard extends StatelessWidget {
                         ),
                       if (room.permissions!.canUpdate)
                         MaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () async {
                             await Get.to(() => UpdateView(room: room))
                                 ?.then((value) {
@@ -173,6 +173,7 @@ class RoomCard extends StatelessWidget {
                         ),
                       if (room.permissions!.canDelete)
                         RawMaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () async {
                             confirmationModal(
                               "delete '${room.name}' ?",
@@ -208,6 +209,7 @@ class RoomCard extends StatelessWidget {
                         ),
                       if (room.permissions!.canView)
                         MaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () {
                             Get.toNamed(Routes.LEADERBOARD, arguments: room);
                           },
@@ -227,6 +229,7 @@ class RoomCard extends StatelessWidget {
                       if (!room.permissions!.canDelete &&
                           room.permissions!.canView)
                         RawMaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () async {
                             confirmationModal(
                               "leave  '${room.name}' ?",
@@ -260,6 +263,7 @@ class RoomCard extends StatelessWidget {
                         ),
                       if (!room.permissions!.canView)
                         MaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () async {
                             Room? res = await controller.join(room);
                             if (res == null) return;
@@ -290,6 +294,7 @@ class RoomCard extends StatelessWidget {
                         ),
                       if (!room.permissions!.canView && room.creator != null)
                         MaterialButton(
+                          padding: EdgeInsets.all(5),
                           onPressed: () async {
                             final Uri _url = Uri(
                                 scheme: 'mailto',
@@ -319,8 +324,9 @@ class RoomCard extends StatelessWidget {
                           ),
                         ),
                       if (room.creatorId == Auth.user.id)
-                        GestureDetector(
-                          onTap: () {
+                        RawMaterialButton(
+                          padding: EdgeInsets.all(5),
+                          onPressed: () {
                             Get.toNamed(Routes.MANAGE_STUDENTS,
                                 arguments: room);
                           },
@@ -339,8 +345,9 @@ class RoomCard extends StatelessWidget {
                           ),
                         ),
                       if (room.permissions!.canView)
-                        GestureDetector(
-                          onTap: () {
+                        RawMaterialButton(
+                          padding: EdgeInsets.all(5),
+                          onPressed: () {
                             if (room.permissions!.canView)
                               Get.toNamed(Routes.QUESTIONS, arguments: room);
                           },
