@@ -1012,7 +1012,7 @@ class ProfileView extends GetView<ProfileController> {
 
 class BadgeCard extends StatelessWidget {
   Badges badge;
-  bool isDisabled = false;
+  bool isDisabled;
 
   BadgeCard(this.badge, {this.isDisabled = false});
 

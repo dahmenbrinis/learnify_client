@@ -17,6 +17,8 @@ class MainInputField extends StatelessWidget {
 
   final Widget? input;
 
+  bool isHidden;
+
   MainInputField({
     Key? key,
     required this.inputText,
@@ -27,6 +29,7 @@ class MainInputField extends StatelessWidget {
     this.color = Colors.white,
     required this.icon,
     this.input,
+    this.isHidden = false,
   }) : super(key: key);
 
   @override
@@ -65,6 +68,7 @@ class MainInputField extends StatelessWidget {
                         filled: true, fillColor: Colors.transparent),
                     style: Theme.of(context).textTheme.titleMedium,
                     controller: inputController,
+                    obscureText: isHidden,
                   ),
             )
           ],

@@ -12,6 +12,7 @@ import 'package:learnify_client/app/modules/room/views/rooms_view.dart';
 import 'package:learnify_client/app/modules/room/views/update_view.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
 import 'package:learnify_client/core/components/net_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/User/auth.dart';
 import 'Dialogs.dart';
@@ -281,6 +282,36 @@ class RoomCard extends StatelessWidget {
                                 'Join Room',
                                 style: TextStyle(
                                   color: Colors.greenAccent.shade700,
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      if (!room.permissions!.canView && room.creator != null)
+                        MaterialButton(
+                          onPressed: () async {
+                            final Uri _url = Uri(
+                                scheme: 'mailto',
+                                path: '${room.creator!.email}',
+                                query:
+                                    "subject=Room code for room & body=Hello there, i hope that you have a great day.");
+                            if (!await launchUrl(_url))
+                              throw 'Could not launch $_url';
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Iconsax.message_text,
+                                size: 30,
+                                color: Colors.blue,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Contact Teacher',
+                                style: TextStyle(
+                                  color: Colors.blue,
                                   fontSize: 12,
                                 ),
                               )

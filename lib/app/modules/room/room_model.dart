@@ -1,3 +1,4 @@
+import 'package:learnify_client/app/User/user_model.dart';
 import 'package:learnify_client/core/model.dart';
 
 class Room extends Model {
@@ -12,6 +13,7 @@ class Room extends Model {
   String? createdAt;
   String? updatedAt;
   Permissions? permissions;
+  User? creator;
   int? userCount;
   int? questionsCount;
   int? answersCount;
@@ -31,6 +33,7 @@ class Room extends Model {
       this.createdAt,
       this.updatedAt,
       this.permissions,
+      this.creator,
       this.userCount,
       this.questionsCount,
       this.answersCount,
@@ -50,6 +53,7 @@ class Room extends Model {
     permissions = json['permissions'] != null
         ? Permissions.fromJson(json['permissions'])
         : null;
+    creator = json['creator'] != null ? User.fromJson(json['creator']) : null;
     userCount = json['userCount'];
     questionsCount = json['questionsCount'];
     answersCount = json['answersCount'];

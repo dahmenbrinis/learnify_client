@@ -53,6 +53,7 @@ dependencies:
   flutter_svg: ^1.0.3
   get: 4.6.1
   connectivity_plus:
+  url_launcher:
   flutter:
     sdk: flutter
 #  cached_network_image: ^3.2.0

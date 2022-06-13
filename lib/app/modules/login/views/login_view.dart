@@ -69,6 +69,7 @@ class LoginView extends GetView<LoginController> {
                           color: Theme.of(context).disabledColor,
                         ),
                         inputController: controller.passwordController,
+                        isHidden: true,
                       ),
                       // const SizedBox(height: 10),
                       Padding(

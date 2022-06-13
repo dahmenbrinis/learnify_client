@@ -78,6 +78,7 @@ class RegisterView extends GetView<RegisterController> {
                         color: Theme.of(context).disabledColor,
                       ),
                       inputController: controller.passwordController,
+                      isHidden: true,
                     ),
                     // InputField(inputText: 'Register As'),
                     const SizedBox(height: 10),
