@@ -17,7 +17,7 @@ class RegisterView extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: BackgroundWidget(
         key: Key('register'),
         child: Container(
@@ -26,148 +26,141 @@ class RegisterView extends GetView<RegisterController> {
             vertical: MediaQuery.of(context).size.width / 10,
           ),
           // width: width * 0.66,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    // SizedBox(height: 10),
-                    CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      radius: 50,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          'assets/logo2.svg',
-                          color: Colors.white,
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    MainInputField(
-                      inputText: Text(
-                        'Full Name',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      icon: Icon(
-                        Iconsax.user_tag,
-                        color: Theme.of(context).disabledColor,
-                      ),
-                      inputController: controller.nameController,
-                    ),
-                    MainInputField(
-                      inputText: Text(
-                        'Email',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      icon: Icon(
-                        Icons.email_outlined,
-                        color: Theme.of(context).disabledColor,
-                      ),
-                      inputController: controller.emailController,
-                    ),
-                    MainInputField(
-                      inputText: Text(
-                        'Password',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      icon: Icon(
-                        Iconsax.security,
-                        color: Theme.of(context).disabledColor,
-                      ),
-                      inputController: controller.passwordController,
-                      isHidden: true,
-                    ),
-                    // InputField(inputText: 'Register As'),
-                    const SizedBox(height: 10),
-                    MainInputField(
-                      inputText: Text(
-                        'Register as',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      icon: Icon(
-                        Iconsax.security,
-                        color: Theme.of(context).disabledColor,
-                      ),
-                      inputController: controller.passwordController,
-                      input: Obx(() {
-                        return DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            hint: Text(
-                              'Register As',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
-                              ),
-                            ),
-                            items: ['Student', 'Teacher']
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            value: selectedItem.value,
-                            onChanged: (String? value) {
-                              controller.typeController.text =
-                                  "Teacher" == value ? '0' : '1';
-                              selectedItem.value = value ?? "Student";
-                            },
-                            buttonHeight: 40,
-                            buttonWidth: 140,
-                            itemHeight: 40,
-                          ),
-                        );
-                      }),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextButton(
-                        child: const Text('Register'),
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          textStyle: Theme.of(context).textTheme.headline6,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 40),
-                        ),
-                        onPressed: () {
-                          controller.register();
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text('Already registred ?',
-                            style: Theme.of(context).textTheme.headline6),
-                        TextButton(
-                          onPressed: () => Get.back(),
-                          child: Text(
-                            'Login',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(color: Colors.blueAccent),
-                          ),
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    ),
-                    // const Spacer(flex: 3),
-                  ],
-                  // mainAxisAlignment: MainAxisAlignment.center,
+              // SizedBox(height: 10),
+              CircleAvatar(
+                backgroundColor: Colors.blue,
+                radius: 50,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    'assets/logo2.svg',
+                    color: Colors.white,
+                    height: 50,
+                  ),
                 ),
-              )
+              ),
+              const SizedBox(height: 10),
+              MainInputField(
+                inputText: Text(
+                  'Full Name',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                icon: Icon(
+                  Iconsax.user_tag,
+                  color: Theme.of(context).disabledColor,
+                ),
+                inputController: controller.nameController,
+              ),
+              MainInputField(
+                inputText: Text(
+                  'Email',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                icon: Icon(
+                  Icons.email_outlined,
+                  color: Theme.of(context).disabledColor,
+                ),
+                inputController: controller.emailController,
+              ),
+              MainInputField(
+                inputText: Text(
+                  'Password',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                icon: Icon(
+                  Iconsax.security,
+                  color: Theme.of(context).disabledColor,
+                ),
+                inputController: controller.passwordController,
+                isHidden: true,
+              ),
+              // InputField(inputText: 'Register As'),
+              const SizedBox(height: 10),
+              MainInputField(
+                inputText: Text(
+                  'Register as',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                icon: Icon(
+                  Iconsax.security,
+                  color: Theme.of(context).disabledColor,
+                ),
+                inputController: controller.passwordController,
+                input: Obx(() {
+                  return DropdownButtonHideUnderline(
+                    child: DropdownButton2(
+                      hint: Text(
+                        'Register As',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                      items: ['Student', 'Teacher']
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                      value: selectedItem.value,
+                      onChanged: (String? value) {
+                        controller.typeController.text =
+                            "Teacher" == value ? '0' : '1';
+                        selectedItem.value = value ?? "Student";
+                      },
+                      buttonHeight: 40,
+                      buttonWidth: 140,
+                      itemHeight: 40,
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TextButton(
+                  child: const Text('Register'),
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    textStyle: Theme.of(context).textTheme.headline6,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 40),
+                  ),
+                  onPressed: () {
+                    controller.register();
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text('Already registred ?',
+                      style: Theme.of(context).textTheme.headline6),
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: Text(
+                      'Login',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Colors.blueAccent),
+                    ),
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              // const Spacer(flex: 3),
             ],
-            // crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
           ),
         ),
       ),
