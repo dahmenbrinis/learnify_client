@@ -27,7 +27,10 @@ class CommentsView extends GetView<CommentsController> {
       appBar: CustomAppBar(
         title: controller.question.title!,
         logo: GestureDetector(
-            onTap: () => Get.back(),
+            onTap: () {
+              print('question route');
+              Get.back();
+            },
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Icon(Iconsax.direct_left5),

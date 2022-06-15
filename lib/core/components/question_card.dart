@@ -113,28 +113,31 @@ class QuestionCard extends StatelessWidget {
                       },
                       child: Visibility(
                         visible: question.user!.id != Auth.user.id,
-                        child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text("${question.voteCount ?? 0} votes "),
-                            // if (!this.isVoted)
-                            Visibility(
-                              visible: !this.isVoted,
-                              child: Icon(
-                                Iconsax.like5,
-                                color: Colors.greenAccent.shade400,
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text("${question.voteCount ?? 0} votes "),
+                              // if (!this.isVoted)
+                              Visibility(
+                                visible: !this.isVoted,
+                                child: Icon(
+                                  Iconsax.like5,
+                                  color: Colors.greenAccent.shade400,
+                                ),
                               ),
-                            ),
-                            // if (this.isVoted)
-                            Visibility(
-                              visible: this.isVoted,
-                              child: Icon(
-                                Iconsax.dislike5,
-                                color: Colors.red.shade400,
+                              // if (this.isVoted)
+                              Visibility(
+                                visible: this.isVoted,
+                                child: Icon(
+                                  Iconsax.dislike5,
+                                  color: Colors.red.shade400,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );

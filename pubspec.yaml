@@ -54,6 +54,7 @@ dependencies:
   get: 4.6.1
   connectivity_plus:
   url_launcher:
+  internet_connection_checker:
   flutter:
     sdk: flutter
 #  cached_network_image: ^3.2.0

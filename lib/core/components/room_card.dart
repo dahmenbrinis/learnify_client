@@ -26,7 +26,7 @@ class RoomCard extends StatelessWidget {
 
   set room(Room value) => _room.value = value;
 
-  final _isOpen = true.obs;
+  final _isOpen = false.obs;
   final refresh = false.obs;
 
   bool get isOpen => _isOpen.value;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:learnify_client/app/routes/app_pages.dart';
+import 'package:learnify_client/main.dart';
 
 import '../controllers/not_connected_controller.dart';
 
@@ -36,7 +37,11 @@ class NotConnectedView extends GetView<NotConnectedController> {
               width: Get.width / 3,
               child: TextButton(
                 onPressed: () async {
-                  Get.offAllNamed(Routes.ROOM);
+                  if (await Connections
+                      .internetConnectionChecker.hasConnection) {
+                    Get.offAllNamed(Routes.ROOM);
+                  }
+                  print('connections');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

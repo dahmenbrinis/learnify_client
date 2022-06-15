@@ -71,9 +71,6 @@ abstract class Provider<ModelType extends Model> extends GetConnect
         headers: headers ?? this.headers,
         query: query,
         uploadProgress: uploadProgress);
-    if (res.statusCode == null) {
-      Get.toNamed(Routes.NOT_CONNECTED);
-    }
     return res;
     // return the response and handle the error .
     // TODO : handle errors.

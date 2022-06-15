@@ -32,7 +32,7 @@ class NotificationsView extends GetView<NotificationsController> {
                       child: Obx(() {
                         return Text(
                           controller.count.value <= 0
-                              ? "There are no new notifications"
+                              ? "No new notifications to show"
                               : 'You have ${controller.count.value} new notifications',
                           style: TextStyle(
                               color: Colors.black,

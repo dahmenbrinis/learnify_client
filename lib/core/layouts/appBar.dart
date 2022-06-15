@@ -33,7 +33,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 120,
       leading: RawMaterialButton(
         onPressed: () {
+          if (logo != null) {
+            Get.back();
+            return;
+          }
           Get.offAllNamed(Routes.ROOM);
+          print('room route');
           final controllerRoom = Get.find<RoomController>();
           controllerRoom.paginatedList.init();
           controllerRoom.fetch();
